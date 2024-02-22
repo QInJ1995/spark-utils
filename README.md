@@ -4,9 +4,9 @@
 
 spark-utils是一个JavaScript实用工具库，里面有各种常用的工具方法
 
-spark-utils 是我在进行真实项目时，常用到的一些工具方法；并且为了加深学习js知识而总结产生的,在项目里我写了大量的注释以及实现的思想和步骤
+spark-utils 是我在进行真实项目时，常用到的一些工具方法；并且为了加深学习js知识而总结产生的，在项目里我写了大量的注释以及实现的思想和步骤
 
-所以你不仅可以将spark-utils引入到你的项目中，还可以借助此文档来学习js
+不仅可以将spark-utils引入到你的项目中，还可以借助此文档来学习js
 
 ## 安装
 
@@ -18,10 +18,7 @@ npm install spark-utils
 
 ```js
 // 首先先引入需要的方法名
-import { getDataType, stateFlow } from 'spark-utils';
-
-// getDataType
-getDataType(100) //会返回 number
+import { stateFlow, getDataType, uniqueObjects, parseUrlParams  } from 'spark-utils';
 
 // StateFlow
 // 初始化并注册
@@ -48,8 +45,17 @@ myStateFlow.action('$father.fn1')
 myStateFlow.action('$child.test')
 
 // 销毁
-myStateFlow.destroy() // 销毁所有注册
-myStateFlow.destroy('$child') // 销毁指定注册
+myStateFlow.destroy() // 销毁所有注入
+myStateFlow.destroy('$child') // 销毁指定注入
+
+// getDataType
+getDataType(100) // 返回 number
+
+// uniqueObjects
+uniqueObjects([{a: 1, b: 3}, {a: 1}, {a: 2}], 'a') // 返回 [{a: 1, b: 3}, {a: 2}]
+
+// arseUrlParams
+parseUrlParams('wwww.adc.com?p1=1&p2=2') // 返回 {p1: 1, p2: 2}
 
 ```
 
