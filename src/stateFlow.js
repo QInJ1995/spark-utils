@@ -1,4 +1,13 @@
-// 定义一个ModuleGlobal类
+/*
+ * @Author: QINJIN
+ * @Date: 2024-02-22 14:40:30
+ * @LastEditors: QINJIN
+ * @LastEditTime: 2024-02-26 19:26:55
+ * @FilePath: /spark-utils/src/stateFlow.js
+ * @Description: 数据状态流
+ * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
+ */
+
 class StateFlow {
   constructor (k, v) {
     k && this.set(k, v)

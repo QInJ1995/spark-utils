@@ -42,7 +42,7 @@ myStateFlow.action('$child.fn3')
 myStateFlow.action('$father.fn1')
 
 // 获取注入对象
-myStateFlow.action('$child.test')
+myStateFlow.get('$child.test')
 
 // 销毁
 myStateFlow.destroy() // 销毁所有注入
@@ -54,15 +54,17 @@ getDataType(100) // 返回 number
 // uniqueObjects
 uniqueObjects([{a: 1, b: 3}, {a: 1}, {a: 2}], 'a') // 返回 [{a: 1, b: 3}, {a: 2}]
 
-// arseUrlParams
-parseUrlParams('wwww.adc.com?p1=1&p2=2') // 返回 {p1: 1, p2: 2}
+// parseUrlParams
+parseUrlParams('wwww.adc.com?p1=1&p2=2') // 返回 {p1: '1', p2: '2'}
 
 ```
 
 ## 已有方法和计划
 
-1. getDataType 获取传入变量的数据类型
-2. StateFlow  状态管理对象可在Vue模块组件共享状态
+1. StateFlow  状态管理对象可在Vue模块组件共享状态
+2. getDataType 获取传入变量的数据类型
+3. uniqueObjects  对象数组去重
+4. parseUrlParams  解析URL参数
 
 ## 提交规范
 
