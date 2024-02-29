@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-22 11:09:46
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-02-26 19:28:27
+ * @LastEditTime: 2024-02-29 13:44:48
  * @FilePath: /spark-utils/src/getDataType.js
  * @Description: 获取数据类型
  * @param {any} target 目标值
@@ -23,5 +23,5 @@ function getDataType (target) {
     return type
   }
 }
-//导出这个方法
+
 export default getDataType
