@@ -18,12 +18,12 @@ npm install spark-utils
 
 ```js
 // 首先先引入需要的方法名
-import { stateFlow, onMountDialog, promiseResultHandle } from 'spark-utils'; // 按需引入
+import { StateFlow, onMountDialog, promiseResultHandle } from 'spark-utils'; // 按需引入
 import sparkUtils from 'spark-utils'; // 全部引入
 
 // StateFlow 状态管理流
 // 初始化并注册
-const myStateFlow = new stateFlow('$father', {
+const myStateFlow = new StateFlow('$father', {
     fn1: () => {},
     fn2: () => {}
 }),
