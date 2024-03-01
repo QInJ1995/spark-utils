@@ -2,9 +2,9 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 15:21:20
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-02-29 16:36:25
+ * @LastEditTime: 2024-03-01 11:00:02
  * @FilePath: /spark-utils/src/promiseResultHandle.js
- * @Description: 网络请求处理
+ * @Description: promise对象结果处理
  * @param {Promise} options
  * @param {Object} promise promise对象
  * @param {String} resultKey 获取结果key

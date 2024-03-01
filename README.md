@@ -83,7 +83,7 @@ promiseResultHandle({
 2. getDataType 获取传入变量的数据类型
 3. uniqueObjects  对象数组去重
 4. parseUrlParams  解析URL参数
-5. onMountDialog 窗挂载（目前只支持VUE）
+5. onMountDialog 窗挂挂载（目前只支持VUE）
 6. promiseResultHandle promise结果处理
 
 ## 提交规范
