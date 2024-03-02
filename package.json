@@ -1,6 +1,6 @@
 {
   "name": "spark-utils",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "js工具库",
   "main": "index.js",
   "type": "module",
