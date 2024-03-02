@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 13:43:57
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-02-29 15:51:38
+ * @LastEditTime: 2024-03-02 09:19:33
  * @FilePath: /spark-utils/src/onMountDialog.js
  * @Description: 挂载弹窗
  * @param {Object} options
@@ -16,8 +16,16 @@
  */
 
 async function onMountDialog (options = {}) {
-    const Vue = (window && window.Vue) || options.Vue
-    Vue && onMountVueDialog(Vue, options)
+  try {
+    let Vue = import('vue');
+    if(Vue) {
+      Vue = (await Vue).default;
+      Vue && onMountVueDialog(Vue, options)
+    }
+  } catch (error) {
+    throw(new Error('挂载异常！' + error)) 
+  }
+
 }
 
 
