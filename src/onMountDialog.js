@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 13:43:57
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-03-02 09:19:33
+ * @LastEditTime: 2024-04-02 21:02:33
  * @FilePath: /spark-utils/src/onMountDialog.js
  * @Description: 挂载弹窗
  * @param {Object} options
@@ -17,7 +17,7 @@
 
 async function onMountDialog (options = {}) {
   try {
-    let Vue = import('vue');
+    // let Vue = import('vue');
     if(Vue) {
       Vue = (await Vue).default;
       Vue && onMountVueDialog(Vue, options)
