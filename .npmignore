@@ -7,12 +7,19 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 yarn.lock
+package.json
+webpack.config.js
+index.js
 .eslintcache
+.babelrc
+.eslintrc.js
 .history/
 /war/
 .husky
 coverage
 /public
+/test
+/src
 
 # Editor directories and files
 .idea

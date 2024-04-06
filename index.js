@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-26 20:01:50
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-03 01:05:17
+ * @LastEditTime: 2024-04-06 21:13:01
  * @FilePath: /spark-utils/index.js
  * @Description: index.js
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
@@ -15,6 +15,8 @@ import promiseResultHandle from './src/promiseResultHandle.js'
 import debounce  from './src/debounce.js'
 import throttle  from './src/throttle.js'
 import clone  from './src/clone.js'
+import toArrayTree  from './src/toArrayTree'
+import toTreeArray from './src/toTreeArray'
 
 const SparkUtils = {
     StateFlow,
@@ -23,7 +25,9 @@ const SparkUtils = {
     promiseResultHandle,
     debounce,
     throttle,
-    clone 
+    clone,
+    toArrayTree,
+    toTreeArray
 }
 
 export default SparkUtils
