@@ -1,7 +1,7 @@
-import arrayEach from './arrayEach'
-import keys from './keys'
-import isArray from './isArray'
-import clone from './clone'
+import arrayEach from '../array/arrayEach'
+import keys from '../basicMethods/keys'
+import isArray from '../basicMethods/isArray'
+import clone from '../object/clone'
 
 var objectAssignFns = Object.assign
 

@@ -1,4 +1,4 @@
-import hasOwnProp from './hasOwnProp'
+import hasOwnProp from '../basicMethods/hasOwnProp'
 
 /**
   * 判断对象是否包含该值,成功返回true否则false

@@ -1,6 +1,6 @@
-import each from './each'
-import isFunction from './isFunction'
-import property from './property'
+import each from '../basicMethods/each'
+import isFunction from '../basicMethods/isFunction'
+import property from '../basicMethods/property'
 
 /**
   * 指定方法后的返回值组成的新对象

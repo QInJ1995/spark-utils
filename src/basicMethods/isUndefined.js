@@ -1,5 +1,5 @@
-import staticStrUndefined from './staticStrUndefined'
-import helperCreateInTypeof from './helperCreateInTypeof'
+import staticStrUndefined from '../constant/static/staticStrUndefined'
+import helperCreateInTypeof from '../helpers/helperCreateInTypeof'
 
 /**
   * 判断是否Undefined

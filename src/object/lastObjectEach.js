@@ -1,5 +1,5 @@
-import lastArrayEach from './lastArrayEach'
-import keys from './keys'
+import lastArrayEach from '../array/lastArrayEach'
+import keys from '../basicMethods/keys'
 
 function lastObjectEach (obj, iterate, context) {
   lastArrayEach(keys(obj), function (key) {

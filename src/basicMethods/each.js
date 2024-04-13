@@ -1,6 +1,6 @@
 import isArray from './isArray'
-import arrayEach from './arrayEach'
-import objectEach from './objectEach'
+import arrayEach from '../array/arrayEach'
+import objectEach from '../object/objectEach'
 
 /**
   * 迭代器

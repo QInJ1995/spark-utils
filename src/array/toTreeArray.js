@@ -1,6 +1,6 @@
-import setupDefaults from './setupDefaults'
-import each from './each'
-import assign from './assign'
+import setupDefaults from '../constant/setup/setupDefaults'
+import each from '../basicMethods/each'
+import assign from '../object/assign'
 
 function unTreeList (result, array, opts) {
   var optChildren = opts.children

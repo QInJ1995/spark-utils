@@ -1,11 +1,11 @@
-import setupDefaults from './setupDefaults'
-import map from './map'
-import orderBy from './orderBy'
-import clone from './clone'
-import includes from './includes'
-import each from './each'
-import remove from './remove'
-import assign from './assign'
+import setupDefaults from '../constant/setup/setupDefaults'
+import map from '../array/map'
+import orderBy from '../array/orderBy'
+import clone from '../object/clone'
+import includes from '../array/includes'
+import each from '../basicMethods/each'
+import remove from '../array/remove'
+import assign from '../object/assign'
 
 function strictTree (array, optChildren) {
   each(array, function (item) {

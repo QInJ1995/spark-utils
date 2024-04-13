@@ -1,4 +1,4 @@
-import helperCreateInTypeof from './helperCreateInTypeof'
+import helperCreateInTypeof from '../helpers/helperCreateInTypeof'
 
 /**
   * 判断是否方法

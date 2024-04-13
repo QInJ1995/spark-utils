@@ -1,8 +1,8 @@
-import objectToString from './staticObjectToString'
-import isArray from './isArray'
-import isPlainObject from './isPlainObject'
-import objectMap from './objectMap'
-import map from './map'
+import objectToString from '../constant/static/staticObjectToString'
+import isArray from '../basicMethods/isArray'
+import isPlainObject from '../basicMethods/isPlainObject'
+import objectMap from '../object/objectMap'
+import map from '../array/map'
 
 function handleObjectAndArrayClone (func, obj, deep) {
   return func(obj, deep ? function (val) {

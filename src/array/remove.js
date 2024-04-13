@@ -1,11 +1,11 @@
-import helperDeleteProperty from './helperDeleteProperty'
-import isFunction from './isFunction'
-import isArray from './isArray'
-import each from './each'
-import arrayEach from './arrayEach'
-import lastEach from './lastEach'
-import clear from './clear'
-import eqNull from './eqNull'
+import helperDeleteProperty from '../helpers/helperDeleteProperty'
+import isFunction from '../basicMethods/isFunction'
+import isArray from '../basicMethods/isArray'
+import each from '../basicMethods/each'
+import arrayEach from '../array/arrayEach'
+import lastEach from '../basicMethods/lastEach'
+import clear from '../object/clear'
+import eqNull from '../basicMethods/eqNull'
 
 function pluckProperty (name) {
   return function (obj, key) {

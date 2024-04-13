@@ -1,4 +1,4 @@
-import helperCreateInInObjectString from './helperCreateInInObjectString'
+import helperCreateInInObjectString from '../helpers/helperCreateInInObjectString'
 
 /**
   * 判断是否数组

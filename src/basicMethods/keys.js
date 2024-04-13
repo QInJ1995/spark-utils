@@ -1,4 +1,4 @@
-import helperCreateGetObjects from './helperCreateGetObjects'
+import helperCreateGetObjects from '../helpers/helperCreateGetObjects'
 
 /**
   * 获取对象所有属性

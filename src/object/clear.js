@@ -1,10 +1,10 @@
-import helperDeleteProperty from './helperDeleteProperty'
-import isPlainObject from './isPlainObject'
-import isObject from './isObject'
-import isArray from './isArray'
-import isNull from './isNull'
-import assign from './assign'
-import objectEach from './objectEach'
+import helperDeleteProperty from '../helpers/helperDeleteProperty'
+import isPlainObject from '../basicMethods/isPlainObject'
+import isObject from '../basicMethods/isObject'
+import isArray from '../basicMethods/isArray'
+import isNull from '../basicMethods/isNull'
+import assign from '../object/assign'
+import objectEach from '../object/objectEach'
 
 /**
   * 清空对象

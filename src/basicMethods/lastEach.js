@@ -1,6 +1,6 @@
-import isArray from './isArray'
-import lastArrayEach from './lastArrayEach'
-import lastObjectEach from './lastObjectEach'
+import isArray from '../basicMethods/isArray'
+import lastArrayEach from '../array/lastArrayEach'
+import lastObjectEach from '../object/lastObjectEach'
 
 /**
   * 迭代器,从最后开始迭代

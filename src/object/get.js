@@ -1,8 +1,8 @@
-import staticHGKeyRE from './staticHGKeyRE'
-import helperGetHGSKeys from './helperGetHGSKeys'
-import hasOwnProp from './hasOwnProp'
-import isUndefined from './isUndefined'
-import eqNull from './eqNull'
+import staticHGKeyRE from '../constant/RegEx/staticHGKeyRE'
+import helperGetHGSKeys from '../helpers/helperGetHGSKeys'
+import hasOwnProp from '../basicMethods/hasOwnProp'
+import isUndefined from '../basicMethods/isUndefined'
+import eqNull from '../basicMethods/eqNull'
 
 /**
  * 获取对象的属性的值，如果值为 undefined，则返回默认值

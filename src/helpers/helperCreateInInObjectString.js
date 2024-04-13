@@ -1,4 +1,4 @@
-import objectToString from './staticObjectToString'
+import objectToString from '../constant/static/staticObjectToString'
 
 function helperCreateInInObjectString (type) {
   return function (obj) {

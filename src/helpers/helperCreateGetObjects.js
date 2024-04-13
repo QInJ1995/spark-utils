@@ -1,4 +1,4 @@
-import each from './each'
+import each from '../basicMethods/each'
 
 function helperCreateGetObjects (name, getIndex) {
   var proMethod = Object[name]
