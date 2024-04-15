@@ -1,4 +1,4 @@
-import staticParseInt from './staticParseInt'
+import staticParseInt from '../constant/static/staticParseInt'
 
 function helperStringRepeat (str, count) {
   if (str.repeat) {
