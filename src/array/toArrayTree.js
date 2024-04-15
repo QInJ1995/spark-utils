@@ -3,7 +3,7 @@ import map from '../array/map'
 import orderBy from '../array/orderBy'
 import clone from '../object/clone'
 import includes from '../array/includes'
-import each from '../basicMethods/each'
+import each from '../basic/each'
 import remove from '../array/remove'
 import assign from '../object/assign'
 

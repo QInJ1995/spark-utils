@@ -1,8 +1,8 @@
 import helperDeleteProperty from '../helpers/helperDeleteProperty'
-import isPlainObject from '../basicMethods/isPlainObject'
-import isObject from '../basicMethods/isObject'
-import isArray from '../basicMethods/isArray'
-import isNull from '../basicMethods/isNull'
+import isPlainObject from '../basic/isPlainObject'
+import isObject from '../basic/isObject'
+import isArray from '../basic/isArray'
+import isNull from '../basic/isNull'
 import assign from '../object/assign'
 import objectEach from '../object/objectEach'
 

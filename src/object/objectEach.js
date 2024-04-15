@@ -1,4 +1,4 @@
-import hasOwnProp from '../basicMethods/hasOwnProp'
+import hasOwnProp from '../basic/hasOwnProp'
 
 function objectEach (obj, iterate, context) {
   if (obj) {

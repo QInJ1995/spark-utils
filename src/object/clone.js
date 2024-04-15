@@ -1,6 +1,6 @@
 import objectToString from '../constant/static/staticObjectToString'
-import isArray from '../basicMethods/isArray'
-import isPlainObject from '../basicMethods/isPlainObject'
+import isArray from '../basic/isArray'
+import isPlainObject from '../basic/isPlainObject'
 import objectMap from '../object/objectMap'
 import map from '../array/map'
 

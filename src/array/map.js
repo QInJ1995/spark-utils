@@ -1,4 +1,4 @@
-import each from '../basicMethods/each'
+import each from '../basic/each'
 
 /**
   * 指定方法后的返回值组成的新数组

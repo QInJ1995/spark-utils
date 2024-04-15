@@ -1,5 +1,5 @@
 import setupDefaults from '../constant/setup/setupDefaults'
-import each from '../basicMethods/each'
+import each from '../basic/each'
 import assign from '../object/assign'
 
 function unTreeList (result, array, opts) {

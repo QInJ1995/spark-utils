@@ -2,32 +2,29 @@
  * @Author: QINJIN
  * @Date: 2024-02-26 20:01:50
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-13 17:51:54
+ * @LastEditTime: 2024-04-15 16:01:53
  * @FilePath: /spark-utils/src/index.js
  * @Description: index.js
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
 
-import StateFlow from './other/stateFlow.js'
-import uniqueObjects from './other/uniqueObjects.js'
-import onMountDialog from './other/onMountDialog.js'
-import promiseResultHandle from './other/promiseResultHandle.js'
-import debounce  from './function/debounce.js'
-import throttle  from './function/throttle.js'
-import clone  from './object/clone.js'
-import toArrayTree  from './array/toArrayTree'
-import toTreeArray from './array/toTreeArray'
+// basic
+import basic from './basic'
+// array
+import arrayMethods from './array'
+// function 
+import functionMethods from './function'
+// object
+import objectMethods from './object'
+// other 
+import otherMethods from './other'
 
 const SparkUtils = {
-    StateFlow,
-    uniqueObjects,
-    onMountDialog,
-    promiseResultHandle,
-    debounce,
-    throttle,
-    clone,
-    toArrayTree,
-    toTreeArray
+    ...basic,
+    ...arrayMethods,
+    ...functionMethods,
+    ...objectMethods,
+    ...otherMethods
 }
 
 export default SparkUtils

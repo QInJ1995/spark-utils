@@ -1,4 +1,4 @@
-import isArray from '../basicMethods/isArray'
+import isArray from '../basic/isArray'
 import lastArrayEach from '../array/lastArrayEach'
 import lastObjectEach from '../object/lastObjectEach'
 

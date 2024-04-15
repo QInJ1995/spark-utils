@@ -1,6 +1,6 @@
 import arrayEach from '../array/arrayEach'
-import keys from '../basicMethods/keys'
-import isArray from '../basicMethods/isArray'
+import keys from '../basic/keys'
+import isArray from '../basic/isArray'
 import clone from '../object/clone'
 
 var objectAssignFns = Object.assign

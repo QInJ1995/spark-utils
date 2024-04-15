@@ -9,7 +9,6 @@ package-lock.json
 yarn.lock
 package.json
 webpack.config.js
-index.js
 .eslintcache
 .babelrc
 .eslintrc.js
