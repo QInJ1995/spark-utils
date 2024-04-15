@@ -5,7 +5,7 @@
  * @LastEditTime: 2024-04-15 16:39:53
  * @FilePath: /spark-utils/src/string/index.js
  * @Description: 字符串方法聚合 
- * Copyright (c) 2024 by ${四川久远银海软件股份有限公司}, All Rights Reserved. 
+ * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
 
 import toValueString from './toValueString'

@@ -5,7 +5,7 @@
  * @LastEditTime: 2024-04-15 15:57:30
  * @FilePath: /spark-utils/src/other/index.js
  * @Description: 其他方法聚合
- * Copyright (c) 2024 by ${四川久远银海软件股份有限公司}, All Rights Reserved. 
+ * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
 
 import StateFlow from './stateFlow.js'
