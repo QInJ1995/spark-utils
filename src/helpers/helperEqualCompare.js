@@ -1,12 +1,12 @@
-import isNumber from './isNumber'
-import isArray from './isArray'
-import isString from './isString'
-import isRegExp from './isRegExp'
-import isDate from './isDate'
-import isBoolean from './isBoolean'
-import isUndefined from './isUndefined'
-import keys from './keys'
-import every from './every'
+import isNumber from '../basic/isNumber'
+import isArray from '../basic/isArray'
+import isString from '../basic/isString'
+import isRegExp from '../basic/isRegExp'
+import isDate from '../basic/isDate'
+import isBoolean from '../basic/isBoolean'
+import isUndefined from '../basic/isUndefined'
+import keys from '../basic/keys'
+import every from '../array/every'
 
 function helperEqualCompare (val1, val2, compare, func, key, obj1, obj2) {
   if (val1 === val2) {

@@ -2,8 +2,8 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 13:43:57
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-02 21:02:33
- * @FilePath: /spark-utils/src/onMountDialog.js
+ * @LastEditTime: 2024-04-16 11:15:59
+ * @FilePath: /spark-utils/src/other/onMountDialog.js
  * @Description: 挂载弹窗
  * @param {Object} options
  * @param {DOM} targetEl 挂载目标元素
@@ -17,7 +17,7 @@
 
 async function onMountDialog (options = {}) {
   try {
-    // let Vue = import('vue');
+    let Vue = import('vue');
     if(Vue) {
       Vue = (await Vue).default;
       Vue && onMountVueDialog(Vue, options)

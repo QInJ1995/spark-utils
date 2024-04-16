@@ -1,7 +1,7 @@
-import isFunction from './isFunction'
-import isString from './isString'
-import isArray from './isArray'
-import hasOwnProp from './hasOwnProp'
+import isFunction from '../basic/isFunction'
+import isString from '../basic/isString'
+import isArray from '../basic/isArray'
+import hasOwnProp from '../basic/hasOwnProp'
 
 function helperCreateiterateIndexOf (callback) {
   return function (obj, iterate, context) {

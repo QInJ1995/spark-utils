@@ -1,5 +1,5 @@
-import hasOwnProp from './hasOwnProp'
-import isArray from './isArray'
+import hasOwnProp from '../basic/hasOwnProp'
+import isArray from '../basic/isArray'
 
 function helperCreateIterateHandle (prop, useArray, restIndex, matchValue, defaultValue) {
   return function (obj, iterate, context) {
