@@ -1,6 +1,6 @@
 {
   "name": "spark-utils",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "js工具库",
   "main": "dist/spark-utils.min.js",
   "scripts": {
@@ -27,6 +27,6 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
-    "spark-utils": "^1.0.5"
+    "spark-utils": "1.0.7"
   }
 }
