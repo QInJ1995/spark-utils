@@ -1,7 +1,7 @@
-import isFunction from './isFunction'
-import isArray from './isArray'
-import each from './each'
-import findIndexOf from './findIndexOf'
+import isFunction from '../basic/isFunction'
+import isArray from '../basic/isArray'
+import each from '../basic/each'
+import findIndexOf from '../array/findIndexOf'
 
 function helperCreatePickOmit (case1, case2) {
   return function (obj, callback) {
