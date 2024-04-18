@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-04-15 15:21:39
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-18 11:13:42
+ * @LastEditTime: 2024-04-18 17:45:42
  * @FilePath: /spark-utils/src/basic/index.js
  * @Description: 基础方法聚合
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
@@ -106,7 +106,7 @@ export default {
     each,
     lastEach,
     range,
-    property
+    property,
 }
 
 
