@@ -1,6 +1,6 @@
 import helperNumberDecimal from './helperNumberDecimal'
-import toNumberString from './toNumberString'
-import multiply from './multiply'
+import toNumberString from '../number/toNumberString'
+import multiply from '../number/multiply'
 
 function helperNumberAdd (addend, augend) {
   var str1 = toNumberString(addend)

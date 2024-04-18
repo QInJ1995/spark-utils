@@ -1,7 +1,7 @@
-import isFunction from './isFunction'
-import eqNull from './eqNull'
-import get from './get'
-import arrayEach from './arrayEach'
+import isFunction from '../basic/isFunction'
+import eqNull from '../basic/eqNull'
+import get from '../object/get'
+import arrayEach from '../array/arrayEach'
 
 function helperCreateMinMax (handle) {
   return function (arr, iterate) {

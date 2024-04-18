@@ -1,6 +1,6 @@
-import isArray from './isArray'
-import isString from './isString'
-import hasOwnProp from './hasOwnProp'
+import isArray from '../basic/isArray'
+import isString from '../basic/isString'
+import hasOwnProp from '../basic/hasOwnProp'
 
 function helperCreateIndexOf (name, callback) {
   return function (obj, val) {

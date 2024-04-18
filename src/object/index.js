@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-04-15 15:55:53
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-17 15:16:42
+ * @LastEditTime: 2024-04-18 11:11:49
  * @FilePath: /spark-utils/src/object/index.js
  * @Description: 对象方法聚合 
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
