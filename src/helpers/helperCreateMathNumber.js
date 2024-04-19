@@ -1,5 +1,5 @@
-import toNumber from './toNumber'
-import toNumberString from './toNumberString'
+import toNumber from '../number/toNumber'
+import toNumberString from '../number/toNumberString'
 
 function helperCreateMathNumber(name) {
   return function (num, digits) {
