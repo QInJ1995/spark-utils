@@ -1,5 +1,5 @@
-import toValueString from './toValueString'
-import keys from './keys'
+import toValueString from '../string/toValueString'
+import keys from '../basic/keys'
 
 function helperFormatEscaper (dataMap) {
   var replaceRegexp = new RegExp('(?:' + keys(dataMap).join('|') + ')', 'g')
