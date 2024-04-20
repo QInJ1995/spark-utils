@@ -5,7 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin') // 引入压缩插件
 module.exports = {
     mode: 'none', // 因为默认是production 默认会进行压缩
     entry: {
-        // "spark-utils": "./src/index.js",
+        "spark-utils": "./src/index.js",
         "spark-utils.min": "./src/index.js",
         // "test": './public/test.js'
     },

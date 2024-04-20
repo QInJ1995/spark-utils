@@ -1,4 +1,4 @@
-import staticLocation from './staticLocation'
+import staticLocation from '../constant/static/staticLocation'
 
 function helperGetLocatOrigin () {
   return staticLocation ? (staticLocation.origin || (staticLocation.protocol + '//' + staticLocation.host)) : ''
