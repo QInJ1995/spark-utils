@@ -2,6 +2,10 @@
 
 var formatString = 'yyyy-MM-dd HH:mm:ss'
 var setupDefaults = {
+  promiseResultConfig: {
+    resultKey: 'data', // 结果数据key
+    verifyConfig: {}, // 验证配置
+  },
   treeOptions: {
     parentKey: 'parentId',
     key: 'id',

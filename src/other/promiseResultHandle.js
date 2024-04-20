@@ -2,8 +2,8 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 15:21:20
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-03-01 11:00:02
- * @FilePath: /spark-utils/src/promiseResultHandle.js
+ * @LastEditTime: 2024-04-20 20:58:36
+ * @FilePath: /spark-utils/src/other/promiseResultHandle.js
  * @Description: promise对象结果处理
  * @param {Promise} options
  * @param {Object} promise promise对象
@@ -11,10 +11,13 @@
  * @param {Object} verifyConfig 校验配置
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
+
+import setupDefaults from '../constant/setup/setupDefaults'
+
 async  function promiseResultHandle (options = {}) {
   if(!options.promise) return
-  const resultKey = options.resultKey || 'data'
-  const verifyConfig = options.verifyConfig || {}
+  const resultKey = options.resultKey || setupDefaults.promiseResultConfig?.resultKey
+  const verifyConfig = options.verifyConfig || setupDefaults.promiseResultConfig?.verifyConfig
     try {
       const result = await options.promise
       if (Object.entries(verifyConfig).reduce((pre, cur) => {
