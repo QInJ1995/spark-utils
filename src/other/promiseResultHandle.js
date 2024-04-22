@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 15:21:20
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-22 20:11:12
+ * @LastEditTime: 2024-04-22 20:15:31
  * @FilePath: /spark-utils/src/other/promiseResultHandle.js
  * @Description: promise对象结果处理
  * @param {Promise} options
@@ -29,10 +29,10 @@ async  function promiseResultHandle (options = {}) {
           return pre
         }, result))
       } else {
-        return Promise.reject(new Error('结果校验不通过!'))
+        return Promise.reject(new Error('[spark-utils]: 结果校验不通过!'))
       }
     } catch (error) {
-      return Promise.reject(new Error('结果获取错误!'))
+      return Promise.reject(new Error('[spark-utils]: 结果获取错误!'))
     }
   }
 
