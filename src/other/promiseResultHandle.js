@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 15:21:20
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-20 20:58:36
+ * @LastEditTime: 2024-04-22 20:11:12
  * @FilePath: /spark-utils/src/other/promiseResultHandle.js
  * @Description: promise对象结果处理
  * @param {Promise} options
@@ -16,8 +16,8 @@ import setupDefaults from '../constant/setup/setupDefaults'
 
 async  function promiseResultHandle (options = {}) {
   if(!options.promise) return
-  const resultKey = options.resultKey || setupDefaults.promiseResultConfig?.resultKey
-  const verifyConfig = options.verifyConfig || setupDefaults.promiseResultConfig?.verifyConfig
+  const resultKey = options.resultKey || setupDefaults.promiseResultConfig?.resultKey || 'data'
+  const verifyConfig = options.verifyConfig || setupDefaults.promiseResultConfig?.verifyConfig || {}
     try {
       const result = await options.promise
       if (Object.entries(verifyConfig).reduce((pre, cur) => {
