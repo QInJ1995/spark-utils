@@ -1,4 +1,5 @@
 import {formatWithIndex} from './formatWithIndex'
+import {formatWithReq} from './formatWithReq'
 
 export const ruleLib = {
   name: {

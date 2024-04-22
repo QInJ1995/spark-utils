@@ -13,6 +13,7 @@ function toStringJSON (str) {
   } else if (isString(str)) {
     try {
       return JSON.parse(str)
+    // eslint-disable-next-line no-empty
     } catch (e) {}
   }
   return {}

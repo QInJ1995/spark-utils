@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const WebpackBar = require('webpackbar')
+const ESLintWebpackPlugin = require("eslint-webpack-plugin")
 const path = require('path');
 
 module.exports = {
@@ -35,6 +36,10 @@ module.exports = {
         ]
     },
     plugins: [
+        new ESLintWebpackPlugin({
+            // 指定检查文件的根目录
+            context: path.resolve(__dirname, "src"),
+        }),
         new WebpackBar({
             // color: "#85d",  // 默认green，进度条颜色支持HEX
             basic: false,   // 默认true，启用一个简单的日志报告器

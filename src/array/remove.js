@@ -35,6 +35,7 @@ function remove (obj, iterate, context) {
         }
       })
       if (isArray(obj)) {
+        // eslint-disable-next-line no-unused-vars
         lastEach(removeKeys, function (item, key) {
           rest.push(obj[item])
           obj.splice(item, 1)

@@ -32,6 +32,7 @@ export function copyText (content) {
     copyElem.select()
     copyElem.setSelectionRange(0, copyElem.value.length)
     result = doc.execCommand('copy')
+  // eslint-disable-next-line no-empty
   } catch (e) {}
   return result
 }

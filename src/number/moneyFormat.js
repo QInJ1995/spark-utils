@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * 将数字转换为金额显示，每三位逗号隔开
  * @method moneyFormat

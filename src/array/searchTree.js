@@ -26,6 +26,7 @@ function searchTreeItem (parentAllow, parent, obj, iterate, context, path, node,
       if (isAllow || rest[mapChildren].length) {
         rests.push(rest)
       }
+    // eslint-disable-next-line no-dupe-else-if
     } else if (isAllow) {
       rests.push(rest)
     }
