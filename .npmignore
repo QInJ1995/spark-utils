@@ -1,6 +1,5 @@
 .DS_Store
 node_modules/
-/dist/
 _upgrade/
 npm-debug.log*
 yarn-debug.log*
@@ -19,6 +18,8 @@ coverage
 /public
 /test
 /src
+/docs
+dist/spark-utils.js
 
 # Editor directories and files
 .idea
