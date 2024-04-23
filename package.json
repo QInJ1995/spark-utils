@@ -7,9 +7,9 @@
     "test": "jest",
     "build": "webpack",
     "dev": "webpack serve --config webpack.config.js",
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:dev": "cd docs && vitepress dev",
+    "docs:build": "cd docs && vitepress build",
+    "docs:preview": "cd docs && vitepress preview"
   },
   "jest": {
     "collectCoverage": true
