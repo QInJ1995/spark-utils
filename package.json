@@ -35,6 +35,8 @@
     "webpackbar": "^6.0.1"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
+    "jsrsasign": "^11.1.0",
     "moment": "^2.30.1"
   }
 }
