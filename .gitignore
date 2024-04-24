@@ -14,6 +14,7 @@ yarn.lock
 coverage
 /public
 docs/.vitepress/cache
+docs/.vitepress/dist
 
 # Editor directories and files
 .idea
