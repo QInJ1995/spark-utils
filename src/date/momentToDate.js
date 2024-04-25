@@ -3,8 +3,8 @@
  * @returns {Date}
  * @param momentVal
  */
-export default function momentToDate(momentVal) {
+export default function momentToDate(momentVal, isUtc = false) {
     // @ts-ignore
-    return momentVal.utc(false).toDate();
+    return momentVal.utc(isUtc).toDate();
 }
 export { momentToDate };
