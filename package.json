@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
-    "jsrsasign": "^11.1.0",
+    "jsrsasign": "^10.5.13",
     "moment": "^2.30.1"
   }
 }

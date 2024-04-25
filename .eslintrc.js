@@ -21,6 +21,7 @@ module.exports = {
     "no-mixed-spaces-and-tabs": 0,
     "no-shadow-restricted-names": 0,
     "no-cond-assign": 0,
-    "no-control-regex": 0
+    "no-control-regex": 0,
+    "no-debugger": 1
   },
 };
