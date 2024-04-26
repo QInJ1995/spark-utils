@@ -16,16 +16,16 @@ import isValidDate from '../basic/isValidDate'
   * @return {Date}
   */
 function getWhatDay (date, day, mode) {
-	date = toStringDate(date)
-	if (isValidDate(date) && !isNaN(day)) {
-		date.setDate(date.getDate() + staticParseInt(day))
-		if (mode === staticStrFirst) {
-			return new Date(helperGetDateFullYear(date), helperGetDateMonth(date), date.getDate())
-		} else if (mode === staticStrLast) {
-			return new Date(helperGetDateTime(getWhatDay(date, 1, staticStrFirst)) - 1)
-		}
-	}
-	return date
+  date = toStringDate(date)
+  if (isValidDate(date) && !isNaN(day)) {
+    date.setDate(date.getDate() + staticParseInt(day))
+    if (mode === staticStrFirst) {
+      return new Date(helperGetDateFullYear(date), helperGetDateMonth(date), date.getDate())
+    } else if (mode === staticStrLast) {
+      return new Date(helperGetDateTime(getWhatDay(date, 1, staticStrFirst)) - 1)
+    }
+  }
+  return date
 }
 
 export default getWhatDay

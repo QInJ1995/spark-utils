@@ -5,7 +5,7 @@
   * @return {Boolean}
   */
 function isNull (obj) {
-	return obj === null
+  return obj === null
 }
 
 export default isNull

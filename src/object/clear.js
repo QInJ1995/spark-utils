@@ -15,35 +15,35 @@ import objectEach from '../object/objectEach'
   * @return {Object}
   */
 function clear (obj, defs, assigns) {
-	if (obj) {
-		var len
-		var isDefs = arguments.length > 1 && (isNull(defs) || !isObject(defs))
-		var extds = isDefs ? assigns : defs
-		if (isPlainObject(obj)) {
-			objectEach(obj, isDefs ? function (val, key) {
-				obj[key] = defs
-			} : function (val, key) {
-				helperDeleteProperty(obj, key)
-			})
-			if (extds) {
-				assign(obj, extds)
-			}
-		} else if (isArray(obj)) {
-			if (isDefs) {
-				len = obj.length
-				while (len > 0) {
-					len--
-					obj[len] = defs
-				}
-			} else {
-				obj.length = 0
-			}
-			if (extds) {
-				obj.push.apply(obj, extds)
-			}
-		}
-	}
-	return obj
+  if (obj) {
+    var len
+    var isDefs = arguments.length > 1 && (isNull(defs) || !isObject(defs))
+    var extds = isDefs ? assigns : defs
+    if (isPlainObject(obj)) {
+      objectEach(obj, isDefs ? function (val, key) {
+        obj[key] = defs
+      } : function (val, key) {
+        helperDeleteProperty(obj, key)
+      })
+      if (extds) {
+        assign(obj, extds)
+      }
+    } else if (isArray(obj)) {
+      if (isDefs) {
+        len = obj.length
+        while (len > 0) {
+          len--
+          obj[len] = defs
+        }
+      } else {
+        obj.length = 0
+      }
+      if (extds) {
+        obj.push.apply(obj, extds)
+      }
+    }
+  }
+  return obj
 }
 
 export default clear

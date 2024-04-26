@@ -9,18 +9,18 @@ import each from '../basic/each'
   * @return {Object}
   */
 function filter (obj, iterate, context) {
-	var result = []
-	if (obj && iterate) {
-		if (obj.filter) {
-			return obj.filter(iterate, context)
-		}
-		each(obj, function (val, key) {
-			if (iterate.call(context, val, key, obj)) {
-				result.push(val)
-			}
-		})
-	}
-	return result
+  var result = []
+  if (obj && iterate) {
+    if (obj.filter) {
+      return obj.filter(iterate, context)
+    }
+    each(obj, function (val, key) {
+      if (iterate.call(context, val, key, obj)) {
+        result.push(val)
+      }
+    })
+  }
+  return result
 }
 
 export default filter

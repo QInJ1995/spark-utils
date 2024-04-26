@@ -3,35 +3,35 @@ import arrayEach from './arrayEach'
 import assign from '../object/assign'
 
 function searchTreeItem (parentAllow, parent, obj, iterate, context, path, node, parseChildren, opts) {
-	var paths, nodes, rest, isAllow, hasChild
-	var rests = []
-	var hasOriginal = opts.original
-	var sourceData = opts.data
-	var mapChildren = opts.mapChildren || parseChildren
-	arrayEach(obj, function (item, index) {
-		paths = path.concat(['' + index])
-		nodes = node.concat([item])
-		isAllow = parentAllow || iterate.call(context, item, index, obj, paths, parent, nodes)
-		hasChild = parseChildren && item[parseChildren]
-		if (isAllow || hasChild) {
-			if (hasOriginal) {
-				rest = item
-			} else {
-				rest = assign({}, item)
-				if (sourceData) {
-					rest[sourceData] = item
-				}
-			}
-			rest[mapChildren] = searchTreeItem(isAllow, item, item[parseChildren], iterate, context, paths, nodes, parseChildren, opts)
-			if (isAllow || rest[mapChildren].length) {
-				rests.push(rest)
-			}
-			// eslint-disable-next-line no-dupe-else-if
-		} else if (isAllow) {
-			rests.push(rest)
-		}
-	})
-	return rests
+  var paths, nodes, rest, isAllow, hasChild
+  var rests = []
+  var hasOriginal = opts.original
+  var sourceData = opts.data
+  var mapChildren = opts.mapChildren || parseChildren
+  arrayEach(obj, function (item, index) {
+    paths = path.concat(['' + index])
+    nodes = node.concat([item])
+    isAllow = parentAllow || iterate.call(context, item, index, obj, paths, parent, nodes)
+    hasChild = parseChildren && item[parseChildren]
+    if (isAllow || hasChild) {
+      if (hasOriginal) {
+        rest = item
+      } else {
+        rest = assign({}, item)
+        if (sourceData) {
+          rest[sourceData] = item
+        }
+      }
+      rest[mapChildren] = searchTreeItem(isAllow, item, item[parseChildren], iterate, context, paths, nodes, parseChildren, opts)
+      if (isAllow || rest[mapChildren].length) {
+        rests.push(rest)
+      }
+      // eslint-disable-next-line no-dupe-else-if
+    } else if (isAllow) {
+      rests.push(rest)
+    }
+  })
+  return rests
 }
 
 /**
@@ -44,7 +44,7 @@ function searchTreeItem (parentAllow, parent, obj, iterate, context, path, node,
   * @return {Array}
   */
 var searchTree = helperCreateTreeFunc(function (parent, obj, iterate, context, path, nodes, parseChildren, opts) {
-	return searchTreeItem(0, parent, obj, iterate, context, path, nodes, parseChildren, opts)
+  return searchTreeItem(0, parent, obj, iterate, context, path, nodes, parseChildren, opts)
 })
 
 export default searchTree

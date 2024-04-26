@@ -12,19 +12,19 @@ import isFunction from '../basic/isFunction'
 import padStart from '../string/padStart'
 
 function handleCustomTemplate (date, formats, match, value) {
-	var format = formats[match]
-	if (format) {
-		if (isFunction(format)) {
-			return format(value, match, date)
-		} else {
-			return format[value]
-		}
-	}
-	return value
+  var format = formats[match]
+  if (format) {
+    if (isFunction(format)) {
+      return format(value, match, date)
+    } else {
+      return format[value]
+    }
+  }
+  return value
 }
 
 function formatDayE (day) {
-	return day === 0 ? 7 : day
+  return day === 0 ? 7 : day
 }
 
 /**
@@ -37,105 +37,105 @@ function formatDayE (day) {
  */
 var dateFormatRE = /\[([^\]]+)]|Y{2,4}|y{2,4}|M{1,2}|d{1,2}|D{1,2}|H{1,2}|h{1,2}|m{1,2}|s{1,2}|S{1,3}|Z{1,2}|w{1,2}|W{1,2}|O{1,3}|[aAeEQq]/g
 function toDateString (date, format, options) {
-	if (date) {
-		date = toStringDate(date)
-		if (isValidDate(date)) {
-			var result = format || setupDefaults.formatString
-			var hours = date.getHours()
-			var apm = hours < 12 ? 'am' : 'pm'
-			var formats = assign({}, setupDefaults.formatStringMatchs, options ? options.formats : null)
-			var fy = function (match, length) {
-				return ('' + helperGetDateFullYear(date)).substr(4 - length)
-			}
-			var fM = function (match, length) {
-				return padStart(helperGetDateMonth(date) + 1, length, '0')
-			}
-			var fd = function (match, length) {
-				return padStart(date.getDate(), length, '0')
-			}
-			var fH = function (match, length) {
-				return padStart(hours, length, '0')
-			}
-			var fh = function (match, length) {
-				return padStart(hours <= 12 ? hours : hours - 12, length, '0')
-			}
-			var fm = function (match, length) {
-				return padStart(date.getMinutes(), length, '0')
-			}
-			var fs = function (match, length) {
-				return padStart(date.getSeconds(), length, '0')
-			}
-			var fS = function (match, length) {
-				return padStart(date.getMilliseconds(), length, '0')
-			}
-			var fZ = function (match, length) {
-				var zoneHours = date.getTimezoneOffset() / 60 * -1
-				return handleCustomTemplate(date, formats, match, (zoneHours >= 0 ? '+' : '-') + padStart(zoneHours, 2, '0') + (length === 1 ? ':' : '') + '00')
-			}
-			var fW = function (match, length) {
-				return padStart(handleCustomTemplate(date, formats, match, getYearWeek(date)), length, '0')
-			}
-			var fw = function (match, length) {
-				return padStart(handleCustomTemplate(date, formats, match, getMonthWeek(date)), length, '0')
-			}
-			var fD = function (match, length) {
-				return padStart(handleCustomTemplate(date, formats, match, getYearDay(date)), length, '0')
-			}
-			var parseDates = {
-				yyyy: fy,
-				YYYY: fy,
-				yy: fy,
-				YY: fy,
-				MM: fM,
-				M: fM,
-				dd: fd,
-				DD: fd,
-				d: fd,
-				D: fd,
-				HH: fH,
-				H: fH,
-				hh: fh,
-				h: fh,
-				mm: fm,
-				m: fm,
-				ss: fs,
-				s: fs,
-				SSS: fS,
-				S: fS,
-				ZZ: fZ,
-				Z: fZ,
-				w: fW,
-				ww: fW,
-				W: fw,
-				WW: fw,
-				OOO: fD,
-				O: fD,
-				a: function (match) {
-					return handleCustomTemplate(date, formats, match, apm)
-				},
-				A: function (match) {
-					return handleCustomTemplate(date, formats, match, helperStringUpperCase(apm))
-				},
-				e: function (match) {
-					return handleCustomTemplate(date, formats, match, date.getDay())
-				},
-				E: function (match) {
-					return handleCustomTemplate(date, formats, match, formatDayE(date.getDay()))
-				},
-				Q: function (match) {
-					return handleCustomTemplate(date, formats, match, Math.floor((helperGetDateMonth(date) + 3) / 3))
-				},
-				q: function (match) {
-					return handleCustomTemplate(date, formats, match, Math.floor((helperGetDateMonth(date) + 3) / 3))
-				},
-			}
-			return result.replace(dateFormatRE, function (match, skip) {
-				return skip || (parseDates[match] ? parseDates[match](match, match.length) : match)
-			})
-		}
-		return 'Invalid Date'
-	}
-	return ''
+  if (date) {
+    date = toStringDate(date)
+    if (isValidDate(date)) {
+      var result = format || setupDefaults.formatString
+      var hours = date.getHours()
+      var apm = hours < 12 ? 'am' : 'pm'
+      var formats = assign({}, setupDefaults.formatStringMatchs, options ? options.formats : null)
+      var fy = function (match, length) {
+        return ('' + helperGetDateFullYear(date)).substr(4 - length)
+      }
+      var fM = function (match, length) {
+        return padStart(helperGetDateMonth(date) + 1, length, '0')
+      }
+      var fd = function (match, length) {
+        return padStart(date.getDate(), length, '0')
+      }
+      var fH = function (match, length) {
+        return padStart(hours, length, '0')
+      }
+      var fh = function (match, length) {
+        return padStart(hours <= 12 ? hours : hours - 12, length, '0')
+      }
+      var fm = function (match, length) {
+        return padStart(date.getMinutes(), length, '0')
+      }
+      var fs = function (match, length) {
+        return padStart(date.getSeconds(), length, '0')
+      }
+      var fS = function (match, length) {
+        return padStart(date.getMilliseconds(), length, '0')
+      }
+      var fZ = function (match, length) {
+        var zoneHours = date.getTimezoneOffset() / 60 * -1
+        return handleCustomTemplate(date, formats, match, (zoneHours >= 0 ? '+' : '-') + padStart(zoneHours, 2, '0') + (length === 1 ? ':' : '') + '00')
+      }
+      var fW = function (match, length) {
+        return padStart(handleCustomTemplate(date, formats, match, getYearWeek(date)), length, '0')
+      }
+      var fw = function (match, length) {
+        return padStart(handleCustomTemplate(date, formats, match, getMonthWeek(date)), length, '0')
+      }
+      var fD = function (match, length) {
+        return padStart(handleCustomTemplate(date, formats, match, getYearDay(date)), length, '0')
+      }
+      var parseDates = {
+        yyyy: fy,
+        YYYY: fy,
+        yy: fy,
+        YY: fy,
+        MM: fM,
+        M: fM,
+        dd: fd,
+        DD: fd,
+        d: fd,
+        D: fd,
+        HH: fH,
+        H: fH,
+        hh: fh,
+        h: fh,
+        mm: fm,
+        m: fm,
+        ss: fs,
+        s: fs,
+        SSS: fS,
+        S: fS,
+        ZZ: fZ,
+        Z: fZ,
+        w: fW,
+        ww: fW,
+        W: fw,
+        WW: fw,
+        OOO: fD,
+        O: fD,
+        a: function (match) {
+          return handleCustomTemplate(date, formats, match, apm)
+        },
+        A: function (match) {
+          return handleCustomTemplate(date, formats, match, helperStringUpperCase(apm))
+        },
+        e: function (match) {
+          return handleCustomTemplate(date, formats, match, date.getDay())
+        },
+        E: function (match) {
+          return handleCustomTemplate(date, formats, match, formatDayE(date.getDay()))
+        },
+        Q: function (match) {
+          return handleCustomTemplate(date, formats, match, Math.floor((helperGetDateMonth(date) + 3) / 3))
+        },
+        q: function (match) {
+          return handleCustomTemplate(date, formats, match, Math.floor((helperGetDateMonth(date) + 3) / 3))
+        },
+      }
+      return result.replace(dateFormatRE, function (match, skip) {
+        return skip || (parseDates[match] ? parseDates[match](match, match.length) : match)
+      })
+    }
+    return 'Invalid Date'
+  }
+  return ''
 }
 
 export default toDateString

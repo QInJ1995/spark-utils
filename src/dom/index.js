@@ -13,7 +13,7 @@ import getWidth from './getWidth'
 import getHeight from './getHeight'
 
 export default {
-	getStyle,
-	getWidth,
-	getHeight,
+  getStyle,
+  getWidth,
+  getHeight,
 }

@@ -9,14 +9,14 @@ import each from './each'
   * @return {Number}
   */
 function getSize (obj) {
-	var len = 0
-	if (isString(obj) || isArray(obj)) {
-		return obj.length
-	}
-	each(obj, function () {
-		len++
-	})
-	return len
+  var len = 0
+  if (isString(obj) || isArray(obj)) {
+    return obj.length
+  }
+  each(obj, function () {
+    len++
+  })
+  return len
 }
 
 export default getSize

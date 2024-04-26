@@ -9,7 +9,7 @@ import isNull from './isNull'
   * @return {Boolean}
   */
 function isFloat (obj) {
-	return !isNull(obj) && !isNaN(obj) && !isArray(obj) && !isInteger(obj)
+  return !isNull(obj) && !isNaN(obj) && !isArray(obj) && !isInteger(obj)
 }
 
 export default isFloat

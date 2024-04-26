@@ -5,6 +5,6 @@ import { IEVersion, } from './IEVersion';
  * @returns {*|boolean}
  */
 export default function isIE10() {
-	return isIE() && IEVersion() === 10;
+  return isIE() && IEVersion() === 10;
 }
 export { isIE10, };

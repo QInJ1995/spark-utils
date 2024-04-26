@@ -9,12 +9,12 @@ import each from '../basic/each'
  * @return {Object}
  */
 function zipObject (props, arr) {
-	var result = {}
-	arr = arr || []
-	each(values(props), function (val, key) {
-		result[val] = arr[key]
-	})
-	return result
+  var result = {}
+  arr = arr || []
+  each(values(props), function (val, key) {
+    result[val] = arr[key]
+  })
+  return result
 }
 
 export default zipObject

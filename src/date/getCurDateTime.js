@@ -4,9 +4,9 @@ import { baseGetCurDateTime, } from './baseGetCurDateTime';
  * @method getCurDateTime
  */
 export default function getCurDateTime() {
-	const d = new Date();
-	let ret = baseGetCurDateTime(d);
-	ret += ('00' + d.getSeconds()).slice(-2);
-	return ret;
+  const d = new Date();
+  let ret = baseGetCurDateTime(d);
+  ret += ('00' + d.getSeconds()).slice(-2);
+  return ret;
 }
 export { getCurDateTime, };

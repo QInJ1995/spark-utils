@@ -9,7 +9,7 @@ import staticStrUndefined from '../constant/static/staticStrUndefined'
  */
 var supportMap = typeof Map !== staticStrUndefined
 function isMap (obj) {
-	return supportMap && obj instanceof Map
+  return supportMap && obj instanceof Map
 }
 
 export default isMap

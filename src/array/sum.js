@@ -12,15 +12,15 @@ import get from '../object/get'
   * @return {Number}
   */
 function sum (array, iterate, context) {
-	var result = 0
-	each(array, iterate ? isFunction(iterate) ? function () {
-		result = helperNumberAdd(result, iterate.apply(context, arguments))
-	} : function (val) {
-		result = helperNumberAdd(result, get(val, iterate))
-	} : function (val) {
-		result = helperNumberAdd(result, val)
-	})
-	return result
+  var result = 0
+  each(array, iterate ? isFunction(iterate) ? function () {
+    result = helperNumberAdd(result, iterate.apply(context, arguments))
+  } : function (val) {
+    result = helperNumberAdd(result, get(val, iterate))
+  } : function (val) {
+    result = helperNumberAdd(result, val)
+  })
+  return result
 }
 
 export default sum

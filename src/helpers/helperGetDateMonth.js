@@ -1,5 +1,5 @@
 function helperGetDateMonth (date) {
-	return date.getMonth()
+  return date.getMonth()
 }
 
 export default helperGetDateMonth

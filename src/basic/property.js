@@ -7,9 +7,9 @@ import isNull from './isNull'
  * @param {Object} defs 空值
  */
 function property (name, defs) {
-	return function (obj) {
-		return isNull(obj) ? defs : obj[name]
-	}
+  return function (obj) {
+    return isNull(obj) ? defs : obj[name]
+  }
 }
 
 export default property

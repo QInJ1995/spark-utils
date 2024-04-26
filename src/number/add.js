@@ -9,7 +9,7 @@ import toNumber from './toNumber'
  * @return {Number}
  */
 function add (num1, num2) {
-	return helperNumberAdd(toNumber(num1), toNumber(num2))
+  return helperNumberAdd(toNumber(num1), toNumber(num2))
 }
 
 export default add

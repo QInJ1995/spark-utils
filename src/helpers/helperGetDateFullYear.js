@@ -1,5 +1,5 @@
 function helperGetDateFullYear (date) {
-	return date.getFullYear()
+  return date.getFullYear()
 }
 
 export default helperGetDateFullYear

@@ -9,10 +9,10 @@ import slice from '../array/slice'
   * @return {Object}
   */
 function bind (callback, context) {
-	var args = slice(arguments, 2)
-	return function () {
-		return callback.apply(context, slice(arguments).concat(args))
-	}
+  var args = slice(arguments, 2)
+  return function () {
+    return callback.apply(context, slice(arguments).concat(args))
+  }
 }
 
 export default bind

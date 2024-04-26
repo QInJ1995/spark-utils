@@ -11,20 +11,20 @@ import helperStringRepeat from '../helpers/helperStringRepeat'
   * @return {String}
   */
 function padEnd (str, targetLength, padString) {
-	var rest = toValueString(str)
-	targetLength = targetLength >> 0
-	padString = isUndefined(padString) ? ' ' : '' + padString
-	if (rest.padEnd) {
-		return rest.padEnd(targetLength, padString)
-	}
-	if (targetLength > rest.length) {
-		targetLength -= rest.length
-		if (targetLength > padString.length) {
-			padString += helperStringRepeat(padString, targetLength / padString.length)
-		}
-		return rest + padString.slice(0, targetLength)
-	}
-	return rest
+  var rest = toValueString(str)
+  targetLength = targetLength >> 0
+  padString = isUndefined(padString) ? ' ' : '' + padString
+  if (rest.padEnd) {
+    return rest.padEnd(targetLength, padString)
+  }
+  if (targetLength > rest.length) {
+    targetLength -= rest.length
+    if (targetLength > padString.length) {
+      padString += helperStringRepeat(padString, targetLength / padString.length)
+    }
+    return rest + padString.slice(0, targetLength)
+  }
+  return rest
 }
 
 export default padEnd

@@ -6,7 +6,7 @@ import unzip from './unzip'
  * @param {Array*} array 数组
  */
 function zip () {
-	return unzip(arguments)
+  return unzip(arguments)
 }
 
 export default zip

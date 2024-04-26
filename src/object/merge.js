@@ -3,13 +3,13 @@ import isPlainObject from '../basic/isPlainObject'
 import each from '../basic/each'
 
 function handleMerge (target, source) {
-	if ((isPlainObject(target) && isPlainObject(source)) || (isArray(target) && isArray(source))) {
-		each(source, function (obj, key) {
-			target[key] = handleMerge(target[key], obj)
-		})
-		return target
-	}
-	return source
+  if ((isPlainObject(target) && isPlainObject(source)) || (isArray(target) && isArray(source))) {
+    each(source, function (obj, key) {
+      target[key] = handleMerge(target[key], obj)
+    })
+    return target
+  }
+  return source
 }
 
 /**
@@ -20,18 +20,18 @@ function handleMerge (target, source) {
   * @return {Boolean}
   */
 var merge = function (target) {
-	if (!target) {
-		target = {}
-	}
-	var args = arguments
-	var len = args.length
-	for (var source, index = 1; index < len; index++) {
-		source = args[index]
-		if (source) {
-			handleMerge(target, source)
-		}
-	}
-	return target
+  if (!target) {
+    target = {}
+  }
+  var args = arguments
+  var len = args.length
+  for (var source, index = 1; index < len; index++) {
+    source = args[index]
+    if (source) {
+      handleMerge(target, source)
+    }
+  }
+  return target
 }
 
 export default merge

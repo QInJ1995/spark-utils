@@ -8,11 +8,11 @@ import remove from '../array/remove'
 import assign from '../object/assign'
 
 function strictTree (array, optChildren) {
-	each(array, function (item) {
-		if (item.children && !item.children.length) {
-			remove(item, optChildren)
-		}
-	})
+  each(array, function (item) {
+    if (item.children && !item.children.length) {
+      remove(item, optChildren)
+    }
+  })
 }
 
 /**
@@ -23,59 +23,59 @@ function strictTree (array, optChildren) {
   * @return {Array}
   */
 function toArrayTree (array, options) {
-	var opts = assign({}, setupDefaults.treeOptions, options)
-	var optStrict = opts.strict
-	var optKey = opts.key
-	var optParentKey = opts.parentKey
-	var optChildren = opts.children
-	var optSortKey = opts.sortKey
-	var optReverse = opts.reverse
-	var optData = opts.data
-	var result = []
-	var treeMap = {}
-	var idList, id, treeData, parentId
+  var opts = assign({}, setupDefaults.treeOptions, options)
+  var optStrict = opts.strict
+  var optKey = opts.key
+  var optParentKey = opts.parentKey
+  var optChildren = opts.children
+  var optSortKey = opts.sortKey
+  var optReverse = opts.reverse
+  var optData = opts.data
+  var result = []
+  var treeMap = {}
+  var idList, id, treeData, parentId
 
-	if (optSortKey) {
-		array = orderBy(clone(array), optSortKey)
-		if (optReverse) {
-			array = array.reverse()
-		}
-	}
+  if (optSortKey) {
+    array = orderBy(clone(array), optSortKey)
+    if (optReverse) {
+      array = array.reverse()
+    }
+  }
 
-	idList = map(array, function (item) {
-		return item[optKey]
-	})
+  idList = map(array, function (item) {
+    return item[optKey]
+  })
 
-	each(array, function (item) {
-		id = item[optKey]
+  each(array, function (item) {
+    id = item[optKey]
 
-		if (optData) {
-			treeData = {}
-			treeData[optData] = item
-		} else {
-			treeData = item
-		}
+    if (optData) {
+      treeData = {}
+      treeData[optData] = item
+    } else {
+      treeData = item
+    }
 
-		parentId = item[optParentKey]
-		treeMap[id] = treeMap[id] || []
-		treeMap[parentId] = treeMap[parentId] || []
-		treeMap[parentId].push(treeData)
-		treeData[optKey] = id
-		treeData[optParentKey] = parentId
-		treeData[optChildren] = treeMap[id]
+    parentId = item[optParentKey]
+    treeMap[id] = treeMap[id] || []
+    treeMap[parentId] = treeMap[parentId] || []
+    treeMap[parentId].push(treeData)
+    treeData[optKey] = id
+    treeData[optParentKey] = parentId
+    treeData[optChildren] = treeMap[id]
 
-		if (!optStrict || (optStrict && !parentId)) {
-			if (!includes(idList, parentId)) {
-				result.push(treeData)
-			}
-		}
-	})
+    if (!optStrict || (optStrict && !parentId)) {
+      if (!includes(idList, parentId)) {
+        result.push(treeData)
+      }
+    }
+  })
 
-	if (optStrict) {
-		strictTree(array, optChildren)
-	}
+  if (optStrict) {
+    strictTree(array, optChildren)
+  }
 
-	return result
+  return result
 }
 
 export default toArrayTree

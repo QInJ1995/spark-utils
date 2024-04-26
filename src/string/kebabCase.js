@@ -11,35 +11,35 @@ var kebabCacheMaps = {}
   * @return {String}
   */
 function kebabCase (str) {
-	str = toValueString(str)
-	if (kebabCacheMaps[str]) {
-		return kebabCacheMaps[str]
-	}
-	var rest = str.replace(/^([a-z])([A-Z]+)([a-z]+)$/, function (text, prevLower, upper, nextLower) {
-		var upperLen = upper.length
-		if (upperLen > 1) {
-			return prevLower + '-' + helperStringLowerCase(helperStringSubstring(upper, 0, upperLen - 1)) + '-' + helperStringLowerCase(helperStringSubstring(upper, upperLen - 1, upperLen)) + nextLower
-		}
-		return helperStringLowerCase(prevLower + '-' + upper + nextLower)
-	}).replace(/^([A-Z]+)([a-z]+)?$/, function (text, upper, nextLower) {
-		return helperStringLowerCase(upper + (nextLower || ''))
-	}).replace(/([a-z]?)([A-Z]+)([a-z]?)/g, function (text, prevLower, upper, nextLower, index) {
-		var upperLen = upper.length
-		if (upperLen > 1) {
-			if (prevLower) {
-				prevLower += '-'
-			}
-			if (nextLower) {
-				return (prevLower || '') + helperStringLowerCase(helperStringSubstring(upper, 0, upperLen - 1)) + '-' + helperStringLowerCase(helperStringSubstring(upper, upperLen - 1, upperLen)) + nextLower
-			}
-		}
-		return (prevLower || '') + (index ? '-' : '') + helperStringLowerCase(upper) + (nextLower || '')
-	})
-	rest = rest.replace(/([-]+)/g, function (text, flag, index) {
-		return index && index + flag.length < rest.length ? '-' : ''
-	})
-	kebabCacheMaps[str] =  rest
-	return rest
+  str = toValueString(str)
+  if (kebabCacheMaps[str]) {
+    return kebabCacheMaps[str]
+  }
+  var rest = str.replace(/^([a-z])([A-Z]+)([a-z]+)$/, function (text, prevLower, upper, nextLower) {
+    var upperLen = upper.length
+    if (upperLen > 1) {
+      return prevLower + '-' + helperStringLowerCase(helperStringSubstring(upper, 0, upperLen - 1)) + '-' + helperStringLowerCase(helperStringSubstring(upper, upperLen - 1, upperLen)) + nextLower
+    }
+    return helperStringLowerCase(prevLower + '-' + upper + nextLower)
+  }).replace(/^([A-Z]+)([a-z]+)?$/, function (text, upper, nextLower) {
+    return helperStringLowerCase(upper + (nextLower || ''))
+  }).replace(/([a-z]?)([A-Z]+)([a-z]?)/g, function (text, prevLower, upper, nextLower, index) {
+    var upperLen = upper.length
+    if (upperLen > 1) {
+      if (prevLower) {
+        prevLower += '-'
+      }
+      if (nextLower) {
+        return (prevLower || '') + helperStringLowerCase(helperStringSubstring(upper, 0, upperLen - 1)) + '-' + helperStringLowerCase(helperStringSubstring(upper, upperLen - 1, upperLen)) + nextLower
+      }
+    }
+    return (prevLower || '') + (index ? '-' : '') + helperStringLowerCase(upper) + (nextLower || '')
+  })
+  rest = rest.replace(/([-]+)/g, function (text, flag, index) {
+    return index && index + flag.length < rest.length ? '-' : ''
+  })
+  kebabCacheMaps[str] =  rest
+  return rest
 }
 
 export default kebabCase

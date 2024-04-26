@@ -8,7 +8,7 @@ import helperGetDateTime from '../helpers/helperGetDateTime'
   * @return {boolean}
   */
 function isValidDate (val) {
-	return isDate(val) && !isNaN(helperGetDateTime(val))
+  return isDate(val) && !isNaN(helperGetDateTime(val))
 }
 
 export default isValidDate

@@ -14,7 +14,7 @@ import mixin from './mixin'
 
 
 export default {
-	setup,
-	mixin,
-	setupDefaults,
+  setup,
+  mixin,
+  setupDefaults,
 }

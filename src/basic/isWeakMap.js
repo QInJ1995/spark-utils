@@ -9,7 +9,7 @@ import staticStrUndefined from '../constant/static/staticStrUndefined'
  */
 var supportWeakMap = typeof WeakMap !== staticStrUndefined
 function isWeakMap (obj) {
-	return supportWeakMap && obj instanceof WeakMap
+  return supportWeakMap && obj instanceof WeakMap
 }
 
 export default isWeakMap

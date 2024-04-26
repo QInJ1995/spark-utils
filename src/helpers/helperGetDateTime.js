@@ -1,5 +1,5 @@
 function helperGetDateTime (date) {
-	return date.getTime()
+  return date.getTime()
 }
 
 export default helperGetDateTime

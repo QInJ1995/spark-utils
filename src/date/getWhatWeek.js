@@ -14,19 +14,19 @@ import isValidDate from '../basic/isValidDate'
   * @return {Date}
   */
 function getWhatWeek (date, week, day) {
-	var time, whatDayTime, currentDay, customDay
-	date = toStringDate(date)
-	if (isValidDate(date)) {
-		customDay = staticParseInt(/^[0-7]$/.test(day) ? day : date.getDay())
-		currentDay = date.getDay()
-		time = helperGetDateTime(date)
-		whatDayTime = time + ((customDay === 0 ? 7 : customDay) - (currentDay === 0 ? 7 : currentDay)) * staticDayTime
-		if (week && !isNaN(week)) {
-			whatDayTime += week * staticWeekTime
-		}
-		return new Date(whatDayTime)
-	}
-	return date
+  var time, whatDayTime, currentDay, customDay
+  date = toStringDate(date)
+  if (isValidDate(date)) {
+    customDay = staticParseInt(/^[0-7]$/.test(day) ? day : date.getDay())
+    currentDay = date.getDay()
+    time = helperGetDateTime(date)
+    whatDayTime = time + ((customDay === 0 ? 7 : customDay) - (currentDay === 0 ? 7 : currentDay)) * staticDayTime
+    if (week && !isNaN(week)) {
+      whatDayTime += week * staticWeekTime
+    }
+    return new Date(whatDayTime)
+  }
+  return date
 }
 
 export default getWhatWeek

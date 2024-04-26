@@ -7,15 +7,15 @@ import isString from '../basic/isString'
  * @param {String} query 字符串
  */
 export function unserialize (str) {
-	var items
-	var result = {}
-	if (str && isString(str)) {
-		arrayEach(str.split('&'), function (param) {
-			items = param.split('=')
-			result[staticDecodeURIComponent(items[0])] = staticDecodeURIComponent(items[1] || '')
-		})
-	}
-	return result
+  var items
+  var result = {}
+  if (str && isString(str)) {
+    arrayEach(str.split('&'), function (param) {
+      items = param.split('=')
+      result[staticDecodeURIComponent(items[0])] = staticDecodeURIComponent(items[1] || '')
+    })
+  }
+  return result
 }
 
 export default unserialize

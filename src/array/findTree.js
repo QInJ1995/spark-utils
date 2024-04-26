@@ -1,23 +1,23 @@
 import helperCreateTreeFunc from '../helpers/helperCreateTreeFunc'
 
 function findTreeItem (parent, obj, iterate, context, path, node, parseChildren, opts) {
-	if (obj) {
-		var item, index, len, paths, nodes, match
-		for (index = 0, len = obj.length; index < len; index++) {
-			item = obj[index]
-			paths = path.concat(['' + index])
-			nodes = node.concat([item])
-			if (iterate.call(context, item, index, obj, paths, parent, nodes)) {
-				return { index: index, item: item, path: paths, items: obj, parent: parent, nodes: nodes, }
-			}
-			if (parseChildren && item) {
-				match = findTreeItem(item, item[parseChildren], iterate, context, paths.concat([parseChildren]), nodes, parseChildren, opts)
-				if (match) {
-					return match
-				}
-			}
-		}
-	}
+  if (obj) {
+    var item, index, len, paths, nodes, match
+    for (index = 0, len = obj.length; index < len; index++) {
+      item = obj[index]
+      paths = path.concat(['' + index])
+      nodes = node.concat([item])
+      if (iterate.call(context, item, index, obj, paths, parent, nodes)) {
+        return { index: index, item: item, path: paths, items: obj, parent: parent, nodes: nodes, }
+      }
+      if (parseChildren && item) {
+        match = findTreeItem(item, item[parseChildren], iterate, context, paths.concat([parseChildren]), nodes, parseChildren, opts)
+        if (match) {
+          return match
+        }
+      }
+    }
+  }
 }
 
 /**

@@ -5,7 +5,7 @@
   * @return {Boolean}
   */
 function isTypeError (obj) {
-	return obj ? obj.constructor === TypeError : false
+  return obj ? obj.constructor === TypeError : false
 }
 
 export default isTypeError

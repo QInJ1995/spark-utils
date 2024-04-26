@@ -11,10 +11,10 @@ import objectEach from '../object/objectEach'
   * @return {Object}
   */
 function each (obj, iterate, context) {
-	if (obj) {
-		return (isArray(obj) ? arrayEach : objectEach)(obj, iterate, context)
-	}
-	return obj
+  if (obj) {
+    return (isArray(obj) ? arrayEach : objectEach)(obj, iterate, context)
+  }
+  return obj
 }
 
 export default each

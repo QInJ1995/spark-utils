@@ -6,7 +6,7 @@
   */
 var __uniqueId = 0
 function uniqueId (prefix) {
-	return [prefix, ++__uniqueId].join('')
+  return [prefix, ++__uniqueId].join('')
 }
 
 export default uniqueId

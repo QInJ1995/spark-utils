@@ -5,6 +5,6 @@ import { moment, } from './getMoment';
  * @returns {moment}
  */
 export default function dateToMoment(date) {
-	return moment(date);
+  return moment(date);
 }
 export { dateToMoment, };

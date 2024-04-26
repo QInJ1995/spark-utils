@@ -2,16 +2,16 @@ import helperCreateTreeFunc from '../helpers/helperCreateTreeFunc'
 import each from '../basic/each'
 
 function eachTreeItem (parent, obj, iterate, context, path, node, parseChildren, opts) {
-	var paths, nodes
-	each(obj, function (item, index) {
-		paths = path.concat(['' + index])
-		nodes = node.concat([item])
-		iterate.call(context, item, index, obj, paths, parent, nodes)
-		if (item && parseChildren) {
-			paths.push(parseChildren)
-			eachTreeItem(item, item[parseChildren], iterate, context, paths, nodes, parseChildren, opts)
-		}
-	})
+  var paths, nodes
+  each(obj, function (item, index) {
+    paths = path.concat(['' + index])
+    nodes = node.concat([item])
+    iterate.call(context, item, index, obj, paths, parent, nodes)
+    if (item && parseChildren) {
+      paths.push(parseChildren)
+      eachTreeItem(item, item[parseChildren], iterate, context, paths, nodes, parseChildren, opts)
+    }
+  })
 }
 
 /**

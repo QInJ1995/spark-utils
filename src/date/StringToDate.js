@@ -6,14 +6,14 @@ import { isDateTime, } from './isDateTime';
  * @author cy
  */
 export default function StringToDate(value) {
-	if (isDateString(value) || isDateTime(value)) {
-		// eslint-disable-next-line
+  if (isDateString(value) || isDateTime(value)) {
+    // eslint-disable-next-line
         value = value.replace(/\-/g, '/');
-		const stateDate = new Date(value);
-		if (stateDate.toString() !== 'Invalid Date') {
-			return stateDate;
-		}
-	}
-	return false;
+    const stateDate = new Date(value);
+    if (stateDate.toString() !== 'Invalid Date') {
+      return stateDate;
+    }
+  }
+  return false;
 }
 export { StringToDate, };

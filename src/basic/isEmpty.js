@@ -5,10 +5,10 @@
   * @return {Boolean}
   */
 function isEmpty (obj) {
-	for (var key in obj) {
-		return false
-	}
-	return true
+  for (var key in obj) {
+    return false
+  }
+  return true
 }
 
 export default isEmpty

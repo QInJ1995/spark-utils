@@ -9,11 +9,11 @@ import slice from '../array/slice'
   * @return {Number}
  */
 function delay (callback, wait) {
-	var args = slice(arguments, 2)
-	var context = this
-	return setTimeout(function () {
-		callback.apply(context, args)
-	}, wait)
+  var args = slice(arguments, 2)
+  var context = this
+  return setTimeout(function () {
+    callback.apply(context, args)
+  }, wait)
 }
 
 export default delay

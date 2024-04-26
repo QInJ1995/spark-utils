@@ -9,7 +9,7 @@ import staticStrUndefined from '../constant/static/staticStrUndefined'
  */
 var supportWeakSet = typeof WeakSet !== staticStrUndefined
 function isWeakSet (obj) {
-	return supportWeakSet && obj instanceof WeakSet
+  return supportWeakSet && obj instanceof WeakSet
 }
 
 export default isWeakSet

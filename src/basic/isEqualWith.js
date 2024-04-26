@@ -12,13 +12,13 @@ import isUndefined from './isUndefined'
  * @return {Boolean}
  */
 function isEqualWith (obj1, obj2, func) {
-	if (isFunction(func)) {
-		return helperEqualCompare(obj1, obj2, function (v1, v2, key, obj1, obj2) {
-			var result = func(v1, v2, key, obj1, obj2)
-			return isUndefined(result) ? helperDefaultCompare(v1, v2) : !!result
-		}, func)
-	}
-	return helperEqualCompare(obj1, obj2, helperDefaultCompare)
+  if (isFunction(func)) {
+    return helperEqualCompare(obj1, obj2, function (v1, v2, key, obj1, obj2) {
+      var result = func(v1, v2, key, obj1, obj2)
+      return isUndefined(result) ? helperDefaultCompare(v1, v2) : !!result
+    }, func)
+  }
+  return helperEqualCompare(obj1, obj2, helperDefaultCompare)
 }
 
 export default isEqualWith

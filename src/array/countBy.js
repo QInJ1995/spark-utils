@@ -10,11 +10,11 @@ import objectEach from '../object/objectEach'
   * @return {Object}
   */
 function countBy (obj, iterate, context) {
-	var result = groupBy(obj, iterate, context || this)
-	objectEach(result, function (item, key) {
-		result[key] = item.length
-	})
-	return result
+  var result = groupBy(obj, iterate, context || this)
+  objectEach(result, function (item, key) {
+    result[key] = item.length
+  })
+  return result
 }
 
 export default countBy

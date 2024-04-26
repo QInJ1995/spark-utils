@@ -8,13 +8,13 @@ import includes from './includes'
   * @return {Array}
   */
 function uniq (array) {
-	var result = []
-	each(array, function (value) {
-		if (!includes(result, value)) {
-			result.push(value)
-		}
-	})
-	return result
+  var result = []
+  each(array, function (value) {
+    if (!includes(result, value)) {
+      result.push(value)
+    }
+  })
+  return result
 }
 
 export default uniq

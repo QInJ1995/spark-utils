@@ -12,14 +12,14 @@
  */
 
 function arrayDistinct (array, property) {
-	const unique = Array.from(array.reduce((pre, cur) => {
-		const value = (cur instanceof Object) && cur[property] ? cur[property] : cur
-		if (!pre.has(value)) {
-			pre.set(value, cur)
-		}
-		return pre;
-	}, new Map()).values())
-	return unique
+  const unique = Array.from(array.reduce((pre, cur) => {
+    const value = (cur instanceof Object) && cur[property] ? cur[property] : cur
+    if (!pre.has(value)) {
+      pre.set(value, cur)
+    }
+    return pre;
+  }, new Map()).values())
+  return unique
 }
 
 export default arrayDistinct;

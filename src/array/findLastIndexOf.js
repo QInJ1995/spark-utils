@@ -9,12 +9,12 @@ import helperCreateiterateIndexOf from '../helpers/helperCreateiterateIndexOf'
   * @return {Object}
   */
 var findLastIndexOf = helperCreateiterateIndexOf(function (obj, iterate, context) {
-	for (var len = obj.length - 1; len >= 0; len--) {
-		if (iterate.call(context, obj[len], len, obj)) {
-			return len
-		}
-	}
-	return -1
+  for (var len = obj.length - 1; len >= 0; len--) {
+    if (iterate.call(context, obj[len], len, obj)) {
+      return len
+    }
+  }
+  return -1
 })
 
 export default findLastIndexOf

@@ -3,7 +3,7 @@
  * @method getCurDateYear
  */
 export default function getCurDateYear() {
-	const d = new Date();
-	return d.getFullYear() + '';
+  const d = new Date();
+  return d.getFullYear() + '';
 }
 export { getCurDateYear, };

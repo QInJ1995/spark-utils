@@ -5,9 +5,9 @@ import property from '../basic/property'
 import each from '../basic/each'
 
 function createiterateEmpty (iterate) {
-	return function () {
-		return isEmpty(iterate)
-	}
+  return function () {
+    return isEmpty(iterate)
+  }
 }
 
 /**
@@ -19,24 +19,24 @@ function createiterateEmpty (iterate) {
   * @return {Object}
   */
 function groupBy (obj, iterate, context) {
-	var groupKey
-	var result = {}
-	if (obj) {
-		if (iterate && isObject(iterate)) {
-			iterate = createiterateEmpty(iterate)
-		} else if (!isFunction(iterate)) {
-			iterate = property(iterate)
-		}
-		each(obj, function (val, key) {
-			groupKey = iterate ? iterate.call(context, val, key, obj) : val
-			if (result[groupKey]) {
-				result[groupKey].push(val)
-			} else {
-				result[groupKey] = [val]
-			}
-		})
-	}
-	return result
+  var groupKey
+  var result = {}
+  if (obj) {
+    if (iterate && isObject(iterate)) {
+      iterate = createiterateEmpty(iterate)
+    } else if (!isFunction(iterate)) {
+      iterate = property(iterate)
+    }
+    each(obj, function (val, key) {
+      groupKey = iterate ? iterate.call(context, val, key, obj) : val
+      if (result[groupKey]) {
+        result[groupKey].push(val)
+      } else {
+        result[groupKey] = [val]
+      }
+    })
+  }
+  return result
 }
 
 export default groupBy

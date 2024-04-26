@@ -6,13 +6,13 @@ import { isTime, } from './isTime';
  * @param {String} dateval 目标串
  */
 export default function isDateTime(dateval) {
-	if (dateval.length !== 19) {
-		return false;
-	}
-	const arr = dateval.split(' ');
-	if (!isDateString(arr[0])) {
-		return false;
-	}
-	return isTime(arr[1]);
+  if (dateval.length !== 19) {
+    return false;
+  }
+  const arr = dateval.split(' ');
+  if (!isDateString(arr[0])) {
+    return false;
+  }
+  return isTime(arr[1]);
 }
 export { isDateTime, };

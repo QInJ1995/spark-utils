@@ -4,10 +4,10 @@ import { baseGetCurDateTime, } from './baseGetCurDateTime';
  * @method getCurDateFullTime
  */
 export default function getCurDateFullTime() {
-	const d = new Date();
-	let ret = baseGetCurDateTime(d);
-	ret += ('00' + d.getSeconds()).slice(-2) + '.';
-	ret += ('00' + d.getMilliseconds()).slice(-3);
-	return ret;
+  const d = new Date();
+  let ret = baseGetCurDateTime(d);
+  ret += ('00' + d.getSeconds()).slice(-2) + '.';
+  ret += ('00' + d.getMilliseconds()).slice(-3);
+  return ret;
 }
 export { getCurDateFullTime, };

@@ -17,27 +17,27 @@ import isNumber from '../basic/isNumber'
   * @return {Date}
   */
 function getWhatMonth (date, month, day) {
-	var monthOffset = month && !isNaN(month) ? month : 0
-	date = toStringDate(date)
-	if (isValidDate(date)) {
-		if (day === staticStrFirst) {
-			return new Date(helperGetDateFullYear(date), helperGetDateMonth(date) + monthOffset, 1)
-		} else if (day === staticStrLast) {
-			return new Date(helperGetDateTime(getWhatMonth(date, monthOffset + 1, staticStrFirst)) - 1)
-		} else if (isNumber(day)) {
-			date.setDate(day)
-		}
-		if (monthOffset) {
-			var currDate = date.getDate()
-			date.setMonth(helperGetDateMonth(date) + monthOffset)
-			if (currDate !== date.getDate()) {
-				// 当为指定天数，且被跨月了，则默认单月最后一天
-				date.setDate(1)
-				return new Date(helperGetDateTime(date) - staticDayTime)
-			}
-		}
-	}
-	return date
+  var monthOffset = month && !isNaN(month) ? month : 0
+  date = toStringDate(date)
+  if (isValidDate(date)) {
+    if (day === staticStrFirst) {
+      return new Date(helperGetDateFullYear(date), helperGetDateMonth(date) + monthOffset, 1)
+    } else if (day === staticStrLast) {
+      return new Date(helperGetDateTime(getWhatMonth(date, monthOffset + 1, staticStrFirst)) - 1)
+    } else if (isNumber(day)) {
+      date.setDate(day)
+    }
+    if (monthOffset) {
+      var currDate = date.getDate()
+      date.setMonth(helperGetDateMonth(date) + monthOffset)
+      if (currDate !== date.getDate()) {
+        // 当为指定天数，且被跨月了，则默认单月最后一天
+        date.setDate(1)
+        return new Date(helperGetDateTime(date) - staticDayTime)
+      }
+    }
+  }
+  return date
 }
 
 export default getWhatMonth

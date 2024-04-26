@@ -9,17 +9,17 @@ import slice from '../array/slice'
   * @return {Object}
   */
 function once (callback, context) {
-	var done = false
-	var rest = null
-	var args = slice(arguments, 2)
-	return function () {
-		if (done) {
-			return rest
-		}
-		rest = callback.apply(context, slice(arguments).concat(args))
-		done = true
-		return rest
-	}
+  var done = false
+  var rest = null
+  var args = slice(arguments, 2)
+  return function () {
+    if (done) {
+      return rest
+    }
+    rest = callback.apply(context, slice(arguments).concat(args))
+    done = true
+    return rest
+  }
 }
 
 export default once

@@ -5,6 +5,6 @@ import { IEVersion, } from './IEVersion';
  * @returns {*|boolean}
  */
 export default function notSupported() {
-	return isIE() && IEVersion() < 9;
+  return isIE() && IEVersion() < 9;
 }
 export { notSupported, };

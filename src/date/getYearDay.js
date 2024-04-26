@@ -12,11 +12,11 @@ import isValidDate from '../basic/isValidDate'
   * @return {Number}
   */
 function getYearDay (date) {
-	date = toStringDate(date)
-	if (isValidDate(date)) {
-		return Math.floor((helperGetYMDTime(date) - helperGetYMDTime(getWhatYear(date, 0, staticStrFirst))) / staticDayTime) + 1
-	}
-	return NaN
+  date = toStringDate(date)
+  if (isValidDate(date)) {
+    return Math.floor((helperGetYMDTime(date) - helperGetYMDTime(getWhatYear(date, 0, staticStrFirst))) / staticDayTime) + 1
+  }
+  return NaN
 }
 
 export default getYearDay

@@ -1,5 +1,5 @@
 function helperStringLowerCase (str) {
-	return str.toLowerCase()
+  return str.toLowerCase()
 }
 
 export default helperStringLowerCase

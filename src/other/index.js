@@ -16,10 +16,10 @@ import hkIdVerify from './hkIdVerify'
 import macauIdCard from './macauIdCard'
 
 export default {
-	StateFlow,
-	onMountDialog,
-	promiseResultHandle,
-	validate2ndIdCard,
-	hkIdVerify,
-	macauIdCard,
+  StateFlow,
+  onMountDialog,
+  promiseResultHandle,
+  validate2ndIdCard,
+  hkIdVerify,
+  macauIdCard,
 }

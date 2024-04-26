@@ -9,7 +9,7 @@ import staticStrUndefined from '../constant/static/staticStrUndefined'
  */
 var supportSet = typeof Set !== staticStrUndefined
 function isSet (obj) {
-	return supportSet && obj instanceof Set
+  return supportSet && obj instanceof Set
 }
 
 export default isSet

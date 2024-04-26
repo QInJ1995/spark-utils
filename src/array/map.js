@@ -9,17 +9,17 @@ import each from '../basic/each'
   * @return {Array}
   */
 function map (obj, iterate, context) {
-	var result = []
-	if (obj && arguments.length > 1) {
-		if (obj.map) {
-			return obj.map(iterate, context)
-		} else {
-			each(obj, function () {
-				result.push(iterate.apply(context, arguments))
-			})
-		}
-	}
-	return result
+  var result = []
+  if (obj && arguments.length > 1) {
+    if (obj.map) {
+      return obj.map(iterate, context)
+    } else {
+      each(obj, function () {
+        result.push(iterate.apply(context, arguments))
+      })
+    }
+  }
+  return result
 }
 
 export default map

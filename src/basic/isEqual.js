@@ -9,7 +9,7 @@ import helperDefaultCompare from '../helpers/helperDefaultCompare'
  * @return {Boolean}
  */
 function isEqual (obj1, obj2) {
-	return helperEqualCompare(obj1, obj2, helperDefaultCompare)
+  return helperEqualCompare(obj1, obj2, helperDefaultCompare)
 }
 
 export default isEqual

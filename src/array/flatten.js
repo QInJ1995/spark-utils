@@ -2,11 +2,11 @@ import isArray from '../basic/isArray'
 import arrayEach from './arrayEach'
 
 function flattenDeep (array, deep) {
-	var result = []
-	arrayEach(array, function (vals) {
-		result = result.concat(isArray(vals) ? (deep ? flattenDeep(vals, deep) : vals) : [vals])
-	})
-	return result
+  var result = []
+  arrayEach(array, function (vals) {
+    result = result.concat(isArray(vals) ? (deep ? flattenDeep(vals, deep) : vals) : [vals])
+  })
+  return result
 }
 
 /**
@@ -16,10 +16,10 @@ function flattenDeep (array, deep) {
   * @return {Array}
   */
 function flatten (array, deep) {
-	if (isArray(array)) {
-		return flattenDeep(array, deep)
-	}
-	return []
+  if (isArray(array)) {
+    return flattenDeep(array, deep)
+  }
+  return []
 }
 
 export default flatten

@@ -16,44 +16,44 @@
  */
 
 async function onMountDialog (options = {}) {
-	try {
-		let Vue = import('vue');
-		if(Vue) {
-			Vue = (await Vue).default;
-			Vue && onMountVueDialog(Vue, options)
-		}
-	} catch (error) {
-		throw(new Error('[spark-utils][onMountDialog]: 挂载异常！' + error)) 
-	}
+  try {
+    let Vue = import('vue');
+    if(Vue) {
+      Vue = (await Vue).default;
+      Vue && onMountVueDialog(Vue, options)
+    }
+  } catch (error) {
+    throw(new Error('[spark-utils][onMountDialog]: 挂载异常！' + error)) 
+  }
 
 }
 
 
 // vue挂载弹窗处理
 async function onMountVueDialog (Vue, { targetEl = document.body, dialog, propsData = {}, ok, close, callback, }) {
-	if(!targetEl || !dialog) return
-	// 动态引入处理
-	if (dialog instanceof Function) {
-		dialog = (await dialog()).default
-	}
-	const Dialog = Vue.extend(dialog)
-	dialog = new Dialog({
-		propsData: {
-			visible: true,
-			...propsData,
-		},
-	}).$mount()
-	targetEl.appendChild(dialog.$el)
-	// ok
-	dialog.$on('ok', params => ok && ok(params))
-	// close
-	dialog.$once('close', (params) => {
-		close && close(params)
-		dialog.$destroy()
-		dialog.$el.remove()
-	})
-	// callback
-	dialog.$on('callback', params => callback && callback(params))
+  if(!targetEl || !dialog) return
+  // 动态引入处理
+  if (dialog instanceof Function) {
+    dialog = (await dialog()).default
+  }
+  const Dialog = Vue.extend(dialog)
+  dialog = new Dialog({
+    propsData: {
+      visible: true,
+      ...propsData,
+    },
+  }).$mount()
+  targetEl.appendChild(dialog.$el)
+  // ok
+  dialog.$on('ok', params => ok && ok(params))
+  // close
+  dialog.$once('close', (params) => {
+    close && close(params)
+    dialog.$destroy()
+    dialog.$el.remove()
+  })
+  // callback
+  dialog.$on('callback', params => callback && callback(params))
 }
 
 export default onMountDialog 

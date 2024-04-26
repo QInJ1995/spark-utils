@@ -2,12 +2,12 @@ import map from './map'
 import isArray from '../basic/isArray'
 
 function deepGetObj (obj, path) {
-	var index = 0
-	var len = path.length
-	while (obj && index < len) {
-		obj = obj[path[index++]]
-	}
-	return len && obj ? obj : 0
+  var index = 0
+  var len = path.length
+  while (obj && index < len) {
+    obj = obj[path[index++]]
+  }
+  return len && obj ? obj : 0
 }
 
 /**
@@ -19,31 +19,31 @@ function deepGetObj (obj, path) {
  * @return {Array}
  */
 function invoke (list, path) {
-	var func
-	var args = arguments
-	var params = []
-	var paths = []
-	var index = 2
-	var len = args.length
-	for (; index < len; index++) {
-		params.push(args[index])
-	}
-	if (isArray(path)) {
-		len = path.length - 1
-		for (index = 0; index < len; index++) {
-			paths.push(path[index])
-		}
-		path = path[len]
-	}
-	return map(list, function (context) {
-		if (paths.length) {
-			context = deepGetObj(context, paths)
-		}
-		func = context[path] || path
-		if (func && func.apply) {
-			return func.apply(context, params)
-		}
-	})
+  var func
+  var args = arguments
+  var params = []
+  var paths = []
+  var index = 2
+  var len = args.length
+  for (; index < len; index++) {
+    params.push(args[index])
+  }
+  if (isArray(path)) {
+    len = path.length - 1
+    for (index = 0; index < len; index++) {
+      paths.push(path[index])
+    }
+    path = path[len]
+  }
+  return map(list, function (context) {
+    if (paths.length) {
+      context = deepGetObj(context, paths)
+    }
+    func = context[path] || path
+    if (func && func.apply) {
+      return func.apply(context, params)
+    }
+  })
 }
 
 export default invoke

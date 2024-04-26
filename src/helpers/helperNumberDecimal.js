@@ -1,5 +1,5 @@
 function helperNumberDecimal (numStr) {
-	return (numStr.split('.')[1] || '').length
+  return (numStr.split('.')[1] || '').length
 }
 
 export default helperNumberDecimal

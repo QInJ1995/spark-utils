@@ -4,7 +4,7 @@
  * @param momentVal
  */
 export default function momentToDate(momentVal, isUtc = false) {
-	// @ts-ignore
-	return momentVal.utc(isUtc).toDate();
+  // @ts-ignore
+  return momentVal.utc(isUtc).toDate();
 }
 export { momentToDate, };

@@ -4,6 +4,6 @@ import { isIE, } from './isIE';
  * @returns {*|boolean}
  */
 export default function isIE11() {
-	return isIE() && navigator.userAgent.indexOf('rv 11.0') > 0;
+  return isIE() && navigator.userAgent.indexOf('rv 11.0') > 0;
 }
 export { isIE11, };

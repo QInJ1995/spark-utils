@@ -9,7 +9,7 @@ import staticStrUndefined from '../constant/static/staticStrUndefined'
   */
 var supportSymbol = typeof Symbol !== staticStrUndefined
 function isSymbol (obj) {
-	return supportSymbol && Symbol.isSymbol ? Symbol.isSymbol(obj) : (typeof obj === 'symbol')
+  return supportSymbol && Symbol.isSymbol ? Symbol.isSymbol(obj) : (typeof obj === 'symbol')
 }
 
 export default isSymbol

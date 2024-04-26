@@ -8,15 +8,15 @@ import CryptoJS from 'crypto-js';
  * @return {string} 加密后的数据 base64
  * **/
 export function aesEncrypt(data, keyStr, ivStr) {
-	// 需要先对 传过来的秘钥进行裁剪 有长度限制 16/24/32
-	let key = CryptoJS.enc.Utf8.parse(keyStr);
-	let iv = CryptoJS.enc.Utf8.parse(ivStr);
-	let encrypted = CryptoJS.AES.encrypt(data, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, });
-	return encrypted.toString();
+  // 需要先对 传过来的秘钥进行裁剪 有长度限制 16/24/32
+  let key = CryptoJS.enc.Utf8.parse(keyStr);
+  let iv = CryptoJS.enc.Utf8.parse(ivStr);
+  let encrypted = CryptoJS.AES.encrypt(data, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, });
+  return encrypted.toString();
 }
 export function aesDecrypt(data, keyStr, ivStr) {
-	let key = CryptoJS.enc.Utf8.parse(keyStr);
-	let iv = CryptoJS.enc.Utf8.parse(ivStr);
-	let decrypt = CryptoJS.AES.decrypt(data, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, });
-	return CryptoJS.enc.Utf8.stringify(decrypt);
+  let key = CryptoJS.enc.Utf8.parse(keyStr);
+  let iv = CryptoJS.enc.Utf8.parse(ivStr);
+  let decrypt = CryptoJS.AES.decrypt(data, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7, });
+  return CryptoJS.enc.Utf8.stringify(decrypt);
 }

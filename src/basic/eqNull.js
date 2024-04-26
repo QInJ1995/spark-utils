@@ -7,7 +7,7 @@ import isUndefined from './isUndefined'
  * @return {Boolean}
  */
 function eqNull (obj) {
-	return isNull(obj) || isUndefined(obj)
+  return isNull(obj) || isUndefined(obj)
 }
 
 export default eqNull

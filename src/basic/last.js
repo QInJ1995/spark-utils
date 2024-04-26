@@ -7,8 +7,8 @@ import values from './values'
   * @return {Object}
   */
 function last (obj) {
-	var list = values(obj)
-	return list[list.length - 1]
+  var list = values(obj)
+  return list[list.length - 1]
 }
 
 export default last
