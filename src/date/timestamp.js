@@ -11,11 +11,11 @@ import isDate from '../basic/isDate'
  * @returns Number
  */
 var timestamp = function (str, format) {
-  if (str) {
-    var date = toStringDate(str, format)
-    return isDate(date) ? helperGetDateTime(date) : date
-  }
-  return now()
+	if (str) {
+		var date = toStringDate(str, format)
+		return isDate(date) ? helperGetDateTime(date) : date
+	}
+	return now()
 }
 
 export default timestamp

@@ -7,7 +7,7 @@ import eqNull from './eqNull'
   * @return {String} 返回字符串
   */
 function toJSONString (obj) {
-  return eqNull(obj) ? '' : JSON.stringify(obj)
+	return eqNull(obj) ? '' : JSON.stringify(obj)
 }
 
 export default toJSONString

@@ -9,9 +9,9 @@ import toValueString from './toValueString'
   * @return {String}
   */
 function endsWith (str, val, startIndex) {
-  var rest = toValueString(str)
-  var argsLen = arguments.length
-  return argsLen > 1 && (argsLen > 2 ? rest.substring(0, startIndex).indexOf(val) === startIndex - 1 : rest.indexOf(val) === rest.length - 1)
+	var rest = toValueString(str)
+	var argsLen = arguments.length
+	return argsLen > 1 && (argsLen > 2 ? rest.substring(0, startIndex).indexOf(val) === startIndex - 1 : rest.indexOf(val) === rest.length - 1)
 }
 
 export default endsWith

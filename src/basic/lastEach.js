@@ -11,10 +11,10 @@ import lastObjectEach from '../object/lastObjectEach'
   * @return {Object}
   */
 function lastEach (obj, iterate, context) {
-  if (obj) {
-    return (isArray(obj) ? lastArrayEach : lastObjectEach)(obj, iterate, context)
-  }
-  return obj
+	if (obj) {
+		return (isArray(obj) ? lastArrayEach : lastObjectEach)(obj, iterate, context)
+	}
+	return obj
 }
 
 export default lastEach

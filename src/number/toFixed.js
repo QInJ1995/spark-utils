@@ -11,19 +11,19 @@ import helperNumberOffsetPoint from '../helpers/helperNumberOffsetPoint'
   * @return {String}
   */
 function toFixed (num, digits) {
-  digits = digits >> 0
-  var str = toValueString(round(num, digits))
-  var nums = str.split('.')
-  var intStr = nums[0]
-  var floatStr = nums[1] || ''
-  var digitOffsetIndex = digits - floatStr.length
-  if (digits) {
-    if (digitOffsetIndex > 0) {
-      return intStr + '.' + floatStr + helperStringRepeat('0', digitOffsetIndex)
-    }
-    return intStr + helperNumberOffsetPoint(floatStr, Math.abs(digitOffsetIndex))
-  }
-  return intStr
+	digits = digits >> 0
+	var str = toValueString(round(num, digits))
+	var nums = str.split('.')
+	var intStr = nums[0]
+	var floatStr = nums[1] || ''
+	var digitOffsetIndex = digits - floatStr.length
+	if (digits) {
+		if (digitOffsetIndex > 0) {
+			return intStr + '.' + floatStr + helperStringRepeat('0', digitOffsetIndex)
+		}
+		return intStr + helperNumberOffsetPoint(floatStr, Math.abs(digitOffsetIndex))
+	}
+	return intStr
 }
 
 export default toFixed

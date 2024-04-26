@@ -7,19 +7,19 @@ import toNumber from '../number/toNumber'
  * @param {Number} endIndex 结束索引
  */
 function slice (array, startIndex, endIndex) {
-  var result = []
-  var argsSize = arguments.length
-  if (array) {
-    startIndex = argsSize >= 2 ? toNumber(startIndex) : 0
-    endIndex = argsSize >= 3 ? toNumber(endIndex) : array.length
-    if (array.slice) {
-      return array.slice(startIndex, endIndex)
-    }
-    for (; startIndex < endIndex; startIndex++) {
-      result.push(array[startIndex])
-    }
-  }
-  return result
+	var result = []
+	var argsSize = arguments.length
+	if (array) {
+		startIndex = argsSize >= 2 ? toNumber(startIndex) : 0
+		endIndex = argsSize >= 3 ? toNumber(endIndex) : array.length
+		if (array.slice) {
+			return array.slice(startIndex, endIndex)
+		}
+		for (; startIndex < endIndex; startIndex++) {
+			result.push(array[startIndex])
+		}
+	}
+	return result
 }
 
 export default slice

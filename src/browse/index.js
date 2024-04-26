@@ -29,29 +29,29 @@ import isSafari from './isSafari'
 import clientSystem from './clientSystem'
 import clientScreenSize from './clientScreenSize'
 import clientBrowser from './clientBrowser'
-import { copyText } from './clipboard';
+import { copyText, } from './clipboard';
 
 
 export default {
-    browse,
-    locat,
-    parseUrl,
-    serialize,
-    unserialize,
-    getNowPageParam,
-    objectToUrlParam,
-    getBaseURL,
-    cookie,
-    isIE,
-    notSupported,
-    isIE9,
-    isIE10,
-    isIE11,
-    isChrome,
-    isFireFox,
-    isSafari,
-    clientSystem,
-    clientScreenSize,
-    clientBrowser,
-    copyText
+	browse,
+	locat,
+	parseUrl,
+	serialize,
+	unserialize,
+	getNowPageParam,
+	objectToUrlParam,
+	getBaseURL,
+	cookie,
+	isIE,
+	notSupported,
+	isIE9,
+	isIE10,
+	isIE11,
+	isChrome,
+	isFireFox,
+	isSafari,
+	clientSystem,
+	clientScreenSize,
+	clientBrowser,
+	copyText,
 }

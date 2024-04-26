@@ -7,7 +7,7 @@ import parseUrl from './parseUrl'
   * @return Object
   */
 function locat () {
-  return staticLocation ? parseUrl(staticLocation.href) : {}
+	return staticLocation ? parseUrl(staticLocation.href) : {}
 }
 
 export default locat

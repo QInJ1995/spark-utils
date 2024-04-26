@@ -12,20 +12,20 @@ import includeArrays from '../array/includeArrays'
  * @return {Boolean}
  */
 function isMatch (obj, source) {
-  var objKeys = keys(obj)
-  var sourceKeys = keys(source)
-  if (sourceKeys.length) {
-    if (includeArrays(objKeys, sourceKeys)) {
-      return some(sourceKeys, function (key2) {
-        return findIndexOf(objKeys, function (key1) {
-          return key1 === key2 && isEqual(obj[key1], source[key2])
-        }) > -1
-      })
-    }
-  } else {
-    return true
-  }
-  return isEqual(obj, source)
+	var objKeys = keys(obj)
+	var sourceKeys = keys(source)
+	if (sourceKeys.length) {
+		if (includeArrays(objKeys, sourceKeys)) {
+			return some(sourceKeys, function (key2) {
+				return findIndexOf(objKeys, function (key1) {
+					return key1 === key2 && isEqual(obj[key1], source[key2])
+				}) > -1
+			})
+		}
+	} else {
+		return true
+	}
+	return isEqual(obj, source)
 }
 
 export default isMatch

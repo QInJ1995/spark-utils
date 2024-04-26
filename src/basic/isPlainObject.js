@@ -5,7 +5,7 @@
   * @return {Boolean}
   */
 function isPlainObject (obj) {
-  return obj ? obj.constructor === Object : false
+	return obj ? obj.constructor === Object : false
 }
 
 export default isPlainObject

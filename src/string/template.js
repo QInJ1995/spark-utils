@@ -10,9 +10,9 @@ import get from '../object/get'
  * @param {any} options
  */
 function template (str, args, options) {
-  return toValueString(str).replace((options || setupDefaults).tmplRE || /\{{2}([.\w[\]\s]+)\}{2}/g, function (match, key) {
-    return get(args, trim(key))
-  })
+	return toValueString(str).replace((options || setupDefaults).tmplRE || /\{{2}([.\w[\]\s]+)\}{2}/g, function (match, key) {
+		return get(args, trim(key))
+	})
 }
 
 export default template

@@ -9,8 +9,8 @@ import toValueString from './toValueString'
   * @return {String}
   */
 function startsWith (str, val, startIndex) {
-  var rest = toValueString(str)
-  return (arguments.length === 1 ? rest : rest.substring(startIndex)).indexOf(val) === 0
+	var rest = toValueString(str)
+	return (arguments.length === 1 ? rest : rest.substring(startIndex)).indexOf(val) === 0
 }
 
 export default startsWith

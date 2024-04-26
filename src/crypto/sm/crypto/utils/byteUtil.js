@@ -33,15 +33,15 @@ function arrayCopy(src,pos1,dest,pos2,len){
 function longToByte(num){
 	//TODO 这里目前只转换了低四字节，因为js没有长整型，得要封装
 	return new Array(
-				0,
-				0,
-				0,
-				0,
+		0,
+		0,
+		0,
+		0,
         		(num >> 24)&0x000000FF,
         		(num >> 16)&0x000000FF,
         		(num >> 8)&0x000000FF,
         		(num)&0x000000FF
-        );
+	);
 }
 
 /*
@@ -50,12 +50,12 @@ function longToByte(num){
  * 返回：字节数组
  */
 function intToByte(num) {
-    return new Array(
+	return new Array(
     		(num >> 24)&0x000000FF,
     		(num >> 16)&0x000000FF,
     		(num >> 8)&0x000000FF,
     		(num)&0x000000FF
-    );
+	);
 }
 
 /*
@@ -111,8 +111,8 @@ function byteArrayToIntArray(b) {
  * @returns {*}
  */
 function getStrBytes(str){
-  str = str.replace(/[^\x00-\xff]/g, '**');//将非ascii码转换为2个ascii码
-  return str.length;
+	str = str.replace(/[^\x00-\xff]/g, '**');//将非ascii码转换为2个ascii码
+	return str.length;
 }
 
 /**
@@ -122,30 +122,30 @@ function getStrBytes(str){
  * @returns {string|*}
  */
 function reBytesStrArr(str,len) {
-  const result = []
-  if (!str || str == undefined) return [];
-  let itemStr = ''
-  for(let i = 0;i < str.length; i++ ) {
-    let char = str[i]
-    itemStr += char
-    if(getStrBytes(itemStr) > len) {
-      result.push(itemStr.substr(0,itemStr.length-1))
-      itemStr = ''
-      i--
-    } else if(i === str.length - 1) {
-      result.push(itemStr)
-    }
-  }
-  return result
+	const result = []
+	if (!str || str == undefined) return [];
+	let itemStr = ''
+	for(let i = 0;i < str.length; i++ ) {
+		let char = str[i]
+		itemStr += char
+		if(getStrBytes(itemStr) > len) {
+			result.push(itemStr.substr(0,itemStr.length-1))
+			itemStr = ''
+			i--
+		} else if(i === str.length - 1) {
+			result.push(itemStr)
+		}
+	}
+	return result
 }
 
 export  {
-  arrayCopy,
-  longToByte,
-  intToByte,
-  intArrayToByteArray,
-  byteToInt,
-  byteArrayToIntArray,
-  reBytesStrArr,
-  getStrBytes
+	arrayCopy,
+	longToByte,
+	intToByte,
+	intArrayToByteArray,
+	byteToInt,
+	byteArrayToIntArray,
+	reBytesStrArr,
+	getStrBytes,
 }

@@ -3,23 +3,23 @@ import each from '../basic/each'
 import assign from '../object/assign'
 
 function unTreeList (result, array, opts) {
-  var optChildren = opts.children
-  var optData = opts.data
-  var optClear = opts.clear
-  each(array, function (item) {
-    var children = item[optChildren]
-    if (optData) {
-      item = item[optData]
-    }
-    result.push(item)
-    if (children && children.length) {
-      unTreeList(result, children, opts)
-    }
-    if (optClear) {
-      delete item[optChildren]
-    }
-  })
-  return result
+	var optChildren = opts.children
+	var optData = opts.data
+	var optClear = opts.clear
+	each(array, function (item) {
+		var children = item[optChildren]
+		if (optData) {
+			item = item[optData]
+		}
+		result.push(item)
+		if (children && children.length) {
+			unTreeList(result, children, opts)
+		}
+		if (optClear) {
+			delete item[optChildren]
+		}
+	})
+	return result
 }
 
 /**
@@ -30,7 +30,7 @@ function unTreeList (result, array, opts) {
   * @return {Array}
   */
 function toTreeArray (array, options) {
-  return unTreeList([], array, assign({}, setupDefaults.treeOptions, options))
+	return unTreeList([], array, assign({}, setupDefaults.treeOptions, options))
 }
 
 export default toTreeArray

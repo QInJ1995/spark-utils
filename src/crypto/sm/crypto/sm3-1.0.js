@@ -1,7 +1,7 @@
 
 
 //加密数据不能超过500M
-import {arrayCopy, longToByte, intArrayToByteArray, byteArrayToIntArray} from './utils/byteUtil'
+import {arrayCopy, longToByte, intArrayToByteArray, byteArrayToIntArray,} from './utils/byteUtil'
 function SM3(){
 
 	this.ivByte = new Array( 0x73,  0x80, 0x16, 0x6f, 0x49,
@@ -11,8 +11,8 @@ function SM3(){
 		0x8d,  0xee, 0x4d, 0xb0, 0xfb, 0x0e,
 		0x4e );
 	this.iv = byteArrayToIntArray(
-				this.ivByte
-			);
+		this.ivByte
+	);
 	this.tj = new Array(64);
 	this.BLOCK_BYTE_LEN = 64;
 
@@ -244,7 +244,7 @@ SM3.prototype = {
 		mac = intArrayToByteArray(macInt);
 		return mac;
 
-	}
+	},
 
 }
 

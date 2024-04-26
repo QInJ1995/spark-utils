@@ -23,17 +23,17 @@ import pick from './pick'
 import omit from './omit'
 
 export default {
-    has,
-    get,
-    set,
-    clear,
-    assign,
-    merge,
-    clone,
-    destructuring,
-    objectEach,
-    lastObjectEach,
-    objectMap,
-    pick,
-    omit
+	has,
+	get,
+	set,
+	clear,
+	assign,
+	merge,
+	clone,
+	destructuring,
+	objectEach,
+	lastObjectEach,
+	objectMap,
+	pick,
+	omit,
 }

@@ -8,7 +8,7 @@ import isNumber from './isNumber'
   * @return {Boolean}
   */
 function isElement (obj) {
-  return !!(obj && isString(obj.nodeName) && isNumber(obj.nodeType))
+	return !!(obj && isString(obj.nodeName) && isNumber(obj.nodeType))
 }
 
 export default isElement

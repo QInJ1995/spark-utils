@@ -2,17 +2,17 @@ import helperCreateTreeFunc from '../helpers/helperCreateTreeFunc'
 import map from './map'
 
 function mapTreeItem (parent, obj, iterate, context, path, node, parseChildren, opts) {
-  var paths, nodes, rest
-  var mapChildren = opts.mapChildren || parseChildren
-  return map(obj, function (item, index) {
-    paths = path.concat(['' + index])
-    nodes = node.concat([item])
-    rest = iterate.call(context, item, index, obj, paths, parent, nodes)
-    if (rest && item && parseChildren && item[parseChildren]) {
-      rest[mapChildren] = mapTreeItem(item, item[parseChildren], iterate, context, paths, nodes, parseChildren, opts)
-    }
-    return rest
-  })
+	var paths, nodes, rest
+	var mapChildren = opts.mapChildren || parseChildren
+	return map(obj, function (item, index) {
+		paths = path.concat(['' + index])
+		nodes = node.concat([item])
+		rest = iterate.call(context, item, index, obj, paths, parent, nodes)
+		if (rest && item && parseChildren && item[parseChildren]) {
+			rest[mapChildren] = mapTreeItem(item, item[parseChildren], iterate, context, paths, nodes, parseChildren, opts)
+		}
+		return rest
+	})
 }
 
 /**

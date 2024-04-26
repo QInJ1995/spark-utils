@@ -7,7 +7,7 @@ import staticWindow from '../constant/static/staticWindow'
   * @return {Boolean}
   */
 function isWindow (obj) {
-  return staticWindow && !!(obj && obj === obj.window)
+	return staticWindow && !!(obj && obj === obj.window)
 }
 
 export default isWindow

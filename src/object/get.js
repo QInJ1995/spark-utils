@@ -12,41 +12,41 @@ import eqNull from '../basic/eqNull'
  * @return {Object}
  */
 function get (obj, property, defaultValue) {
-  if (eqNull(obj)) {
-    return defaultValue
-  }
-  var result = getValueByPath(obj, property)
-  return isUndefined(result) ? defaultValue : result
+	if (eqNull(obj)) {
+		return defaultValue
+	}
+	var result = getValueByPath(obj, property)
+	return isUndefined(result) ? defaultValue : result
 }
 
 function getDeepProps (obj, key) {
-  var matchs = key ? key.match(staticHGKeyRE) : ''
-  return matchs ? (matchs[1] ? (obj[matchs[1]] ? obj[matchs[1]][matchs[2]] : undefined) : obj[matchs[2]]) : obj[key]
+	var matchs = key ? key.match(staticHGKeyRE) : ''
+	return matchs ? (matchs[1] ? (obj[matchs[1]] ? obj[matchs[1]][matchs[2]] : undefined) : obj[matchs[2]]) : obj[key]
 }
 
 function getValueByPath (obj, property) {
-  if (obj) {
-    var rest, props, len
-    var index = 0
-    if (obj[property] || hasOwnProp(obj, property)) {
-      return obj[property]
-    } else {
-      props = helperGetHGSKeys(property)
-      len = props.length
-      if (len) {
-        for (rest = obj; index < len; index++) {
-          rest = getDeepProps(rest, props[index])
-          if (eqNull(rest)) {
-            if (index === len - 1) {
-              return rest
-            }
-            return
-          }
-        }
-      }
-      return rest
-    }
-  }
+	if (obj) {
+		var rest, props, len
+		var index = 0
+		if (obj[property] || hasOwnProp(obj, property)) {
+			return obj[property]
+		} else {
+			props = helperGetHGSKeys(property)
+			len = props.length
+			if (len) {
+				for (rest = obj; index < len; index++) {
+					rest = getDeepProps(rest, props[index])
+					if (eqNull(rest)) {
+						if (index === len - 1) {
+							return rest
+						}
+						return
+					}
+				}
+			}
+			return rest
+		}
+	}
 }
 
 export default get

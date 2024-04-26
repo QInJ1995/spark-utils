@@ -18,12 +18,12 @@ import throttle  from './throttle.js'
 import debounce  from './debounce.js'
 
 export default {
-    noop,
-    delay,
-    bind,
-    once,
-    after,
-    before,
-    throttle,
-    debounce
+	noop,
+	delay,
+	bind,
+	once,
+	after,
+	before,
+	throttle,
+	debounce,
 }

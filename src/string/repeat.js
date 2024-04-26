@@ -9,7 +9,7 @@ import helperStringRepeat from '../helpers/helperStringRepeat'
   * @return {String}
   */
 function repeat (str, count) {
-  return helperStringRepeat(toValueString(str), count)
+	return helperStringRepeat(toValueString(str), count)
 }
 
 export default repeat

@@ -8,13 +8,13 @@
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
 
-import {createWebStorage, getStorage, init } from './webStorages'
+import {createWebStorage, getStorage, init, } from './webStorages'
 
 export default {
-    createWebStorage,
-    getStorage,
-    webStorage: {
-        createWebStorage,
-        init 
-    }
+	createWebStorage,
+	getStorage,
+	webStorage: {
+		createWebStorage,
+		init, 
+	},
 }

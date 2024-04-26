@@ -8,18 +8,18 @@ import slice from '../array/slice'
   * @return {Object}
   */
 function after (count, callback, context) {
-  var runCount = 0
-  var rests = []
-  return function () {
-    var args = arguments
-    runCount++
-    if (runCount <= count) {
-      rests.push(args[0])
-    }
-    if (runCount >= count) {
-      callback.apply(context, [rests].concat(slice(args)))
-    }
-  }
+	var runCount = 0
+	var rests = []
+	return function () {
+		var args = arguments
+		runCount++
+		if (runCount <= count) {
+			rests.push(args[0])
+		}
+		if (runCount >= count) {
+			callback.apply(context, [rests].concat(slice(args)))
+		}
+	}
 }
 
 export default after

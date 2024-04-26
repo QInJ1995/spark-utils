@@ -9,12 +9,12 @@ import helperCreateiterateIndexOf from '../helpers/helperCreateiterateIndexOf'
   * @return {Object}
   */
 var findIndexOf = helperCreateiterateIndexOf(function (obj, iterate, context) {
-  for (var index = 0, len = obj.length; index < len; index++) {
-    if (iterate.call(context, obj[index], index, obj)) {
-      return index
-    }
-  }
-  return -1
+	for (var index = 0, len = obj.length; index < len; index++) {
+		if (iterate.call(context, obj[index], index, obj)) {
+			return index
+		}
+	}
+	return -1
 })
 
 export default findIndexOf

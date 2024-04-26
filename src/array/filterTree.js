@@ -10,15 +10,15 @@ import eachTree from './eachTree'
   * @return {Array}
   */
 function filterTree (obj, iterate, options, context) {
-  var result = []
-  if (obj && iterate) {
-    eachTree(obj, function (item, index, items, path, parent, nodes) {
-      if (iterate.call(context, item, index, items, path, parent, nodes)) {
-        result.push(item)
-      }
-    }, options)
-  }
-  return result
+	var result = []
+	if (obj && iterate) {
+		eachTree(obj, function (item, index, items, path, parent, nodes) {
+			if (iterate.call(context, item, index, items, path, parent, nodes)) {
+				result.push(item)
+			}
+		}, options)
+	}
+	return result
 }
 
 export default filterTree

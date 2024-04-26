@@ -11,7 +11,7 @@ import sum from './sum'
   * @return {Number}
   */
 function mean (array, iterate, context) {
-  return helperNumberDivide(sum(array, iterate, context), getSize(array))
+	return helperNumberDivide(sum(array, iterate, context), getSize(array))
 }
 
 export default mean

@@ -12,16 +12,16 @@ import assign from './assign'
   * @return {Boolean}
   */
 function destructuring (destination, sources) {
-  if (destination && sources) {
-    var rest = assign.apply(this, [{}].concat(slice(arguments, 1)))
-    var restKeys = keys(rest)
-    arrayEach(keys(destination), function (key) {
-      if (includes(restKeys, key)) {
-        destination[key] = rest[key]
-      }
-    })
-  }
-  return destination
+	if (destination && sources) {
+		var rest = assign.apply(this, [{}].concat(slice(arguments, 1)))
+		var restKeys = keys(rest)
+		arrayEach(keys(destination), function (key) {
+			if (includes(restKeys, key)) {
+				destination[key] = rest[key]
+			}
+		})
+	}
+	return destination
 }
 
 export default destructuring

@@ -38,20 +38,20 @@ import cryptoMethod from './crypto'
 import otherMethods from './other'
 
 const SparkUtils = {
-    ...basicMethods,
-    ...arrayMethods,
-    ...dateMethods,
-    ...numberMethods,
-    ...functionMethods,
-    ...objectMethods,
-    ...stringMethods,
-    ...browseMethod,
-    ...globalMethod,
-    ...storageMethod,
-    ...cookieMethod,
-    ...domMethod,
-    ...cryptoMethod,
-    ...otherMethods,
+	...basicMethods,
+	...arrayMethods,
+	...dateMethods,
+	...numberMethods,
+	...functionMethods,
+	...objectMethods,
+	...stringMethods,
+	...browseMethod,
+	...globalMethod,
+	...storageMethod,
+	...cookieMethod,
+	...domMethod,
+	...cryptoMethod,
+	...otherMethods,
 }
 
 export default SparkUtils

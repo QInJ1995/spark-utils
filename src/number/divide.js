@@ -9,7 +9,7 @@ import toNumber from './toNumber'
  * @return {Number}
  */
 function divide (num1, num2) {
-  return helperNumberDivide(toNumber(num1), toNumber(num2))
+	return helperNumberDivide(toNumber(num1), toNumber(num2))
 }
 
 export default divide

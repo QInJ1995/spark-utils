@@ -6,16 +6,16 @@ import clone from '../object/clone'
 var objectAssignFns = Object.assign
 
 function handleAssign (destination, args, isClone) {
-  var len = args.length
-  for (var source, index = 1; index < len; index++) {
-    source = args[index]
-    arrayEach(keys(args[index]), isClone ? function (key) {
-      destination[key] = clone(source[key], isClone)
-    } : function (key) {
-      destination[key] = source[key]
-    })
-  }
-  return destination
+	var len = args.length
+	for (var source, index = 1; index < len; index++) {
+		source = args[index]
+		arrayEach(keys(args[index]), isClone ? function (key) {
+			destination[key] = clone(source[key], isClone)
+		} : function (key) {
+			destination[key] = source[key]
+		})
+	}
+	return destination
 }
 
 /**
@@ -26,18 +26,18 @@ function handleAssign (destination, args, isClone) {
   * @return {Boolean}
   */
 var assign = function (target) {
-  if (target) {
-    var args = arguments
-    if (target === true) {
-      if (args.length > 1) {
-        target = isArray(target[1]) ? [] : {}
-        return handleAssign(target, args, true)
-      }
-    } else {
-      return objectAssignFns ? objectAssignFns.apply(Object, args) : handleAssign(target, args)
-    }
-  }
-  return target
+	if (target) {
+		var args = arguments
+		if (target === true) {
+			if (args.length > 1) {
+				target = isArray(target[1]) ? [] : {}
+				return handleAssign(target, args, true)
+			}
+		} else {
+			return objectAssignFns ? objectAssignFns.apply(Object, args) : handleAssign(target, args)
+		}
+	}
+	return target
 }
 
 export default assign

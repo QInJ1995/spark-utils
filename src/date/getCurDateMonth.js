@@ -3,9 +3,9 @@
  * @method getCurDateMonth
  */
 export default function getCurDateMonth() {
-    const d = new Date();
-    let ret = d.getFullYear() + '-';
-    ret += ('00' + (d.getMonth() + 1)).slice(-2);
-    return ret;
+	const d = new Date();
+	let ret = d.getFullYear() + '-';
+	ret += ('00' + (d.getMonth() + 1)).slice(-2);
+	return ret;
 }
-export { getCurDateMonth };
+export { getCurDateMonth, };

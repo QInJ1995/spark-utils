@@ -7,7 +7,7 @@ import helperNewDate from '../helpers/helperNewDate'
  * @returns Number
  */
 var now = Date.now || function () {
-  return helperGetDateTime(helperNewDate())
+	return helperGetDateTime(helperNewDate())
 }
 
 export default now

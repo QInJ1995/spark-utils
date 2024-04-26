@@ -7,9 +7,9 @@ import map from './map'
  * @return {Array}
  */
 function toArray (list) {
-  return map(list, function (item) {
-    return item
-  })
+	return map(list, function (item) {
+		return item
+	})
 }
 
 export default toArray

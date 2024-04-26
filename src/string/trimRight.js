@@ -7,7 +7,7 @@ import toValueString from './toValueString'
   * @return {String}
   */
 function trimRight (str) {
-  return str && str.trimRight ? str.trimRight() : toValueString(str).replace(/[\s\uFEFF\xA0]+$/g, '')
+	return str && str.trimRight ? str.trimRight() : toValueString(str).replace(/[\s\uFEFF\xA0]+$/g, '')
 }
 
 export default trimRight

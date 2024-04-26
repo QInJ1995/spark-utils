@@ -9,7 +9,7 @@ import property from '../basic/property'
   * @return {Array}
   */
 function pluck (obj, key) {
-  return map(obj, property(key))
+	return map(obj, property(key))
 }
 
 export default pluck

@@ -4,7 +4,7 @@ import each from '../basic/each'
 
 var unescapeMap = {}
 each(staticEscapeMap, function (item, key) {
-  unescapeMap[staticEscapeMap[key]] = key
+	unescapeMap[staticEscapeMap[key]] = key
 })
 
 /**

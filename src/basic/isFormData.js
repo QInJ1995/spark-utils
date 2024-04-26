@@ -9,7 +9,7 @@ import staticStrUndefined from '../constant/static/staticStrUndefined'
   */
 var supportFormData = typeof FormData !== staticStrUndefined
 function isFormData (obj) {
-  return supportFormData && obj instanceof FormData
+	return supportFormData && obj instanceof FormData
 }
 
 export default isFormData

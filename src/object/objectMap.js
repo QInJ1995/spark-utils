@@ -11,20 +11,20 @@ import property from '../basic/property'
   * @return {Object}
   */
 function objectMap (obj, iterate, context) {
-  var result = {}
-  if (obj) {
-    if (iterate) {
-      if (!isFunction(iterate)) {
-        iterate = property(iterate)
-      }
-      each(obj, function (val, index) {
-        result[index] = iterate.call(context, val, index, obj)
-      })
-    } else {
-      return obj
-    }
-  }
-  return result
+	var result = {}
+	if (obj) {
+		if (iterate) {
+			if (!isFunction(iterate)) {
+				iterate = property(iterate)
+			}
+			each(obj, function (val, index) {
+				result[index] = iterate.call(context, val, index, obj)
+			})
+		} else {
+			return obj
+		}
+	}
+	return result
 }
 
 export default objectMap

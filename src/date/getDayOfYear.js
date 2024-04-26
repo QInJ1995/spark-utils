@@ -11,11 +11,11 @@ import isLeapYear from '../basic/isLeapYear'
   * @return {Number}
   */
 function getDayOfYear (date, year) {
-  date = toStringDate(date)
-  if (isValidDate(date)) {
-    return isLeapYear(getWhatYear(date, year)) ? 366 : 365
-  }
-  return NaN
+	date = toStringDate(date)
+	if (isValidDate(date)) {
+		return isLeapYear(getWhatYear(date, year)) ? 366 : 365
+	}
+	return NaN
 }
 
 export default getDayOfYear

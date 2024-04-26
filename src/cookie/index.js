@@ -13,7 +13,7 @@ import getCookie from './getCookie'
 import getToken from './getToken'
 
 export default {
-    setCookie,
-    getCookie,
-    getToken
+	setCookie,
+	getCookie,
+	getToken,
 }

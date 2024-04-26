@@ -1,6 +1,6 @@
 
 var debug = false;
-import   {arrayCopy, intToByte, intArrayToByteArray, byteToInt, byteArrayToIntArray} from './utils/byteUtil'
+import   {arrayCopy, intToByte, intArrayToByteArray, byteToInt, byteArrayToIntArray,} from './utils/byteUtil'
 function SM4(){
 
 	this.sbox = new Array(
@@ -311,7 +311,7 @@ SM4.prototype = {
 
 
 		return realPlain;
-	}
+	},
 }
 
 export default SM4

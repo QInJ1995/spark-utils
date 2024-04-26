@@ -14,25 +14,25 @@ import isValidDate from '../basic/isValidDate'
   * @return {Date}
   */
 function getWhatYear (date, year, month) {
-  var number
-  date = toStringDate(date)
-  if (isValidDate(date)) {
-    if (year) {
-      number = year && !isNaN(year) ? year : 0
-      date.setFullYear(helperGetDateFullYear(date) + number)
-    }
-    if (month || !isNaN(month)) {
-      if (month === staticStrFirst) {
-        return new Date(helperGetDateFullYear(date), 0, 1)
-      } else if (month === staticStrLast) {
-        date.setMonth(11)
-        return getWhatMonth(date, 0, staticStrLast)
-      } else {
-        date.setMonth(month)
-      }
-    }
-  }
-  return date
+	var number
+	date = toStringDate(date)
+	if (isValidDate(date)) {
+		if (year) {
+			number = year && !isNaN(year) ? year : 0
+			date.setFullYear(helperGetDateFullYear(date) + number)
+		}
+		if (month || !isNaN(month)) {
+			if (month === staticStrFirst) {
+				return new Date(helperGetDateFullYear(date), 0, 1)
+			} else if (month === staticStrLast) {
+				date.setMonth(11)
+				return getWhatMonth(date, 0, staticStrLast)
+			} else {
+				date.setMonth(month)
+			}
+		}
+	}
+	return date
 }
 
 export default getWhatYear

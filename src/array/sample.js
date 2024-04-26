@@ -8,14 +8,14 @@ import shuffle from './shuffle'
   * @return {Array}
   */
 function sample (array, number) {
-  var result = shuffle(array)
-  if (arguments.length <= 1) {
-    return result[0]
-  }
-  if (number < result.length) {
-    result.length = number || 0
-  }
-  return result
+	var result = shuffle(array)
+	if (arguments.length <= 1) {
+		return result[0]
+	}
+	if (number < result.length) {
+		result.length = number || 0
+	}
+	return result
 }
 
 export default sample

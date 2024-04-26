@@ -14,11 +14,11 @@ import isValidDate from '../basic/isValidDate'
   * @return {Number}
   */
 function getDayOfMonth (date, month) {
-  date = toStringDate(date)
-  if (isValidDate(date)) {
-    return Math.floor((helperGetDateTime(getWhatMonth(date, month, staticStrLast)) - helperGetDateTime(getWhatMonth(date, month, staticStrFirst))) / staticDayTime) + 1
-  }
-  return NaN
+	date = toStringDate(date)
+	if (isValidDate(date)) {
+		return Math.floor((helperGetDateTime(getWhatMonth(date, month, staticStrLast)) - helperGetDateTime(getWhatMonth(date, month, staticStrFirst))) / staticDayTime) + 1
+	}
+	return NaN
 }
 
 export default getDayOfMonth

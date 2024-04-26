@@ -1,6 +1,6 @@
 export default function isIE() {
-    // eslint-disable-next-line
+	// eslint-disable-next-line
     // @ts-ignore
-    return !!window.ActiveXObject || 'ActiveXObject' in window;
+	return !!window.ActiveXObject || 'ActiveXObject' in window;
 }
-export { isIE };
+export { isIE, };

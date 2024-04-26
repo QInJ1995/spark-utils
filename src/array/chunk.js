@@ -8,21 +8,21 @@ import isArray from '../basic/isArray'
   * @return {Array}
   */
 function chunk (array, size) {
-  var index
-  var result = []
-  var arrLen = size >> 0 || 1
-  if (isArray(array)) {
-    if (arrLen >= 0 && array.length > arrLen) {
-      index = 0
-      while (index < array.length) {
-        result.push(array.slice(index, index + arrLen))
-        index += arrLen
-      }
-    } else {
-      result = array.length ? [array] : array
-    }
-  }
-  return result
+	var index
+	var result = []
+	var arrLen = size >> 0 || 1
+	if (isArray(array)) {
+		if (arrLen >= 0 && array.length > arrLen) {
+			index = 0
+			while (index < array.length) {
+				result.push(array.slice(index, index + arrLen))
+				index += arrLen
+			}
+		} else {
+			result = array.length ? [array] : array
+		}
+	}
+	return result
 }
 
 export default chunk

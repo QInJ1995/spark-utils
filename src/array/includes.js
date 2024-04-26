@@ -8,19 +8,19 @@ import hasOwnProp from '../basic/hasOwnProp'
   * @return {Boolean}
   */
 function includes (obj, val) {
-  if (obj) {
-    if (obj.includes) {
-      return obj.includes(val)
-    }
-    for (var key in obj) {
-      if (hasOwnProp(obj, key)) {
-        if (val === obj[key]) {
-          return true
-        }
-      }
-    }
-  }
-  return false
+	if (obj) {
+		if (obj.includes) {
+			return obj.includes(val)
+		}
+		for (var key in obj) {
+			if (hasOwnProp(obj, key)) {
+				if (val === obj[key]) {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
 
 export default includes

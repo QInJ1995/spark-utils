@@ -8,7 +8,7 @@ import helperCreateMinMax from '../helpers/helperCreateMinMax'
   * @return {Number}
   */
 var min = helperCreateMinMax(function (rest, itemVal) {
-  return rest > itemVal
+	return rest > itemVal
 })
 
 export default min

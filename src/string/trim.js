@@ -8,7 +8,7 @@ import trimLeft from './trimLeft'
   * @return {String}
   */
 function trim (str) {
-  return str && str.trim ? str.trim() : trimRight(trimLeft(str))
+	return str && str.trim ? str.trim() : trimRight(trimLeft(str))
 }
 
 export default trim

@@ -8,7 +8,7 @@ import isNull from './isNull'
   * @return {Boolean}
   */
 var isInteger = function (obj) {
-  return !isNull(obj) && !isNaN(obj) && !isArray(obj) && obj % 1 === 0
+	return !isNull(obj) && !isNaN(obj) && !isArray(obj) && obj % 1 === 0
 }
 
 export default isInteger

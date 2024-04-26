@@ -10,30 +10,30 @@ import isArray from '../basic/isArray'
   * @return {Array}
   */
 function copyWithin (array, target, start, end) {
-  if (isArray(array) && array.copyWithin) {
-    return array.copyWithin(target, start, end)
-  }
-  var replaceIndex, replaceArray
-  var targetIndex = target >> 0
-  var startIndex = start >> 0
-  var len = array.length
-  var endIndex = arguments.length > 3 ? end >> 0 : len
-  if (targetIndex < len) {
-    targetIndex = targetIndex >= 0 ? targetIndex : len + targetIndex
-    if (targetIndex >= 0) {
-      startIndex = startIndex >= 0 ? startIndex : len + startIndex
-      endIndex = endIndex >= 0 ? endIndex : len + endIndex
-      if (startIndex < endIndex) {
-        for (replaceIndex = 0, replaceArray = array.slice(startIndex, endIndex); targetIndex < len; targetIndex++) {
-          if (replaceArray.length <= replaceIndex) {
-            break
-          }
-          array[targetIndex] = replaceArray[replaceIndex++]
-        }
-      }
-    }
-  }
-  return array
+	if (isArray(array) && array.copyWithin) {
+		return array.copyWithin(target, start, end)
+	}
+	var replaceIndex, replaceArray
+	var targetIndex = target >> 0
+	var startIndex = start >> 0
+	var len = array.length
+	var endIndex = arguments.length > 3 ? end >> 0 : len
+	if (targetIndex < len) {
+		targetIndex = targetIndex >= 0 ? targetIndex : len + targetIndex
+		if (targetIndex >= 0) {
+			startIndex = startIndex >= 0 ? startIndex : len + startIndex
+			endIndex = endIndex >= 0 ? endIndex : len + endIndex
+			if (startIndex < endIndex) {
+				for (replaceIndex = 0, replaceArray = array.slice(startIndex, endIndex); targetIndex < len; targetIndex++) {
+					if (replaceArray.length <= replaceIndex) {
+						break
+					}
+					array[targetIndex] = replaceArray[replaceIndex++]
+				}
+			}
+		}
+	}
+	return array
 }
 
 export default copyWithin

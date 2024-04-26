@@ -7,45 +7,45 @@
  * @return {Function}
  */
 function debounce(callback, wait, options) {
-  let args, context;
-  let runFlag = false;
-  let timeout = 0;
-  const optLeading = typeof options !== "boolean" ? options.leading : options;
-  const optTrailing = typeof options !== "boolean" ? options.trailing : !options;
-  const runFn = function () {
-    runFlag = true;
-    timeout = 0;
-    callback.apply(context, args);
-  };
-  const endFn = function () {
-    if (optLeading === true) {
-      timeout = 0;
-    }
-    if (!runFlag && optTrailing === true) {
-      runFn();
-    }
-  };
-  const cancelFn = function () {
-    var rest = timeout !== 0;
-    clearTimeout(timeout);
-    timeout = 0;
-    return rest;
-  };
-  const debounced = function () {
-    runFlag = false;
-    args = arguments;
-    context = this;
-    if (timeout === 0) {
-      if (optLeading === true) {
-        runFn();
-      }
-    } else {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(endFn, wait);
-  };
-  debounced.cancel = cancelFn;
-  return debounced;
+	let args, context;
+	let runFlag = false;
+	let timeout = 0;
+	const optLeading = typeof options !== "boolean" ? options.leading : options;
+	const optTrailing = typeof options !== "boolean" ? options.trailing : !options;
+	const runFn = function () {
+		runFlag = true;
+		timeout = 0;
+		callback.apply(context, args);
+	};
+	const endFn = function () {
+		if (optLeading === true) {
+			timeout = 0;
+		}
+		if (!runFlag && optTrailing === true) {
+			runFn();
+		}
+	};
+	const cancelFn = function () {
+		var rest = timeout !== 0;
+		clearTimeout(timeout);
+		timeout = 0;
+		return rest;
+	};
+	const debounced = function () {
+		runFlag = false;
+		args = arguments;
+		context = this;
+		if (timeout === 0) {
+			if (optLeading === true) {
+				runFn();
+			}
+		} else {
+			clearTimeout(timeout);
+		}
+		timeout = setTimeout(endFn, wait);
+	};
+	debounced.cancel = cancelFn;
+	return debounced;
 }
 
 export default debounce;

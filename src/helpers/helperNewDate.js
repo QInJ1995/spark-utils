@@ -1,5 +1,5 @@
 function helperNewDate () {
-  return new Date()
+	return new Date()
 }
 
 export default helperNewDate

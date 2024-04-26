@@ -8,9 +8,9 @@ import clear from '../object/clear'
 import eqNull from '../basic/eqNull'
 
 function pluckProperty (name) {
-  return function (obj, key) {
-    return key === name
-  }
+	return function (obj, key) {
+		return key === name
+	}
 }
 
 /**
@@ -22,36 +22,36 @@ function pluckProperty (name) {
   * @return {Object/Array}
   */
 function remove (obj, iterate, context) {
-  if (obj) {
-    if (!eqNull(iterate)) {
-      var removeKeys = []
-      var rest = []
-      if (!isFunction(iterate)) {
-        iterate = pluckProperty(iterate)
-      }
-      each(obj, function (item, index, rest) {
-        if (iterate.call(context, item, index, rest)) {
-          removeKeys.push(index)
-        }
-      })
-      if (isArray(obj)) {
-        // eslint-disable-next-line no-unused-vars
-        lastEach(removeKeys, function (item, key) {
-          rest.push(obj[item])
-          obj.splice(item, 1)
-        })
-      } else {
-        rest = {}
-        arrayEach(removeKeys, function (key) {
-          rest[key] = obj[key]
-          helperDeleteProperty(obj, key)
-        })
-      }
-      return rest
-    }
-    return clear(obj)
-  }
-  return obj
+	if (obj) {
+		if (!eqNull(iterate)) {
+			var removeKeys = []
+			var rest = []
+			if (!isFunction(iterate)) {
+				iterate = pluckProperty(iterate)
+			}
+			each(obj, function (item, index, rest) {
+				if (iterate.call(context, item, index, rest)) {
+					removeKeys.push(index)
+				}
+			})
+			if (isArray(obj)) {
+				// eslint-disable-next-line no-unused-vars
+				lastEach(removeKeys, function (item, key) {
+					rest.push(obj[item])
+					obj.splice(item, 1)
+				})
+			} else {
+				rest = {}
+				arrayEach(removeKeys, function (key) {
+					rest[key] = obj[key]
+					helperDeleteProperty(obj, key)
+				})
+			}
+			return rest
+		}
+		return clear(obj)
+	}
+	return obj
 }
 
 export default remove

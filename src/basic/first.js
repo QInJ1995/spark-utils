@@ -7,7 +7,7 @@ import values from './values'
   * @return {Object}
   */
 function first (obj) {
-  return values(obj)[0]
+	return values(obj)[0]
 }
 
 export default first

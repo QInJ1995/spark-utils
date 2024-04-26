@@ -8,14 +8,14 @@ import toArray from './toArray'
   * @return {Array}
   */
 function union () {
-  var args = arguments
-  var result = []
-  var index = 0
-  var len = args.length
-  for (; index < len; index++) {
-    result = result.concat(toArray(args[index]))
-  }
-  return uniq(result)
+	var args = arguments
+	var result = []
+	var index = 0
+	var len = args.length
+	for (; index < len; index++) {
+		result = result.concat(toArray(args[index]))
+	}
+	return uniq(result)
 }
 
 export default union

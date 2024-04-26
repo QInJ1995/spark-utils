@@ -9,17 +9,17 @@ import includes from './includes'
   * @return {Boolean}
   */
 function includeArrays (array1, array2) {
-  var len
-  var index = 0
-  if (isArray(array1) && isArray(array2)) {
-    for (len = array2.length; index < len; index++) {
-      if (!includes(array1, array2[index])) {
-        return false
-      }
-    }
-    return true
-  }
-  return includes(array1, array2)
+	var len
+	var index = 0
+	if (isArray(array1) && isArray(array2)) {
+		for (len = array2.length; index < len; index++) {
+			if (!includes(array1, array2[index])) {
+				return false
+			}
+		}
+		return true
+	}
+	return includes(array1, array2)
 }
 
 export default includeArrays

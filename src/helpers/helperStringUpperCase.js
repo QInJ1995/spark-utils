@@ -1,5 +1,5 @@
 function helperStringUpperCase (str) {
-  return str.toUpperCase()
+	return str.toUpperCase()
 }
 
 export default helperStringUpperCase

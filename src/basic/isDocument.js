@@ -7,7 +7,7 @@ import staticDocument from '../constant/static/staticDocument'
   * @return {Boolean}
   */
 function isDocument (obj) {
-  return !!(obj && staticDocument && obj.nodeType === 9)
+	return !!(obj && staticDocument && obj.nodeType === 9)
 }
 
 export default isDocument
