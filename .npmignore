@@ -18,6 +18,8 @@ coverage
 /public
 /test
 /src
+/build
+/page
 /docs
 dist/spark-utils.js
 
