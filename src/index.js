@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-26 20:01:50
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-24 22:11:39
+ * @LastEditTime: 2024-04-26 17:22:51
  * @FilePath: /spark-utils/src/index.js
  * @Description: index.js
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
@@ -34,6 +34,8 @@ import cookieMethod from './cookie'
 import domMethod from './dom'
 // crypto
 import cryptoMethod from './crypto'
+// https
+import httpsMethod from './https'
 // other 
 import otherMethods from './other'
 
@@ -51,6 +53,7 @@ const SparkUtils = {
   ...cookieMethod,
   ...domMethod,
   ...cryptoMethod,
+  ...httpsMethod,
   ...otherMethods,
 }
 

@@ -6,7 +6,7 @@ var setupDefaults = {
     baseURL: '', // 设置默认的请求地址
     timeout: 10000, // 设置超时时间
     headers: {
-      'Content-Type': 'application/json', // 设置默认的 Content-Type
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', // 设置默认的 Content-Type
     },
   },
   promiseResultConfig: {
