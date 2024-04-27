@@ -6,16 +6,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const devConfig = {
   mode: 'development',
   entry: {
-    "spark-utils": "./src/index.js",
-    "main": "./page/index.js",
+    'spark-utils': {
+      import: './src/index.js',
+      library: {
+        // `output.library` 下的所有配置项可以在这里使用
+        name: 'SparkUtils',
+        type: 'umd',
+        export: 'default',
+        umdNamedDefine: true,
+      },
+    },
+    main: {
+      import: './page/index.js',
+      library: {
+        type: 'umd',
+      },
+    },
   },
   output: {
-    // 输出文件都放到 dist 目录下
-    path: path.resolve(__dirname, './dist'),
-    filename: '[name].js',
-    library: "SparkUtils",
-    libraryExport: "default",
-    libraryTarget: "var", 
+    filename: '[name][hash].js',
   },
   devtool: 'source-map',
   devServer: {

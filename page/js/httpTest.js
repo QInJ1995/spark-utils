@@ -11,7 +11,7 @@ SparkUtils.https.init()
 const sparkUtils = SparkUtils 
 const btn =  document.getElementById('btn')
 btn.onclick = function() {
-  sparkUtils.https.submit({url: 'test.json', autoQs: false,}).then(res => {
+  sparkUtils.https.submit({url: 'test.json', method: 'get', autoQs: false,}).then(res => {
     console.log("🚀 ~ SparkUtils.https.submit ~ res:", res)
           
   })
