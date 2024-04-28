@@ -3,12 +3,13 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "spark-utils",
-  description: "A VitePress Site",
+  description: "一个丰富、可扩展的JavaScript工具库",
+  lang: 'zh-Hans',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '首页', link: '/' },
+      { text: '示例', link: '/markdown-examples' }
     ],
 
     sidebar: [
@@ -22,7 +23,8 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      // { icon: 'github', link: 'https://github.com/QInJ1995' },
+      { icon: 'npm', link: 'https://www.npmjs.com/package/spark-utils' }
     ]
   }
 })
