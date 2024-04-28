@@ -4,7 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "spark-utils",
   description: "一个丰富、可扩展的JavaScript工具库",
-  lang: 'zh-Hans',
+  lang: 'zh',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -21,10 +21,13 @@ export default defineConfig({
         ]
       }
     ],
-
     socialLinks: [
       // { icon: 'github', link: 'https://github.com/QInJ1995' },
       { icon: 'npm', link: 'https://www.npmjs.com/package/spark-utils' }
-    ]
+    ],
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2024-present QINJIN'
+    }
   }
 })

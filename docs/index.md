@@ -7,37 +7,28 @@ hero:
   text: "一个强大、丰富、可扩展的JavaScript工具库"
   tagline: 提高 你的开发效率，让代码更优雅、更简洁
   image:
-    src: /logo.svg
+    src: ./image/logo.png
     alt: spark-utils
   actions:
     - theme: brand
-      text: 快速开始
+      text: spark-utils 简介
       link: /guide/introduction
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/spark-js/spark-utils
+      text: 快速开始
+      link: /guide/introduction
 
 features:
-  - title: Feature 1
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature 2
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature 3
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-
-footer:
-  message: React © 2013-present Facebook
-  copyright:
-    - year: 2023
-      name: spark-js
-    - year: 2023
-      name: spark-js
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+  - icon: 💡
+    title: 代码示例
+    details: 快速复制示例代码
+  - icon: 🚀
+    title: 功能丰富
+    details: 包含丰富的工具函数
+  - icon: 🛠️
+    title: 易于扩展
+    details: 支持自定义扩展
+  - icon: 🤖
+    title: 易于使用
+    details: 简单易用，上手快
 ---
 
