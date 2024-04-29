@@ -2,12 +2,12 @@
  * @Author: QINJIN
  * @Date: 2024-04-15 16:09:06
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-18 20:58:49
+ * @LastEditTime: 2024-04-29 10:53:25
  * @FilePath: /spark-utils/src/date/index.js
  * @Description: 日期处理方法聚合
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
-
+import moment from 'moment'
 import getMoment from './getMoment'
 import stringToMoment from './stringToMoment'
 import stringArrayToMomentArray from './stringArrayToMomentArray'
@@ -43,6 +43,7 @@ import getDayOfMonth from './getDayOfMonth'
 import getDateDiff from './getDateDiff'
 
 export default {
+  moment,
   getMoment,
   stringToMoment,
   stringArrayToMomentArray,

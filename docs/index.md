@@ -12,10 +12,10 @@ hero:
   actions:
     - theme: brand
       text: spark-utils 简介
-      link: /guide/introduction
+      link: /markdown/about
     - theme: alt
       text: 快速开始
-      link: /guide/introduction
+      link: /markdown/start
 
 features:
   - icon: 💡
