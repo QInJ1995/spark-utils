@@ -21,6 +21,7 @@ export default defineConfig({
           { text: '基础方法', link: '/markdown/basic' },
           { text: '数组', link: '/markdown/array' },
           { text: '对象', link: '/markdown/object' },
+          { text: 'Function', link: '/markdown/function' },
           { text: '网络', link: '/markdown/https' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }

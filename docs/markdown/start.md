@@ -17,7 +17,7 @@ $ npm install spark-utils
 ```
 
 ```sh [pnpm]
-$ pnpm install spark-utils
+$ pnpm add spark-utils
 ```
 
 ```sh [yarn]
@@ -32,10 +32,10 @@ $ yarn add spark-utils
 // 按需引入
 import { isEmpty } from 'spark-utils'
 // 全部引入
-import sparkUtils from 'spark-utils'
+import SparkUtils from 'spark-utils'
 
 isEmpty()
 
-sparkUtils.isEmpty()
+SparkUtils.isEmpty()
 
 ```

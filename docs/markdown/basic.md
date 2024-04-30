@@ -1362,7 +1362,7 @@ toJSONString({a: 1, b: 2, c: {d: 3, e: [1,2,3]}}) // '{"a":1,"b":2,"c":{"d":3,"e
 import { property } from 'spark-utils';
 
 let getName = property('age')
-getName({name: '鸡太美', age: 25, height: 180}) // '25'
+getName({name: '鸡你太美', age: 25, height: 180}) // '25'
 getName({height: 176}) // undefined
 
 ```
