@@ -377,7 +377,7 @@ import { pick } from 'spark-utils';
 
 pick({name: 'test11', age: 25, height: 176}, 'name', 'height') // {name: 'test11', height: 176}
 pick({name: 'test11', age: 25, height: 176}, ['name', 'age']) // {name: 'test11', age: 25}
-pick({name: 'test11', age: 25, height: 176}, val => TaUtils.isNumber(val)) // {age: 25, height: 176}
+pick({name: 'test11', age: 25, height: 176}, val => isNumber(val)) // {age: 25, height: 176}
 
 ```
 
@@ -406,6 +406,6 @@ import { omit } from 'spark-utils';
 
 omit({name: 'test11', age: 25, height: 176}, 'name', 'height') // {age: 25}
 omit({name: 'test11', age: 25, height: 176}, ['name', 'age']) // {height: 176}
-omit({name: 'test11', age: 25, height: 176}, val => TaUtils.isNumber(val)) // {name: 'test11'}
+omit({name: 'test11', age: 25, height: 176}, val => isNumber(val)) // {name: 'test11'}
 
 ```

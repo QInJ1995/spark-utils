@@ -895,7 +895,7 @@ var tree1 = [
     ]
     }
 ]
-TaUtils.searchTree(tree1, item => item.id === 3)
+searchTree(tree1, item => item.id === 3)
 // [
 //   {
 //     id: 3,
@@ -932,7 +932,7 @@ var tree2 = [
     ]
     }
 ]
-TaUtils.searchTree(tree2, item => item.id === 30, { children: 'childs' })
+searchTree(tree2, item => item.id === 30, { children: 'childs' })
 // [
 //   {
 //     id: 3,
@@ -968,7 +968,7 @@ var tree3 = [
     ]
     }
 ]
-TaUtils.searchTree(tree3, item => item.id === 30, { children: 'childs', mapChildren: 'list' })
+searchTree(tree3, item => item.id === 30, { children: 'childs', mapChildren: 'list' })
 // [
 //   {
 //     id: 3,
