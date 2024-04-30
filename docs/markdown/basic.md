@@ -1338,3 +1338,31 @@ toJSONString({a: 1, b: 2, c: {d: 3}}) // '{"a":1,"b":2,"c":{"d":3}}'
 toJSONString({a: 1, b: 2, c: {d: 3, e: [1,2,3]}}) // '{"a":1,"b":2,"c":{"d":3,"e":[1,2,3]}}'
 
 ```
+
+## property
+
+获取对象属性
+
+### 参数
+
+`property(path)`
+
+| 参数名 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| path | string | 是 | 属性路径 |
+
+### 返回
+
+`function`
+
+### 例子
+
+```js
+    
+import { property } from 'spark-utils';
+
+let getName = property('age')
+getName({name: '鸡太美', age: 25, height: 180}) // '25'
+getName({height: 176}) // undefined
+
+```

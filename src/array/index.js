@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-04-15 15:50:31
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-24 21:52:19
+ * @LastEditTime: 2024-04-29 17:25:42
  * @FilePath: /spark-utils/src/array/index.js
  * @Description: 数组方法聚合
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
@@ -53,6 +53,7 @@ import mapTree from './mapTree'
 import filterTree from './filterTree'
 import searchTree from './searchTree'
 import arrayDistinct from './arrayDistinct'
+import sortBy from './sortBy'
 
 export default {
   arrayEach,
@@ -100,4 +101,5 @@ export default {
   filterTree,
   searchTree,
   arrayDistinct,
+  sortBy,
 }
