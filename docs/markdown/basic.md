@@ -16,7 +16,7 @@
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isString } from 'spark-utils';
@@ -44,7 +44,7 @@ isString('abc') // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isNaN } from 'spark-utils';
@@ -70,7 +70,7 @@ isNaN(NaN) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isNumber } from 'spark-utils';
@@ -97,7 +97,7 @@ isNumber(null) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isBoolean } from 'spark-utils';
@@ -123,7 +123,7 @@ isBoolean('false') // false
 
 `boolean`
 
-### 例子       
+### 示例       
 
 ```js
 import { isNull } from 'spark-utils';
@@ -151,7 +151,7 @@ isNull(undefined); // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isUndefined } from 'spark-utils';
@@ -177,7 +177,7 @@ isUndefined() // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isObject } from 'spark-utils';
@@ -205,7 +205,7 @@ isObject(null) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -232,7 +232,7 @@ isArray(null) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isFunction } from 'spark-utils';
@@ -257,7 +257,7 @@ isFunction(() => {}); // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isPromise } from 'spark-utils';
@@ -282,7 +282,7 @@ isPromise(new Promise(() => {})); // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isDate } from 'spark-utils';
@@ -310,7 +310,7 @@ isDate(new Date('aaa')) // Invalid Date => true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -337,7 +337,7 @@ isRegExp(new RegExp('abc')) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isError } from 'spark-utils';
@@ -365,7 +365,7 @@ isError(new TypeError('error')) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isSymbol } from 'spark-utils';
@@ -391,7 +391,7 @@ isSymbol('123'); // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
         
@@ -421,7 +421,7 @@ isEmpty([]) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isFinite } from 'spark-utils';
@@ -447,7 +447,7 @@ isFinite(Infinity); // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -474,7 +474,7 @@ isFloat(1); // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isInteger } from 'spark-utils';
@@ -500,7 +500,7 @@ isInteger(1.1); // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { isPlainObject } from 'spark-utils';
@@ -528,7 +528,7 @@ isPlainObject({}) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -557,7 +557,7 @@ isValidDate(new Date('aaa')) // Invalid Date => false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 
@@ -587,7 +587,7 @@ isTypeError(new TypeError()); // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -614,7 +614,7 @@ isArguments(arguments); // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -642,7 +642,7 @@ isDocument({}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -670,7 +670,7 @@ isWindow(document) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -698,7 +698,7 @@ isDocument({}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -725,7 +725,7 @@ isFormData({}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -752,7 +752,7 @@ isMap({}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -779,7 +779,7 @@ isWeakMap({}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -806,7 +806,7 @@ isSet({}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -834,7 +834,7 @@ isWeakSet({}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -865,7 +865,7 @@ isEqual({a:1}, {a:1, b:1}) // false
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -897,7 +897,7 @@ isEqualWith({a:1}, {a:1}, (a, b) => {
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -926,7 +926,7 @@ isLeapYear(new Date('2020/12/01')) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -955,7 +955,7 @@ isMatch({ aa: 55, bb: 22 }, { bb: 22 })  // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -985,7 +985,7 @@ isDateSame(new Date(), new Date(), 'yyyyMMdd') // 判断是否同年同月同日
 
 `string`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1022,7 +1022,7 @@ getType(new TypeError()) // 'typeerror'
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1050,7 +1050,7 @@ getSize({a: 2, b: 5}) // 2
 
 `Array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1076,7 +1076,7 @@ keys({a: 2, b: 5}) // ['a', 'b']
 
 `Array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1102,7 +1102,7 @@ values({a: 2, b: 5}) // [2, 5]
 
 `Array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1129,7 +1129,7 @@ entries([1, 2]) // [['0', 1], ['1', 2]]
 
 `*`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1156,7 +1156,7 @@ first({a: 2, b: 5}) // {a: 2}
 
 `*`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1185,7 +1185,7 @@ last({a: 2, b: 5}) // {b: 5}
 
 `void`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1215,7 +1215,7 @@ each([1, 2, 3], (item, index) => {
 
 `void`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1243,7 +1243,7 @@ lastEach([1, 2, 3], (item, index) => {
 
 `string`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1272,7 +1272,7 @@ uniqueId() // '从1开始递增'
 
 `Array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1299,7 +1299,7 @@ range(1, 5, 2) // [1, 3]
 
 `string`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1327,7 +1327,7 @@ JSON 转字符串
 
 `string`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1355,7 +1355,7 @@ toJSONString({a: 1, b: 2, c: {d: 3, e: [1,2,3]}}) // '{"a":1,"b":2,"c":{"d":3,"e
 
 `function`
 
-### 例子
+### 示例
 
 ```js
     

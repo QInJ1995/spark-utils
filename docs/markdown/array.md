@@ -18,7 +18,7 @@
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { some } from 'spark-utils';
@@ -46,7 +46,7 @@ some([{value: 123}, {value: 456}, {value: 789}], item => item.value === 123) // 
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
 import { every } from 'spark-utils';
@@ -74,7 +74,7 @@ every([{value: 123}, {value: 123}, {value: 123}], item => item.value === 123) //
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -103,7 +103,7 @@ filter([{value: 123}, {value: 456}, {value: 789}], item => item.value > 123) // 
 
 `object`
 
-### 例子
+### 示例
 
 ```js
     
@@ -132,7 +132,7 @@ find([{value: 123}, {value: 456}, {value: 789}], item => item.value > 123) // {v
 
 `string`
 
-### 例子
+### 示例
 
 ```js
     
@@ -161,7 +161,7 @@ findKey([{value: 123, key: 'a'}, {value: 456, key: 'b'}, {value: 789, key: 'c'}]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -200,7 +200,7 @@ map([{value: 123}, {value: 456}, {value: 789}], item => item.value * 2) // [{val
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -400,7 +400,7 @@ toArrayTree(list4, {strict: true, parentKey: 'parentId', key: 'id', children: 'c
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -512,7 +512,7 @@ toTreeArray(list2, {data: 'data'})
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -579,7 +579,7 @@ findTree(tree2, item => item.id === 20, { children: 'childs' }) // { item: {id: 
 
 `void`
 
-### 例子
+### 示例
 
 ```js
 
@@ -651,7 +651,7 @@ eachTree(tree2, item => {
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -790,7 +790,7 @@ mapTree(tree3, item => {
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -868,7 +868,7 @@ filterTree(tree2, item => item.id >= 3, {children: 'childs'})
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1012,7 +1012,7 @@ TaUtils.searchTree(tree3, item => item.id === 30, { children: 'childs', mapChild
 
 `undefined`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1040,7 +1040,7 @@ arrayEach([{value: 123}, {value: 456}, {value: 789}], item => console.log(item.v
 
 `undefined`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1068,7 +1068,7 @@ lastArrayEach([{value: 123}, {value: 456}, {value: 789}], item => console.log(it
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1095,7 +1095,7 @@ slice([{value: 123}, {value: 456}, {value: 789}], 1, 2) // [{value: 456}]
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1123,7 +1123,7 @@ indexOf([1, 2, 3, 4, 5], 2) // 1
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1151,7 +1151,7 @@ arrayIndexOf([1, 2, 3, 4, 5], 3) // 2
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1179,7 +1179,7 @@ findIndexOf([{value: 123}, {value: 456}, {value: 789}], item => item.value === 1
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1207,7 +1207,7 @@ lastIndexOf([1, 2, 3, 4, 5], 2) // 1
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1235,7 +1235,7 @@ arrayLastIndexOf([1, 2, 3, 4, 5], 3) // 2
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1263,7 +1263,7 @@ findLastIndexOf([{value: 123}, {value: 456}, {value: 789}], item => item.value =
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1291,7 +1291,7 @@ includes([1, 2, 3, 4, 5], 2) // true
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1320,7 +1320,7 @@ includeArrays([1, 2, 3], [3, 4, 5]) // false
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1351,7 +1351,7 @@ remove(list2, item => item === 22) // list2 = [11, 33, 44]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1420,7 +1420,7 @@ orderBy([
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1447,7 +1447,7 @@ shuffle([1, 2, 3, 4, 5]) // [4, 2, 1, 3, 5]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1477,7 +1477,7 @@ sample([1, 2, 3, 4, 5], 2) // [1, 4]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1506,7 +1506,7 @@ copyWithin([1, 2, 3, 4, 5], 0, 2, 4) // [3, 4, 3, 4, 5]
 
 `number`
 
-### 例子
+### 示例
 
 ```js
     
@@ -1537,7 +1537,7 @@ sum({val1: 21, val2: 34, val3: 47}) // 102
 
 `number`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1566,7 +1566,7 @@ mean({val1: 21, val2: 34, val3: 47}) // 34
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1593,7 +1593,7 @@ toArray('abc') // ['a', 'b', 'c']
 
 `any`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1620,7 +1620,7 @@ reduce([1, 2, 3, 4, 5], (acc, item) => acc + item, 10) // 25
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1646,7 +1646,7 @@ zip([1, 2, 3], ['a', 'b', 'c'], [true, false, true]) // [[1, 'a', true], [2, 'b'
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1673,7 +1673,7 @@ unzip([[1, 'a', true], [2, 'b', false], [3, 'c', true]]) // [[1, 2, 3], ['a', 'b
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1700,7 +1700,7 @@ zipObject(['a', 'b', 'c'], [1, 2, 3]) // { a: 1, b: 2, c: 3 }
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1727,7 +1727,7 @@ arrayDistinct([{a: 1}, {b: 2}, {a: 1}], 'a') // [{a: 1}, {b: 2}]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1754,7 +1754,7 @@ union([1, 2, 3], [3, 4, 5], [5, 6, 7]) // [1, 2, 3, 4, 5, 6, 7]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1782,7 +1782,7 @@ flatten([1, 2, [3, 4], [5, [6, 7]]], true) // [1, 2, 3, 4, 5, 6, 7]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1809,7 +1809,7 @@ chunk([1, 2, 3, 4, 5, 6, 7], 3) // [[1, 2, 3], [4, 5, 6], [7]]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1837,7 +1837,7 @@ pluck([{a: 1}, {b: 2}], 'a') // [1]
 
 `array`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1868,7 +1868,7 @@ invoke([{a: {b: [2, 0, 1]}}, {a: {b: [2, 1]}}, {a: {b: [4, 8, 1]}}], ['a', 'b', 
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -1898,7 +1898,7 @@ groupBy([{name: 'Alice', age: 20}, {name: 'Bob', age: 21}, {name: 'Charlie', age
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 

@@ -17,7 +17,7 @@
 
 `boolean`
 
-### 例子
+### 示例
 
 ```js
     
@@ -50,7 +50,7 @@ has({a: {b: 11, c: 22, d: [33, 44]}}, ['a', 'd[3]']) // false
 
 `any`
 
-### 例子
+### 示例
 
 ```js
 
@@ -81,7 +81,7 @@ get({a: {b: 11, c: 22, d: [33, 44]}}, ['a', 'c']) // 22
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -112,7 +112,7 @@ set({}, ['a', 'd[0]', 'f', 'h'], 44) // {a: {d: [{f: {h: 44}}]}}
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -146,7 +146,7 @@ clear(b, null) // {b1: null, b2: null}
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -179,7 +179,7 @@ const obj4 = assign(obj1, {a: 11, b: {b2: 22}})
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -212,7 +212,7 @@ const obj4 = merge(obj1, {a: 11, b: {b2: 22}, c: {f1: 55}})
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -244,7 +244,7 @@ v1.b === v3.b // false
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -274,7 +274,7 @@ destructuring({a: 11, c: 33, d: 44}, {a: 11, b: 22, c: null, e: 55, f: 66}) // {
 
 `void`
 
-### 例子
+### 示例
 
 ```js
 
@@ -305,7 +305,7 @@ objectEach({a: 11, b: 22, c: 33}, (value, key) => {
 
 `void`
 
-### 例子
+### 示例
 
 ```js
 import { lastObjectEach } from 'spark-utils';
@@ -335,7 +335,7 @@ lastObjectEach({a: 11, b: 22, c: 33}, (value, key) => {
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 import { objectMap } from 'spark-utils';
@@ -369,7 +369,7 @@ const result = objectMap({
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
@@ -398,7 +398,7 @@ pick({name: 'test11', age: 25, height: 176}, val => TaUtils.isNumber(val)) // {a
 
 `object`
 
-### 例子
+### 示例
 
 ```js
 
