@@ -308,7 +308,7 @@ function scrollEvent (evnt) {
 
 ```js
 
-import  {Function} from 'spark-utils';
+import  { debounce } from 'spark-utils';
 
 function resizeEvent (evnt) {
     console.log('如果wait毫秒内重复调用则会重新计时，在函数最后一次调用wait毫秒之后才会执行回调')
