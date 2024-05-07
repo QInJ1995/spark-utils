@@ -29,8 +29,12 @@ export default defineConfig({
           { text: '浏览器工具', link: '/markdown/browser' },
           { text: '全局配置', link: '/markdown/global' },
           { text: 'WebStorage工具', link: '/markdown/storage' },
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Cookie操作', link: '/markdown/cookie' },
+          { text: 'DOM元素信息', link: '/markdown/dom' },
+          { text: '加密工具', link: '/markdown/crypto' },
+          { text: '其他方法', link: '/markdown/other' },
+          // { text: 'Markdown Examples', link: '/markdown-examples' },
+          // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       }
     ],

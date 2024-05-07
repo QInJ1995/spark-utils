@@ -87,12 +87,12 @@ setup({
 
 ```js
     
-import { mixin } from 'spark-utils';
+import { mixin, getDateDiff } from 'spark-utils';
 
 mixin({
     toDateDiffText (date) {
-    let currDate = 1544407800000 // '2018-12-10 10:10:00'
-    let dateDiff = TaUtils.getDateDiff(date, currDate)
+    let curDate = 1544407800000 // '2018-12-10 10:10:00'
+    let dateDiff = getDateDiff(date, curDate)
     if (dateDiff.done) {
         if (dateDiff.time < 31536000000) {
         if (dateDiff.time < 2592000000) {
