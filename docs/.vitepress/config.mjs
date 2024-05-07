@@ -10,7 +10,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
-      { text: '示例', link: '/markdown/about' }
+      { text: '示例', link: '/markdown/basic' }
     ],
     sidebar: [
       {
@@ -26,6 +26,7 @@ export default defineConfig({
           { text: '数据处理', link: '/markdown/number' },
           { text: '字符串处理', link: '/markdown/string' },
           { text: '网络', link: '/markdown/https' },
+          { text: '浏览器工具', link: '/markdown/browser' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }
         ]

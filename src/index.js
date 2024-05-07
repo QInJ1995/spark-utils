@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-26 20:01:50
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-26 17:22:51
+ * @LastEditTime: 2024-05-07 11:42:32
  * @FilePath: /spark-utils/src/index.js
  * @Description: index.js
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
@@ -23,7 +23,7 @@ import objectMethods from './object'
 // string
 import stringMethods from './string'
 // browse
-import browseMethod from './browse'
+import browserMethod from './browser'
 // global
 import globalMethod from './global'
 // storage
@@ -47,7 +47,7 @@ const SparkUtils = {
   ...functionMethods,
   ...objectMethods,
   ...stringMethods,
-  ...browseMethod,
+  ...browserMethod,
   ...globalMethod,
   ...storageMethod,
   ...cookieMethod,
