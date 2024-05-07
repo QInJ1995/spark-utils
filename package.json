@@ -1,6 +1,6 @@
 {
   "name": "spark-utils",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "js工具库",
   "main": "dist/spark-utils.min.js",
   "scripts": {

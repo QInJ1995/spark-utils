@@ -28,6 +28,7 @@ export default defineConfig({
           { text: '网络请求', link: '/markdown/https' },
           { text: '浏览器工具', link: '/markdown/browser' },
           { text: '全局配置', link: '/markdown/global' },
+          { text: 'WebStorage工具', link: '/markdown/storage' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }
         ]
