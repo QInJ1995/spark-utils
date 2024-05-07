@@ -570,7 +570,7 @@ pinyin._getChar('坤坤') // 'K'
 
 ```js
 
-import { pinyin } from 'spark-utils';
+import { format } from 'spark-utils';
 
 format('mobile','18888888888') // 188****8888
 format('idcard','44010119900101011') // 44010119900101011
