@@ -568,6 +568,10 @@ clientScreenSize // 1680,1050
 
 `copyText(text)`
 
+| 参数名 | 类型 | 必填 | 说明 | 默认值 |
+| --- | --- | --- | --- | --- |
+| text | `String` | 是 | 需要复制的文本 | - |
+
 ### 返回
 
 `Boolean`

@@ -25,8 +25,9 @@ export default defineConfig({
           { text: '日期处理', link: '/markdown/date' },
           { text: '数据处理', link: '/markdown/number' },
           { text: '字符串处理', link: '/markdown/string' },
-          { text: '网络', link: '/markdown/https' },
+          { text: '网络请求', link: '/markdown/https' },
           { text: '浏览器工具', link: '/markdown/browser' },
+          { text: '全局配置', link: '/markdown/global' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }
         ]
