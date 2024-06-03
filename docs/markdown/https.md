@@ -94,7 +94,7 @@ https.init({
 | method | string | 是 | POST | 请求方法：GET, POST, PUT, DELETE |
 | url | string | 是 | - | 请求地址 |
 | data | object | 否 | - |请求参数 |
-| autoQs | boolean | 否 | true | 是否自动序列化处，关闭自动序列化后，HTTP请求头中的Content-Type将会被设置成'application/json; charset=utf-8' |
+| autoQs | boolean | 否 | true | 是否自动序列化处理，关闭自动序列化后，HTTP请求头中的Content-Type将会被设置成'application/json; charset=utf-8' |
 | config | object | 否 | setupDefaults.axiosConfig | 配置对象 |
 
 ### 返回值
