@@ -36,7 +36,7 @@ function init(options = {}) {
   )
   // 挂载请求方法
   SparkUtils.https.submit = (options = {}) => {
-    let { url, method = 'POST', data, autoQs, config = {},} = options
+    let { url, method = 'POST', data = {}, autoQs = true, config = {},} = options
     if(!url) return Promise.reject(new Error(`[spark-utils][https.submit]: 请传入url参数!`))
     autoQs === false && (config.headers = {'Content-Type':'application/json; charset=UTF-8',})
     return submitConfig[method.toLowerCase()](instance, url, data, config)

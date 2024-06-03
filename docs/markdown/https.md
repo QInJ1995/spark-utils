@@ -75,19 +75,27 @@ https.init({
 
 ```
 
-## get
+## submit
 
-发起 get 请求
+请求提交
 
 ### 参数
 
-`get(url, params, config)`
+`submit(options)`
 
 | 参数名 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| url | string | 是 | 请求地址 |
-| params | object | 否 | 请求参数 |
-| config | object | 否 | 配置项 |
+| options | object | 是 | 配置项 |
+
+`options`
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| method | string | 是 | POST | 请求方法：GET, POST, PUT, DELETE |
+| url | string | 是 | - | 请求地址 |
+| data | object | 否 | - |请求参数 |
+| autoQs | boolean | 否 | true | 是否自动序列化处，关闭自动序列化后，HTTP请求头中的Content-Type将会被设置成'application/json; charset=utf-8' |
+| config | object | 否 | setupDefaults.axiosConfig | 配置对象 |
 
 ### 返回值
 
@@ -99,115 +107,20 @@ https.init({
 
 import { https } from 'spark-utils';
 
-https.get('/api/user', {
-    name: '张三',
-    age: 18,
-}).then((res) => {
-    console.log('res', res);
-}).catch((err) => {
-    console.log('err', err);
-});
-
-```
-
-## post
-
-发起 post 请求
-
-### 参数
-
-`post(url, data, config)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| url | string | 是 | 请求地址 |
-| data | object | 否 | 请求参数 |
-| config | object | 否 | 配置项 |
-
-### 返回值
-
-`Promise`
-
-### 示例
-
-```js
-
-import { https } from 'spark-utils';
-
-https.post('/api/user', {
-    name: '张三',
-    age: 18,
-}).then((res) => {
-    console.log('res', res);
-}).catch((err) => {
-    console.log('err', err);
-});
-
-```
-
-## put
-
-发起 put 请求
-
-### 参数
-
-`put(url, data, config)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| url | string | 是 | 请求地址 |
-| data | object | 否 | 请求参数 |
-| config | object | 否 | 配置项 |
-
-### 返回值
-
-`Promise`
-
-### 示例
-
-```js
-
-import { https } from 'spark-utils';
-
-https.put('/api/user', {
-    name: '张三',
-    age: 18,
-}).then((res) => {
-    console.log('res', res);
-}).catch((err) => {
-    console.log('err', err);
-});
-
-```
-
-## delete
-
-发起 delete 请求
-
-### 参数
-
-`delete(url, data, config)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| url | string | 是 | 请求地址 |
-| data | object | 否 | 请求参数 |
-| config | object | 否 | 配置项 |
-
-### 返回值
-
-`Promise`
-
-### 示例
-
-```js
-
-import { https } from 'spark-utils';
-
-https.delete('/api/user', {
-    name: '张三',
-    age: 18,
-}).then((res) => {
+https.submit(
+    {
+        method: 'POST',
+        url: '/api/'
+        data: {
+            name: '坤坤',
+            age: 18,
+        },
+        autoQs: false, // 开启json提交
+        config: {
+            timeout: 1000, // 自定此接口设置超时时间
+        }
+    }
+).then((res) => {
     console.log('res', res);
 }).catch((err) => {
     console.log('err', err);
