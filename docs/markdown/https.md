@@ -90,7 +90,7 @@ https.init({
 `options`
 
 | 参数名 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | method | string | 是 | POST | 请求方法：GET, POST, PUT, DELETE |
 | url | string | 是 | - | 请求地址 |
 | data | object | 否 | - |请求参数 |
