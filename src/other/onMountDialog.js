@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 13:43:57
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-26 11:07:41
+ * @LastEditTime: 2024-11-05 09:58:25
  * @FilePath: /spark-utils/src/other/onMountDialog.js
  * @Description: 挂载弹窗
  * @param {Object} options
@@ -19,13 +19,14 @@ async function onMountDialog (options = {}) {
   try {
     let Vue = import('vue');
     if(Vue) {
+      let dialog 
       Vue = (await Vue).default;
-      Vue && onMountVueDialog(Vue, options)
+      Vue && (dialog = onMountVueDialog(Vue, options))
+      return dialog
     }
   } catch (error) {
     throw(new Error('[spark-utils][onMountDialog]: 挂载异常！' + error)) 
   }
-
 }
 
 
@@ -54,6 +55,7 @@ async function onMountVueDialog (Vue, { targetEl = document.body, dialog, propsD
   })
   // callback
   dialog.$on('callback', params => callback && callback(params))
+  return dialog
 }
 
 export default onMountDialog 
