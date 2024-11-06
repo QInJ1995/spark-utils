@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-26 20:01:50
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-05-07 11:42:32
+ * @LastEditTime: 2024-11-06 10:33:07
  * @FilePath: /spark-utils/src/index.js
  * @Description: index.js
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
@@ -36,6 +36,8 @@ import domMethod from './dom'
 import cryptoMethod from './crypto'
 // https
 import httpsMethod from './https'
+// log
+import logMethod from './log'
 // other 
 import otherMethods from './other'
 
@@ -54,6 +56,7 @@ const SparkUtils = {
   ...domMethod,
   ...cryptoMethod,
   ...httpsMethod,
+  ...logMethod,
   ...otherMethods,
 }
 
