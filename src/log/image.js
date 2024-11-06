@@ -2,15 +2,15 @@
  * @Author: QINJIN
  * @Date: 2024-11-06 10:15:58
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-11-06 14:34:36
+ * @LastEditTime: 2024-11-06 17:20:11
  * @FilePath: /spark-utils/src/log/image.js
  * @Description: image打印
  * Copyright (c) 2024 by ${四川久远银海软件股份有限公司}, All Rights Reserved. 
  */
 
-import {isProduction,} from './utils'
+import {isShowLog,} from './utils'
 function image(url, scale = 1) {
-  if (isProduction()) return;
+  if (!isShowLog()) return;
   const img = new Image();
   img.crossOrigin = 'anonymous';
   img.onload = () => {

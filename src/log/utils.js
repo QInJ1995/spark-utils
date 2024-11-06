@@ -1,3 +1,4 @@
+import setupDefaults from '../constant/setup/setupDefaults'
 /**
  * @description: 是否为空
  * @param {*} value
@@ -11,20 +12,18 @@ export const isEmpty = function(value) {
  * @description: 判断是否生产环境
  * @return {*}
  */
-export const isProduction =  function() {
-  // 在生成环境可以显示打印内容
+export const isShowLog =  function() {
+  // 生产环境可以显示打印内容开关
   let curWindow = window
   while (!curWindow.showLog && curWindow !== curWindow.parent) {
     curWindow = curWindow.parent
   }
-  if (curWindow.showLog) return false
-  let isProduction = false 
-  if (process.env.NODE_ENV) { // webpack 判断
-    isProduction = process.env.NODE_ENV === 'production'
-  } else { // vite判断
-    isProduction = import.meta.env.MODE === 'production'
+  if (curWindow.showLog) {
+    return true
+  }  else {
+    return setupDefaults.showLog
   }
-  return isProduction
+ 
 }
 
 /**
@@ -35,7 +34,7 @@ export const isProduction =  function() {
  * @return {*}
  */
 export const formatPrint = function(title, text, color) {
-  if (isProduction()) return;
+  if (!isShowLog()) return;
   console.log(
     `%c ${title} %c ${text} %c`,
     `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,

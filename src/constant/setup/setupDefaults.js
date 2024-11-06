@@ -2,6 +2,7 @@
 
 var formatString = 'yyyy-MM-dd HH:mm:ss'
 var setupDefaults = {
+  showLog: true, // 是否显示日志
   axiosConfig: {
     baseURL: '', // 设置默认的请求地址
     timeout: 10000, // 设置超时时间
