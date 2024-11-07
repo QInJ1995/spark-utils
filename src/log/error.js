@@ -8,13 +8,11 @@
  * Copyright (c) 2024 by ${四川久远银海软件股份有限公司}, All Rights Reserved. 
  */
 
-import {formatPrint, isEmpty,} from './utils'
+import {formatPrint, isEmpty, isShowLog,} from './utils'
 function error(textOrTitle, content = '') {
+  if (!isShowLog()) return
   const title = isEmpty(content) ? 'Error' : textOrTitle;
   let text = isEmpty(content) ? textOrTitle : content;
-  if(typeof text === 'object' && text !== null) {
-    text = JSON.stringify(text)
-  }
   formatPrint(title, text, '#F56C6C');
 }
 

@@ -12,18 +12,17 @@ export const isEmpty = function(value) {
  * @description: 判断是否生产环境
  * @return {*}
  */
-export const isShowLog =  function() {
+export const isShowLog = function() {
   // 生产环境可以显示打印内容开关
-  let curWindow = window
-  while (!curWindow.showLog && curWindow !== curWindow.parent) {
-    curWindow = curWindow.parent
-  }
-  if (curWindow.showLog) {
-    return true
-  }  else {
+  if(!setupDefaults.showLog) {
+    let curWindow = window
+    while (!curWindow.showLog && curWindow !== curWindow.parent) {
+      curWindow = curWindow.parent
+    }
+    return curWindow.showLog
+  } else {
     return setupDefaults.showLog
   }
- 
 }
 
 /**
@@ -34,11 +33,18 @@ export const isShowLog =  function() {
  * @return {*}
  */
 export const formatPrint = function(title, text, color) {
-  if (!isShowLog()) return;
-  console.log(
-    `%c ${title} %c ${text} %c`,
-    `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
-    `border:1px solid ${color}; padding: 1px; border-radius: 0 2px 2px 0; color: ${color};`,
-    'background:transparent'
-  );
+  if(typeof text === 'object' && text !== null) {
+    console.log(
+      `%c ${title} %o` ,
+      `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
+      text
+    ); 
+  } else {
+    console.log(
+      `%c ${title} %c ${text} %c`,
+      `background:${color};border:1px solid ${color}; padding: 1px; border-radius: 2px 0 0 2px; color: #fff;`,
+      `border:1px solid ${color}; padding: 1px; border-radius: 0 2px 2px 0; color: ${color};`,
+      'background:transparent;'
+    );
+  }
 }
