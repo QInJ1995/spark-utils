@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 13:43:57
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-11-29 10:29:51
+ * @LastEditTime: 2024-11-29 13:41:57
  * @FilePath: /spark-utils/src/other/onMountDialog.js
  * @Description: 挂载弹窗
  * @param {Object} options
@@ -15,22 +15,21 @@
  * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
 
-function onMountDialog (options = {}) {
-  return new Promise((resolve, reject) => {
-    try {
-      let Vue = import('vue');
-      if(Vue) {
-        Vue.then(vue => {
-          const dialog = onMountVueDialog(vue.default, options)
-          resolve(dialog)
-        });
-      } else {
-        resolve() 
+async function onMountDialog (options = {}) {
+  try {
+    let Vue = import('vue');
+    if(Vue) {
+      let dialog 
+      Vue = await Vue
+      while (Vue && !Vue.extend) {
+        Vue = Vue.default
       }
-    } catch (error) {
-      throw(new Error('[spark-utils][onMountDialog]: 挂载异常！' + error)) 
+      Vue && (dialog = onMountVueDialog(Vue, options))
+      return dialog
     }
-  })
+  } catch (error) {
+    throw(new Error('[spark-utils][onMountDialog]: 挂载异常！' + error)) 
+  }
 }
 
 
