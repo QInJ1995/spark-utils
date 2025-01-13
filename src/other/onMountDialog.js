@@ -2,7 +2,7 @@
  * @Author: QINJIN
  * @Date: 2024-02-29 13:43:57
  * @LastEditors: QINJIN
- * @LastEditTime: 2024-11-29 13:41:57
+ * @LastEditTime: 2025-01-13 16:04:19
  * @FilePath: /spark-utils/src/other/onMountDialog.js
  * @Description: 挂载弹窗
  * @param {Object} options
@@ -34,7 +34,7 @@ async function onMountDialog (options = {}) {
 
 
 // vue挂载弹窗处理
-async function onMountVueDialog (Vue, { targetEl = document.body, dialog, propsData = {}, ok, close, callback, }) {
+async function onMountVueDialog (Vue, { targetEl = document.body, dialog, propsData = {}, ok, close, callback, i18n,}) {
   if(!targetEl || !dialog) return
   // 动态引入处理
   if (dialog instanceof Function) {
@@ -42,6 +42,7 @@ async function onMountVueDialog (Vue, { targetEl = document.body, dialog, propsD
   }
   const Dialog = Vue.extend(dialog)
   dialog = new Dialog({
+    i18n,
     propsData: {
       visible: true,
       ...propsData,
