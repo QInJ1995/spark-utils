@@ -5,7 +5,7 @@
  * @LastEditTime: 2024-11-07 09:52:04
  * @FilePath: /spark-utils/src/log/table.js
  * @Description: table打印
- * Copyright (c) 2024 by ${四川久远银海软件股份有限公司}, All Rights Reserved. 
+ * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
 
 import isArray from '../basic/isArray'

@@ -5,7 +5,7 @@
  * @LastEditTime: 2024-11-06 14:35:13
  * @FilePath: /spark-utils/src/log/index.js
  * @Description: Log 方法聚合
- * Copyright (c) 2024 by ${四川久远银海软件股份有限公司}, All Rights Reserved. 
+ * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
  */
 import info from './info'
 import error from './error'
