@@ -1,47 +1,76 @@
 {
-  "name": "spark-utils",
-  "version": "1.0.0",
-  "description": "spark-utils是一个强大、丰富、可扩展的JavaScript工具库",
-  "main": "dist/index.cjs",
-  "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.min.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "devDependencies": {
-    "@eslint/create-config": "^1.11.0",
-    "@eslint/js": "^10.0.1",
-    "@rollup/plugin-commonjs": "^29.0.2",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-terser": "^1.0.0",
-    "@rollup/plugin-typescript": "^12.3.0",
-    "eslint": "^10.2.0",
-    "globals": "^17.4.0",
-    "rollup": "^4.60.1",
-    "rollup-plugin-clear": "^2.0.7",
-    "rollup-plugin-node-externals": "^8.1.2",
-    "tslib": "^2.8.1",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.0"
-  },
-  "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "lint:eslint": "eslint --cache --max-warnings 0 src --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/QInJ1995/spark-utils.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/QInJ1995/spark-utils/issues"
-  },
-  "homepage": "https://github.com/QInJ1995/spark-utils#readme"
+	"name": "spark-utils",
+	"version": "1.0.0",
+	"description": "spark-utils是一个强大、丰富、可扩展的JavaScript工具库",
+	"main": "dist/index.cjs",
+	"module": "dist/index.esm.js",
+	"browser": "dist/index.umd.min.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"devDependencies": {
+		"@commitlint/cli": "^20.5.0",
+		"@commitlint/config-conventional": "^20.5.0",
+		"@eslint/create-config": "^1.11.0",
+		"@eslint/js": "^10.0.1",
+		"@rollup/plugin-commonjs": "^29.0.2",
+		"@rollup/plugin-json": "^6.1.0",
+		"@rollup/plugin-node-resolve": "^16.0.3",
+		"@rollup/plugin-terser": "^1.0.0",
+		"@rollup/plugin-typescript": "^12.3.0",
+		"eslint": "^10.2.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-prettier": "^5.5.5",
+		"globals": "^17.4.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.4.0",
+		"prettier": "^3.8.1",
+		"rollup": "^4.60.1",
+		"rollup-plugin-clear": "^2.0.7",
+		"rollup-plugin-node-externals": "^8.1.2",
+		"tslib": "^2.8.1",
+		"typescript": "^6.0.2",
+		"typescript-eslint": "^8.58.0"
+	},
+	"scripts": {
+		"prepare": "husky install",
+		"build": "rollup -c",
+		"dev": "rollup -c -w",
+		"lint:eslint": "eslint --cache --max-warnings 0 src --fix",
+		"lint:prettier": "prettier --write **/*.{js,ts,json,html,md}",
+		"lint:lint-staged": "lint-staged"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/QInJ1995/spark-utils.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/QInJ1995/spark-utils/issues"
+	},
+	"homepage": "https://github.com/QInJ1995/spark-utils#readme",
+	"lint-staged": {
+		"*.{js,ts}": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
+			"prettier --write--parser json"
+		],
+		"package.json": [
+			"prettier --write"
+		],
+		"*.{html}": [
+			"stylelint --fix",
+			"prettier --write"
+		],
+		"*.md": [
+			"prettier --write"
+		]
+	}
 }

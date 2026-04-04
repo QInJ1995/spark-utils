@@ -1,2 +1,2 @@
 // require('./js/httpTest')
-require('./js/logTest')
+require('./js/logTest');

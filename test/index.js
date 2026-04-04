@@ -1,3 +1,3 @@
-import isString from "../dist/index.esm.js";
+import isString from '../dist/index.esm.js';
 
-console.log("🚀 ~ isString:", isString);
+console.log('🚀 ~ isString:', isString);
