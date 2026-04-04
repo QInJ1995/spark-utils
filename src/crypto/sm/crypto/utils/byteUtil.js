@@ -32,7 +32,7 @@ function arrayCopy(src,pos1,dest,pos2,len){
  */
 function longToByte(num){
   //TODO 这里目前只转换了低四字节，因为js没有长整型，得要封装
-  return new Array(
+  return [
     0,
     0,
     0,
@@ -41,7 +41,7 @@ function longToByte(num){
         		(num >> 16)&0x000000FF,
         		(num >> 8)&0x000000FF,
         		(num)&0x000000FF
-  );
+  ];
 }
 
 /*
@@ -50,12 +50,12 @@ function longToByte(num){
  * 返回：字节数组
  */
 function intToByte(num) {
-  return new Array(
+  return [
     		(num >> 24)&0x000000FF,
     		(num >> 16)&0x000000FF,
     		(num >> 8)&0x000000FF,
     		(num)&0x000000FF
-  );
+  ];
 }
 
 /*

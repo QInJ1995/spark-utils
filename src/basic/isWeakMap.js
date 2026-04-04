@@ -1,4 +1,4 @@
-/* eslint-disable valid-typeof */
+ 
 import staticStrUndefined from '../constant/static/staticStrUndefined'
 
 /**

@@ -63,10 +63,10 @@ const _sendMessage = (target, callFun, arg, callBackFun) => {
 if (!window.receiveMessage) {
   window.receiveMessage = _receiveMessage
   if (window.attachEvent && !isIE10()) {
-    // eslint-disable-next-line no-undef
+     
     window.attachEvent('onmessage', receiveMessage)
   } else {
-    // eslint-disable-next-line no-undef
+     
     window.addEventListener('message', receiveMessage, true)
   }
 }

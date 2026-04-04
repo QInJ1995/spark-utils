@@ -4,7 +4,7 @@ import staticWindow from '../constant/static/staticWindow'
 import assign from '../object/assign'
 import arrayEach from '../array/arrayEach'
 
-/* eslint-disable valid-typeof */
+ 
 function isBrowseStorage (storage) {
   try {
     var testKey = '__xe_t'

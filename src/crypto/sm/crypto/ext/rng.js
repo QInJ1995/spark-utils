@@ -26,7 +26,7 @@ function rng_seed_time() {
 
 // Initialize the pool with junk if needed.
 if(rng_pool == null) {
-  rng_pool = new Array();
+  rng_pool = [];
   rng_pptr = 0;
   var t;
   if(navigator.appName == "Netscape" && navigator.appVersion < "5" && window.crypto) {
