@@ -1,1 +1,22 @@
-npx --no -- commitlint --edit $1
+npx --no -- commitlint --edit $1 || (
+echo "\n======================================================"
+echo "\033[31m❌  Git 提交信息校验失败，请按照规范修改后重试！\033[0m"
+echo "======================================================"
+echo "\033[34m📝 规范格式：\033[0m\033[33mtype: 描述信息\033[0m"
+echo "\033[34m👉 示例：    \033[0m\033[33mfeat: 新增功能\033[0m"
+echo ""
+echo "\033[32m✅ 支持的提交类型：\033[0m"
+echo "    ✨ feat        新功能"
+echo "    🐛 fix         修复bug"
+echo "    📝 docs        文档变更"
+echo "    💄 style       代码格式（不影响功能）"
+echo "    ♻️ refactor     重构（非bug/非功能）"
+echo "    ⚡️ perf        性能优化"
+echo "    ✅ test        测试用例"
+echo "    👷 build       构建/依赖变更"
+echo "    🔧 ci          CI/CD配置"
+echo "    🎨 chore       其他（工具/脚本/配置）"
+echo "    ⏪ revert      回滚提交"
+echo "======================================================\n"
+exit 1
+)
