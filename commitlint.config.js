@@ -1,5 +1,4 @@
 export default {
-	ignores: [(commit) => commit.includes('init')],
 	extends: ['@commitlint/config-conventional'],
 	rules: {
 		// 信息以空格开头
@@ -29,5 +28,6 @@ export default {
 				'revert' // ⏪ 回滚提交
 			]
 		]
-	}
+	},
+	formatter: '@commitlint/format'
 };
