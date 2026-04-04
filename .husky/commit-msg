@@ -1,1 +1,1 @@
-npx --no commitlint --editor $1
+npm run commitlint \${1}

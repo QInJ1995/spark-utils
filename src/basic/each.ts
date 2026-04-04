@@ -10,11 +10,23 @@ import objectEach from '../object/objectEach';
  * @param {Object} context 上下文
  * @return {Object}
  */
-function each(obj, iterate, context) {
+
+function each<T>(
+	obj: T[] | Record<string, any>,
+	iterate: (item: any, index: number | string, obj: T[] | Record<string, any>) => void,
+	context?: any
+): void {
 	if (obj) {
-		return (isArray(obj) ? arrayEach : objectEach)(obj, iterate, context);
+		if (isArray(obj)) {
+			arrayEach(obj as T[], iterate as (item: T, index: number, list: T[]) => void, context);
+		} else {
+			objectEach(
+				obj as Record<string, any>,
+				iterate as (value: any, key: string, obj: Record<string, any>) => void,
+				context
+			);
+		}
 	}
-	return obj;
 }
 
 export default each;

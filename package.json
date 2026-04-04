@@ -12,7 +12,8 @@
 		"dev": "rollup -c -w",
 		"lint:eslint": "eslint --cache --max-warnings 0 src --fix",
 		"lint:prettier": "prettier --write **/*.{js,ts,json,html,md}",
-		"lint:lint-staged": "lint-staged"
+		"lint:lint-staged": "lint-staged",
+		"commitlint": "commitlint --edit"
 	},
 	"files": [
 		"dist",
