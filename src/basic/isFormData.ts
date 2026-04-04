@@ -1,0 +1,15 @@
+ 
+import staticStrUndefined from '../constant/static/staticStrUndefined'
+
+/**
+  * 判断是否FormData对象
+  *
+  * @param {Object} obj 对象
+  * @return {Boolean}
+  */
+const supportFormData = typeof FormData !== staticStrUndefined
+function isFormData (obj) {
+  return supportFormData && obj instanceof FormData
+}
+
+export default isFormData

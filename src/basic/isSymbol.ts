@@ -1,0 +1,15 @@
+ 
+import staticStrUndefined from '../constant/static/staticStrUndefined'
+
+/**
+  * 判断是否Symbol对象
+  *
+  * @param {Object} obj 对象
+  * @return {Boolean}
+  */
+const supportSymbol = typeof Symbol !== staticStrUndefined
+function isSymbol (obj) {
+  return supportSymbol && Symbol.isSymbol ? Symbol.isSymbol(obj) : (typeof obj === 'symbol')
+}
+
+export default isSymbol
