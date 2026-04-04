@@ -65,7 +65,7 @@
 		"package.json": [
 			"prettier --write"
 		],
-		"*.{html}": [
+		"*.html": [
 			"stylelint --fix",
 			"prettier --write"
 		],
