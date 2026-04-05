@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
-		"target": "ES6", // 编译目标
+		"target": "ESNext", // 编译目标
 		"module": "ESNext", // 模块系统
-		"lib": ["ES6", "DOM"], // 支持浏览器 + Node API
+		"lib": ["ESNext", "DOM"], // 支持浏览器 + Node API
 		"outDir": "./dist", // 输出目录
 		"rootDir": "./src", // 源码目录
 		"declaration": true, // 生成 .d.ts 类型文件
