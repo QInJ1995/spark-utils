@@ -1,11 +1,12 @@
-import helperCreateInInObjectString from '../helpers/helperCreateInInObjectString'
+import helperCreateInInObjectString from '../helpers/helperCreateInInObjectString';
 
 /**
-  * 判断是否RegExp对象
-  *
-  * @param {Object} obj 对象
-  * @return {Boolean}
-  */
-const isRegExp = helperCreateInInObjectString('RegExp')
+ * 判断是否RegExp对象
+ *
+ * @param {unknown} obj 对象
+ * @return {Boolean}
+ *
+ */
+const isRegExp = helperCreateInInObjectString('RegExp');
 
-export default isRegExp
+export default isRegExp;

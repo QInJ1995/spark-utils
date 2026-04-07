@@ -12,6 +12,8 @@ import objectEach from '../object/objectEach';
  *                  index: 当前元素索引(数组)或键名(对象)
  *                  obj: 原始数据源
  * @param context - 可选的上下文对象，作为回调函数的this指向
+ * @author QINJIN
+ * @email 953373752@qq.com
  */
 function each<T>(
 	obj: T[] | Record<string, any>,
