@@ -11,9 +11,10 @@ const MAIN_ENTRIES = [
   'src/index.ts',
   'src/basic/index.ts',
   'src/array/index.ts',
+  'src/number/index.ts',
   // 随里程碑逐步加入：
   // 'src/object/index.ts',
-  // 'src/function/index.ts', 'src/number/index.ts', 'src/string/index.ts',
+  // 'src/function/index.ts', 'src/string/index.ts',
   // 'src/date/index.ts', 'src/log/index.ts', 'src/other/index.ts', 'src/http/index.ts',
   'src/pinyin.ts',
 ]

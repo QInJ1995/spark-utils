@@ -82,5 +82,21 @@
     "unzip",
     "zip",
     "zipObject"
+  ],
+  "number": [
+    "add",
+    "ceil",
+    "cnMoneyFormat",
+    "divide",
+    "floor",
+    "max",
+    "min",
+    "moneyFormat",
+    "multiply",
+    "round",
+    "subtract",
+    "toInteger",
+    "toNumber",
+    "toNumberString"
   ]
 }
