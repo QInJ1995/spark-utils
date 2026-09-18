@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.23",
     "jsrsasign": "^10.5.13"
   }
 }
