@@ -1,0 +1,84 @@
+{
+  "module": "array",
+  "method": "reduce",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        {
+          "__type": "Function",
+          "src": "function (prev, cur) { return prev + cur }"
+        }
+      ],
+      "output": 10,
+      "note": "callback(prev, cur)，无初始值时首元素为 acc"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (prev, cur) { return prev + cur }"
+        },
+        10
+      ],
+      "output": 16,
+      "note": "第三参为初始值"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (prev, cur) { return prev + cur }"
+        },
+        0
+      ],
+      "output": 6,
+      "note": "对象按键序归并（无原生 reduce 的回退分支）"
+    },
+    {
+      "args": [
+        [],
+        {
+          "__type": "Function",
+          "src": "function (prev, cur) { return prev + cur }"
+        },
+        10
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空数组+初始值返回 undefined（回退分支覆盖 previous 的怪癖）"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (prev, cur) { return prev }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "null 返回 undefined"
+    }
+  ]
+}

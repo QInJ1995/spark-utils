@@ -1,0 +1,124 @@
+{
+  "module": "date",
+  "method": "getDateDiff",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        {
+          "__type": "Date",
+          "value": "2024-03-08T02:00:00.000Z"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "done": true,
+          "time": 264600000,
+          "yyyy": 0,
+          "MM": 0,
+          "dd": 3,
+          "HH": 1,
+          "mm": 30,
+          "ss": 0,
+          "S": 0
+        }
+      },
+      "note": "默认规则：3 天 1 小时 30 分的差值明细对象"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2023-12-31T16:00:00.000Z"
+        },
+        {
+          "__type": "Date",
+          "value": "2025-03-01T04:30:45.000Z"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "done": true,
+          "time": 36765045000,
+          "yyyy": 1,
+          "MM": 2,
+          "dd": 0,
+          "HH": 12,
+          "mm": 30,
+          "ss": 45,
+          "S": 0
+        }
+      },
+      "note": "跨年差值明细"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-08T02:00:00.000Z"
+        },
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "done": false,
+          "time": 0
+        }
+      },
+      "note": "结束早于开始：done 为 false"
+    },
+    {
+      "args": [
+        "abc",
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:00:00.000Z"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "done": false,
+          "time": 0
+        }
+      },
+      "note": "非法开始日期：done 为 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:01.000Z"
+        },
+        [
+          [
+            "ss",
+            1000
+          ]
+        ]
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "done": true,
+          "time": 1000,
+          "ss": 1000
+        }
+      },
+      "note": "自定义 rules 数组"
+    }
+  ]
+}

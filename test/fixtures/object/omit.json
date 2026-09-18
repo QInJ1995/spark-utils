@@ -1,0 +1,102 @@
+{
+  "module": "object",
+  "method": "omit",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        },
+        "b"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "c": 3
+        }
+      },
+      "note": "排除单键 {a:1,c:3}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        [
+          "a",
+          "b"
+        ]
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "全部排除得 {}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return k === 'b' }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "c": 3
+        }
+      },
+      "note": "函数筛选排除 {a:1,c:3}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        "missing"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": 2
+        }
+      },
+      "note": "未命中键原样保留 {a:1,b:2}"
+    },
+    {
+      "args": [
+        null,
+        "a"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "空入参 {}"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "module": "date",
+  "method": "getWhatYear",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        1
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2025-03-05T00:30:00.000Z"
+      },
+      "note": "后 1 年，保留时分秒"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        -1
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2023-03-05T00:30:00.000Z"
+      },
+      "note": "前 1 年"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        0,
+        "first"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2023-12-31T16:00:00.000Z"
+      },
+      "note": "年初：2024-01-01 00:00:00"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        1,
+        "last"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2025-12-31T15:59:59.999Z"
+      },
+      "note": "下一年年末：2025-12-31 23:59:59.999"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "invalid"
+      },
+      "note": "非法输入返回 Invalid Date"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "module": "object",
+  "method": "clear",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "不传默认值删除全部属性得 {}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        0
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 0,
+          "b": 0
+        }
+      },
+      "note": "标量默认值逐键填充 {a:0,b:0}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "b": 2
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "b": 2
+        }
+      },
+      "note": "对象默认值=清空并继承 {b:2}"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": [],
+      "note": "数组清空得 []"
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ],
+        "x"
+      ],
+      "output": [
+        "x",
+        "x"
+      ],
+      "note": "数组标量填充 [\"x\",\"x\"]"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": null,
+      "note": "空入参原样返回 null"
+    }
+  ]
+}

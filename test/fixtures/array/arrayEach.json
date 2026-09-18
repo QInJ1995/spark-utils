@@ -1,0 +1,49 @@
+{
+  "module": "array",
+  "method": "arrayEach",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v, i) { return v * i }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "典型遍历，走原生 forEach，返回 undefined"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "null 入参不遍历不抛错"
+    },
+    {
+      "args": [
+        "abc",
+        {
+          "__type": "Function",
+          "src": "function (c) { return c.toUpperCase() }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "字符串无 forEach，走索引循环"
+    }
+  ]
+}

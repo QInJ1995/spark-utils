@@ -1,0 +1,87 @@
+{
+  "module": "object",
+  "method": "has",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        "a"
+      ],
+      "output": true,
+      "note": "自有键直接 hasOwnProperty 命中，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "b": 1
+              }
+            }
+          }
+        },
+        "a.b"
+      ],
+      "output": true,
+      "note": "点路径逐级判定，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": [
+              10,
+              20
+            ]
+          }
+        },
+        "a[1]"
+      ],
+      "output": true,
+      "note": "索引路径（正则要求 [数字] 在末尾），true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "undefined"
+            }
+          }
+        },
+        "a"
+      ],
+      "output": true,
+      "note": "怪癖：值为 undefined 的自有键仍算存在，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        "a"
+      ],
+      "output": false,
+      "note": "不存在 false"
+    },
+    {
+      "args": [
+        null,
+        "a"
+      ],
+      "output": false,
+      "note": "空对象入参 false"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "module": "array",
+  "method": "zipObject",
+  "cases": [
+    {
+      "args": [
+        [
+          "a",
+          "b",
+          "c"
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": 2,
+          "c": 3
+        }
+      },
+      "note": "键值数组转对象"
+    },
+    {
+      "args": [
+        [
+          "a",
+          "b",
+          "c"
+        ],
+        [
+          1
+        ]
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": {
+            "__type": "undefined"
+          },
+          "c": {
+            "__type": "undefined"
+          }
+        }
+      },
+      "note": "值不足补 undefined"
+    },
+    {
+      "args": [
+        [
+          "a",
+          "b"
+        ]
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": {
+            "__type": "undefined"
+          },
+          "b": {
+            "__type": "undefined"
+          }
+        }
+      },
+      "note": "缺值数组全 undefined"
+    },
+    {
+      "args": [
+        [],
+        []
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "空输入返回 {}"
+    }
+  ]
+}

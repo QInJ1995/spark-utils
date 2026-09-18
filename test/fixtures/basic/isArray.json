@@ -1,0 +1,51 @@
+{
+  "module": "basic",
+  "method": "isArray",
+  "cases": [
+    {
+      "args": [
+        []
+      ],
+      "output": true,
+      "note": "空数组 true"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        "ab"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "0": "a",
+            "length": 1
+          }
+        }
+      ],
+      "output": false,
+      "note": "类数组对象不算数组，false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

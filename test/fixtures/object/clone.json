@@ -1,0 +1,143 @@
+{
+  "module": "object",
+  "method": "clone",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": {
+              "__type": "Object",
+              "value": {
+                "c": 2
+              }
+            }
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": {
+            "__type": "Object",
+            "value": {
+              "c": 2
+            }
+          }
+        }
+      },
+      "note": "浅拷贝（嵌套引用不可区分，快照锁定形状）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "b": {
+                  "__type": "Object",
+                  "value": {
+                    "c": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        true
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": {
+            "__type": "Object",
+            "value": {
+              "b": {
+                "__type": "Object",
+                "value": {
+                  "c": 3
+                }
+              }
+            }
+          }
+        }
+      },
+      "note": "深拷贝普通对象"
+    },
+    {
+      "args": [
+        [
+          1,
+          [
+            2,
+            3
+          ]
+        ]
+      ],
+      "output": [
+        1,
+        [
+          2,
+          3
+        ]
+      ],
+      "note": "浅拷贝数组"
+    },
+    {
+      "args": [
+        [
+          1,
+          [
+            2,
+            3
+          ]
+        ],
+        true
+      ],
+      "output": [
+        1,
+        [
+          2,
+          3
+        ]
+      ],
+      "note": "深拷贝数组"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "d": {
+              "__type": "Date",
+              "value": "2024-03-05T08:30:00.000Z"
+            }
+          }
+        },
+        true
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "d": {
+            "__type": "Date",
+            "value": "2024-03-05T08:30:00.000Z"
+          }
+        }
+      },
+      "note": "深拷贝 Date（new Ctor(valueOf())，时刻不变）"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": null,
+      "note": "空值原样返回 null"
+    }
+  ]
+}

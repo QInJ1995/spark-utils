@@ -1,0 +1,55 @@
+{
+  "module": "array",
+  "method": "findLastIndexOf",
+  "cases": [
+    {
+      "args": [
+        [
+          10,
+          20,
+          30,
+          20
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v === 20 }"
+        }
+      ],
+      "output": 3,
+      "note": "返回最后命中索引 3"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 10 }"
+        }
+      ],
+      "output": -1,
+      "note": "未命中返回 -1"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 5,
+            "b": 3,
+            "c": 1
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v < 4 }"
+        }
+      ],
+      "output": "b",
+      "note": "对象入参仍正序 for-in，与 findIndexOf 结果相同（怪癖）"
+    }
+  ]
+}

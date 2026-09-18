@@ -1,0 +1,40 @@
+{
+  "module": "basic",
+  "method": "isValidDate",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "invalid"
+        }
+      ],
+      "output": false,
+      "note": "Invalid Date 的 getTime 为 NaN，false"
+    },
+    {
+      "args": [
+        "2024-03-05"
+      ],
+      "output": false,
+      "note": "字符串直接不是 Date，false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

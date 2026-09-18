@@ -1,0 +1,216 @@
+{
+  "module": "array",
+  "method": "toArrayTree",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "parentId": null
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 2,
+              "parentId": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 3,
+              "parentId": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 4,
+              "parentId": 2
+            }
+          }
+        ]
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1,
+            "parentId": null,
+            "children": [
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 2,
+                  "parentId": 1,
+                  "children": [
+                    {
+                      "__type": "Object",
+                      "value": {
+                        "id": 4,
+                        "parentId": 2,
+                        "children": []
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 3,
+                  "parentId": 1,
+                  "children": []
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "note": "默认 key:id / parentKey:parentId / children:children，节点带空 children 数组"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "parentId": null
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 2,
+              "parentId": 1
+            }
+          }
+        ],
+        {
+          "__type": "Object",
+          "value": {
+            "strict": true
+          }
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1,
+            "parentId": null,
+            "children": [
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 2,
+                  "parentId": 1
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "note": "strict 模式删除空 children 键（原地变异，生成器已克隆）"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "code": "a",
+              "p": null
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "code": "b",
+              "p": "a"
+            }
+          }
+        ],
+        {
+          "__type": "Object",
+          "value": {
+            "key": "code",
+            "parentKey": "p",
+            "children": "nodes"
+          }
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "code": "a",
+            "p": null,
+            "nodes": [
+              {
+                "__type": "Object",
+                "value": {
+                  "code": "b",
+                  "p": "a",
+                  "nodes": []
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "note": "自定义键名配置"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "parentId": null
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 2,
+              "parentId": 99
+            }
+          }
+        ]
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1,
+            "parentId": null,
+            "children": []
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "id": 2,
+            "parentId": 99,
+            "children": []
+          }
+        }
+      ],
+      "note": "parentId 不在 id 列表的孤儿节点也作为根返回"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": [],
+      "note": "空数组返回 []"
+    }
+  ]
+}

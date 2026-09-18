@@ -1,0 +1,45 @@
+{
+  "module": "date",
+  "method": "getYearWeek",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:00:00.000Z"
+        }
+      ],
+      "output": 10,
+      "note": "ISO 周算法：第 10 周"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "output": 1,
+      "note": "第 1 周"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2023-12-31T00:00:00.000Z"
+        }
+      ],
+      "output": 52,
+      "note": "年末周：2023 第 52 周"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": {
+        "__type": "NaN"
+      },
+      "note": "非法输入返回 NaN"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "module": "array",
+  "method": "uniq",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          1,
+          3,
+          2,
+          1
+        ]
+      ],
+      "output": [
+        1,
+        2,
+        3
+      ],
+      "note": "基础去重"
+    },
+    {
+      "args": [
+        [
+          1,
+          "1",
+          1
+        ]
+      ],
+      "output": [
+        1,
+        "1"
+      ],
+      "note": "严格相等比较，数字 1 与字符串 1 不互相去重"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "NaN"
+          },
+          {
+            "__type": "NaN"
+          },
+          1
+        ]
+      ],
+      "output": [
+        {
+          "__type": "NaN"
+        },
+        1
+      ],
+      "note": "底层 includes 用 SameValueZero，NaN 可去重"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": [],
+      "note": "空数组返回 []"
+    }
+  ]
+}

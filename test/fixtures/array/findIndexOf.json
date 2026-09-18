@@ -1,0 +1,67 @@
+{
+  "module": "array",
+  "method": "findIndexOf",
+  "cases": [
+    {
+      "args": [
+        [
+          10,
+          20,
+          30,
+          20
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v === 20 }"
+        }
+      ],
+      "output": 1,
+      "note": "返回首个命中索引"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 10 }"
+        }
+      ],
+      "output": -1,
+      "note": "未命中返回 -1"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 5,
+            "b": 3,
+            "c": 1
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v < 4 }"
+        }
+      ],
+      "output": "b",
+      "note": "对象入参 for-in 返回键名"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        "x"
+      ],
+      "output": -1,
+      "note": "非函数 iterate 直接返回 -1"
+    }
+  ]
+}

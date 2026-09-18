@@ -1,0 +1,55 @@
+{
+  "module": "basic",
+  "method": "first",
+  "cases": [
+    {
+      "args": [
+        [
+          3,
+          4,
+          5
+        ]
+      ],
+      "output": 3,
+      "note": "取首元素 3"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        }
+      ],
+      "output": 1,
+      "note": "对象按 values 取第一个值 1"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空数组 undefined"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": "a",
+      "note": "怪癖：字符串也走 values 取首字符 \"a\""
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "undefined"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "module": "basic",
+  "method": "isWeakMap",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "WeakMap"
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：WeakMap 被 deepClone 拍平、normalize 丢构造器，两侧一致得 false，正例需工具链支持）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Map",
+          "value": []
+        }
+      ],
+      "output": false,
+      "note": "Map 不是 WeakMap，false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

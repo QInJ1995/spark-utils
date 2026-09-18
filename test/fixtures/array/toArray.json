@@ -1,0 +1,55 @@
+{
+  "module": "array",
+  "method": "toArray",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": [
+        1,
+        2,
+        3
+      ],
+      "note": "返回新数组"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        }
+      ],
+      "output": [
+        1,
+        2
+      ],
+      "note": "对象取值数组"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": [
+        "a",
+        "b",
+        "c"
+      ],
+      "note": "字符串拆成字符数组"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": [],
+      "note": "null 返回 []"
+    }
+  ]
+}

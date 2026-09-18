@@ -1,0 +1,131 @@
+{
+  "module": "array",
+  "method": "filterTree",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                },
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 3
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 4
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.id !== 2 }"
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1,
+            "children": [
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 2
+                }
+              },
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 3
+                }
+              }
+            ]
+          }
+        },
+        {
+          "__type": "Circular"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "id": 4
+          }
+        }
+      ],
+      "note": "返回扁平命中数组（DFS 序，不保留树结构）"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "nodes": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.id === 2 }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "children": "nodes"
+          }
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 2
+          }
+        }
+      ],
+      "note": "自定义 children 键"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return false }"
+        }
+      ],
+      "output": [],
+      "note": "全不命中返回 []"
+    }
+  ]
+}

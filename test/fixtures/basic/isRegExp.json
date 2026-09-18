@@ -1,0 +1,41 @@
+{
+  "module": "basic",
+  "method": "isRegExp",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "RegExp",
+          "source": "ab+c",
+          "flags": "g"
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：deepClone 会把 RegExp 参数拍平成 {}，生成前需修 serialize/deepClone，否则记录为 false）"
+    },
+    {
+      "args": [
+        "ab"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": false,
+      "note": "普通对象 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

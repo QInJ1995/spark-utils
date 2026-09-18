@@ -1,0 +1,66 @@
+{
+  "module": "basic",
+  "method": "toJSONString",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": "x"
+          }
+        }
+      ],
+      "output": "{\"a\":1,\"b\":\"x\"}",
+      "note": "对象序列化"
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ]
+      ],
+      "output": "[1,2]",
+      "note": "数组序列化"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": "",
+      "note": "eqNull 空值返回空串"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": "",
+      "note": "同上返回空串"
+    },
+    {
+      "args": [
+        "str"
+      ],
+      "output": "\"str\"",
+      "note": "字符串序列化带引号"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "undefined"
+            }
+          }
+        }
+      ],
+      "output": "{}",
+      "note": "怪癖：undefined 值键被 JSON.stringify 丢弃得 {}"
+    }
+  ]
+}

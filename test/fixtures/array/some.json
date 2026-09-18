@@ -1,0 +1,64 @@
+{
+  "module": "array",
+  "method": "some",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 2 }"
+        }
+      ],
+      "output": true,
+      "note": "任一命中返回 true（原生 some）"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 9 }"
+        }
+      ],
+      "output": false,
+      "note": "全不命中返回 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 1 }"
+        }
+      ],
+      "output": true,
+      "note": "对象 for-in 命中返回 true"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return true }"
+        }
+      ],
+      "output": false,
+      "note": "null 返回默认 false"
+    }
+  ]
+}

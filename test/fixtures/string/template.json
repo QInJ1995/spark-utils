@@ -1,0 +1,106 @@
+{
+  "module": "string",
+  "method": "template",
+  "cases": [
+    {
+      "args": [
+        "{{name}}-{{version}}",
+        {
+          "__type": "Object",
+          "value": {
+            "name": "spark",
+            "version": 2
+          }
+        }
+      ],
+      "output": "spark-2",
+      "note": "定界符为 {{key}}（默认 tmplRE）"
+    },
+    {
+      "args": [
+        "{{user.profile.city}}",
+        {
+          "__type": "Object",
+          "value": {
+            "user": {
+              "__type": "Object",
+              "value": {
+                "profile": {
+                  "__type": "Object",
+                  "value": {
+                    "city": "深圳"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "output": "深圳",
+      "note": "支持点路径嵌套取值"
+    },
+    {
+      "args": [
+        "{{list.1.tag}}",
+        {
+          "__type": "Object",
+          "value": {
+            "list": [
+              {
+                "__type": "Object",
+                "value": {
+                  "tag": "a"
+                }
+              },
+              {
+                "__type": "Object",
+                "value": {
+                  "tag": "b"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "output": "b",
+      "note": "支持数组下标路径"
+    },
+    {
+      "args": [
+        "{{name}}",
+        {
+          "__type": "Object",
+          "value": {
+            "name": 0
+          }
+        }
+      ],
+      "output": "0",
+      "note": "值为 0 时输出 \"0\"（非 undefined）"
+    },
+    {
+      "args": [
+        "{{missing}}",
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": "undefined",
+      "note": "缺失 key 输出字符串 \"undefined\""
+    },
+    {
+      "args": [
+        "no placeholder",
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        }
+      ],
+      "output": "no placeholder",
+      "note": "无定界符原样返回"
+    }
+  ]
+}

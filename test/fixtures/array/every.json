@@ -1,0 +1,63 @@
+{
+  "module": "array",
+  "method": "every",
+  "cases": [
+    {
+      "args": [
+        [
+          2,
+          4,
+          6
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v % 2 === 0 }"
+        }
+      ],
+      "output": true,
+      "note": "全部满足返回 true（原生 every）"
+    },
+    {
+      "args": [
+        [
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v % 2 === 0 }"
+        }
+      ],
+      "output": false,
+      "note": "任一不满足返回 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 2,
+            "b": 4
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v % 2 === 0 }"
+        }
+      ],
+      "output": true,
+      "note": "对象 for-in 全满足返回 true"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return false }"
+        }
+      ],
+      "output": true,
+      "note": "null 返回默认 true"
+    }
+  ]
+}

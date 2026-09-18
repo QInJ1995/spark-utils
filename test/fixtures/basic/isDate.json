@@ -1,0 +1,47 @@
+{
+  "module": "basic",
+  "method": "isDate",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "invalid"
+        }
+      ],
+      "output": true,
+      "note": "怪癖：Invalid Date 仍是 Date 实例，true"
+    },
+    {
+      "args": [
+        "2024-03-05"
+      ],
+      "output": false,
+      "note": "日期字符串不算 Date 对象，false"
+    },
+    {
+      "args": [
+        1719878400000
+      ],
+      "output": false,
+      "note": "时间戳数字 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

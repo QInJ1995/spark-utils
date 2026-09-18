@@ -1,0 +1,125 @@
+{
+  "module": "object",
+  "method": "set",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        "a",
+        1
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "简单键设置 {a:1}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        "a.b",
+        2
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": {
+            "__type": "Object",
+            "value": {
+              "b": 2
+            }
+          }
+        }
+      },
+      "note": "路径自动创建中间对象 {a:{b:2}}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {}
+            }
+          }
+        },
+        "a.b",
+        3
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": {
+            "__type": "Object",
+            "value": {
+              "b": 3
+            }
+          }
+        }
+      },
+      "note": "已有中间对象复用 {a:{b:3}}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        "list[0]",
+        "x"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "list": [
+            "x"
+          ]
+        }
+      },
+      "note": "索引路径自动建数组 {list:[\"x\"]}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        "a",
+        9
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 9
+        }
+      },
+      "note": "覆盖已有键 {a:9}，返回原对象"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        "__proto__",
+        "x"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "原型污染键被黑名单忽略，返回 {}（安全行为）"
+    }
+  ]
+}

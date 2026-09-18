@@ -1,0 +1,66 @@
+{
+  "module": "basic",
+  "method": "lastEach",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v, i) { return v + i }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "倒序遍历，返回 undefined"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "对象按 keys 倒序，返回 undefined"
+    },
+    {
+      "args": [
+        [],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空数组返回 undefined"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": null,
+      "note": "空值原样返回 null"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "module": "date",
+  "method": "isTime",
+  "cases": [
+    {
+      "args": [
+        "08:30:00"
+      ],
+      "output": true
+    },
+    {
+      "args": [
+        "23:59:59"
+      ],
+      "output": true
+    },
+    {
+      "args": [
+        "24:00:00"
+      ],
+      "output": false,
+      "note": "小时 24 非法"
+    },
+    {
+      "args": [
+        "8:30:00"
+      ],
+      "output": false,
+      "note": "长度 7（非 8）直接 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": {
+        "__type": "Throw",
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'length')"
+      },
+      "note": "undefined 无 length，抛 TypeError"
+    }
+  ]
+}

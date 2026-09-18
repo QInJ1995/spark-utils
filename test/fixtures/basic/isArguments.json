@@ -1,0 +1,51 @@
+{
+  "module": "basic",
+  "method": "isArguments",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Arguments",
+          "value": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：arguments 被 deepClone 拍平成普通对象，当前生成记 false）"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": false,
+      "note": "数组 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "0": 1,
+            "1": 2
+          }
+        }
+      ],
+      "output": false,
+      "note": "索引键对象不是 arguments，false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

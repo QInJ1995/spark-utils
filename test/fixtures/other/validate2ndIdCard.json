@@ -1,0 +1,50 @@
+{
+  "module": "other",
+  "method": "validate2ndIdCard",
+  "cases": [
+    {
+      "args": [
+        "11010519491231002X",
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "合法：校验位 X 正确；errors 不 push，返回 undefined"
+    },
+    {
+      "args": [
+        "110105194912310021",
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "校验位错误：errors push \"身份证编码规则验证失败\"（快照仅记录返回值 undefined）"
+    },
+    {
+      "args": [
+        "123456",
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "长度错误：errors push \"身份证长度不合法\""
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        },
+        []
+      ],
+      "output": {
+        "__type": "Throw",
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'length')"
+      },
+      "note": "undefined 无 length，抛 TypeError"
+    }
+  ]
+}

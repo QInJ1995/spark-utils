@@ -1,0 +1,116 @@
+{
+  "module": "number",
+  "method": "min",
+  "cases": [
+    {
+      "args": [
+        [
+          5,
+          2,
+          8,
+          2
+        ]
+      ],
+      "output": 2
+    },
+    {
+      "args": [
+        [
+          3,
+          1,
+          4,
+          1,
+          5
+        ]
+      ],
+      "output": 1
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "v": 3
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 2
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "(item) => item.v"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "v": 1
+        }
+      },
+      "note": "函数 iterate：返回的是原数组元素（对象），非数值"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "v": 3
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 2
+            }
+          }
+        ],
+        "v"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "v": 1
+        }
+      },
+      "note": "字符串 iterate：按属性取最小元素"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空数组返回 undefined"
+    },
+    {
+      "args": [
+        [
+          null,
+          5,
+          2
+        ]
+      ],
+      "output": 2,
+      "note": "null 项被 eqNull 跳过，返回 2"
+    }
+  ]
+}

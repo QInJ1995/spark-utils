@@ -1,0 +1,40 @@
+{
+  "module": "number",
+  "method": "ceil",
+  "cases": [
+    {
+      "args": [
+        4.2
+      ],
+      "output": 5
+    },
+    {
+      "args": [
+        -4.2
+      ],
+      "output": -4,
+      "note": "负数向上舍入为 -4"
+    },
+    {
+      "args": [
+        0.123,
+        2
+      ],
+      "output": 0.13
+    },
+    {
+      "args": [
+        6
+      ],
+      "output": 6,
+      "note": "整数原样返回"
+    },
+    {
+      "args": [
+        "7.8"
+      ],
+      "output": 8,
+      "note": "字符串数字输入"
+    }
+  ]
+}

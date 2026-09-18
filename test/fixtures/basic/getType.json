@@ -1,0 +1,59 @@
+{
+  "module": "basic",
+  "method": "getType",
+  "cases": [
+    {
+      "args": [
+        null
+      ],
+      "output": "null",
+      "note": "'null'"
+    },
+    {
+      "args": [
+        "str"
+      ],
+      "output": "string",
+      "note": "'string'"
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ]
+      ],
+      "output": "array",
+      "note": "'array'（先于 object 判定）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": "date",
+      "note": "'date'"
+    },
+    {
+      "args": [
+        {
+          "__type": "Function",
+          "src": "function () {}"
+        }
+      ],
+      "output": "function",
+      "note": "'function'"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": "undefined",
+      "note": "'undefined'"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "module": "number",
+  "method": "add",
+  "cases": [
+    {
+      "args": [
+        0.1,
+        0.2
+      ],
+      "output": 0.3,
+      "note": "精度修正：精确得到 0.3"
+    },
+    {
+      "args": [
+        "10",
+        "5"
+      ],
+      "output": 15,
+      "note": "字符串数字输入"
+    },
+    {
+      "args": [
+        null,
+        5
+      ],
+      "output": 5,
+      "note": "null 经 toNumber 变 0"
+    },
+    {
+      "args": [
+        "abc",
+        1
+      ],
+      "output": 1,
+      "note": "非数字按 0 参与运算"
+    },
+    {
+      "args": [
+        -0.3,
+        0.1
+      ],
+      "output": -0.2,
+      "note": "负数精度：-0.2"
+    }
+  ]
+}

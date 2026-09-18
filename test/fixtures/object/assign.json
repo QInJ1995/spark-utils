@@ -1,0 +1,119 @@
+{
+  "module": "object",
+  "method": "assign",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "b": 2
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": 2
+        }
+      },
+      "note": "浅合并 {a:1,b:2}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": 2,
+            "b": 3
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 2,
+          "b": 3
+        }
+      },
+      "note": "后者覆盖 {a:2,b:3}"
+    },
+    {
+      "args": [
+        true,
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "b": 1
+              }
+            }
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "c": 2
+              }
+            }
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": {
+            "__type": "Object",
+            "value": {
+              "c": 2
+            }
+          }
+        }
+      },
+      "note": "怪癖：首参 true 走深拷贝模式，但整键替换而非递归合并，得 {a:{c:2}}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        null
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "空源跳过 {a:1}"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": null,
+      "note": "空目标原样返回 null"
+    }
+  ]
+}

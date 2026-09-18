@@ -1,0 +1,45 @@
+{
+  "module": "basic",
+  "method": "isTypeError",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Error",
+          "name": "TypeError",
+          "message": "wrong type"
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：同 isError，实例参数被拍平，当前生成记 false）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Error",
+          "name": "Error",
+          "message": "plain"
+        }
+      ],
+      "output": false,
+      "note": "普通 Error 的 constructor 不是 TypeError，false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

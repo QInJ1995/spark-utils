@@ -1,0 +1,46 @@
+{
+  "module": "date",
+  "method": "getDayOfYear",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-06-15T00:00:00.000Z"
+        }
+      ],
+      "output": 366,
+      "note": "2024 闰年 366 天"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2023-06-15T00:00:00.000Z"
+        }
+      ],
+      "output": 365,
+      "note": "2023 平年 365 天"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2023-06-15T00:00:00.000Z"
+        },
+        1
+      ],
+      "output": 366,
+      "note": "offset 跨入闰年 2024 → 366"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": {
+        "__type": "NaN"
+      },
+      "note": "非法输入返回 NaN"
+    }
+  ]
+}

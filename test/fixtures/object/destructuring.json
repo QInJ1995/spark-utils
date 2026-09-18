@@ -1,0 +1,116 @@
+{
+  "module": "object",
+  "method": "destructuring",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "b": 3
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": 3
+        }
+      },
+      "note": "仅覆盖与源相交的键 {a:1,b:3}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "c": 4
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "无交集不变 {a:1}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": 10
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "b": 20
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 10,
+          "b": 20
+        }
+      },
+      "note": "多源按序覆盖 {a:10,b:20}"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        }
+      ],
+      "output": null,
+      "note": "空目标原样返回 null"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        null
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "怪癖：第二参 falsy 时整体跳过，返回原对象 {a:1}"
+    }
+  ]
+}

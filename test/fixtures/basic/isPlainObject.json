@@ -1,0 +1,52 @@
+{
+  "module": "basic",
+  "method": "isPlainObject",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        }
+      ],
+      "output": true,
+      "note": "字面量对象 constructor === Object，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": false,
+      "note": "constructor 是 Array，false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": false,
+      "note": "constructor 是 Date，false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

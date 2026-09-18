@@ -26,4 +26,12 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // 用例数据文件：回调的占位参数是对旧签名的忠实还原（位置参数），非死代码；
+    // 且函数源码文本会进入快照，不得随意改名
+    files: ['test/fixtures-cases/**'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
 )
