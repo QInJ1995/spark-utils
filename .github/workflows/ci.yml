@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main, refactor/2.0-ts]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 20, 22]
+    env:
+      # 日期类 fixtures 对时区敏感，固定时区
+      TZ: Asia/Shanghai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run depcruise
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
