@@ -98,5 +98,18 @@
     "toInteger",
     "toNumber",
     "toNumberString"
+  ],
+  "string": [
+    "camelCase",
+    "checkPass",
+    "escape",
+    "format",
+    "formatWithIndex",
+    "formatWithReq",
+    "kebabCase",
+    "sortWithCharacter",
+    "template",
+    "toString",
+    "unescape"
   ]
 }
