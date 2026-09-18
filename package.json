@@ -1,6 +1,6 @@
 {
   "name": "spark-utils",
-  "version": "1.1.10",
+  "version": "2.0.0",
   "description": "同构 JavaScript/TypeScript 工具库（Node 与浏览器通用）",
   "type": "module",
   "main": "./dist/index.cjs",

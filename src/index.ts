@@ -5,7 +5,7 @@
  * - 加密方法：`import { ... } from 'spark-utils/crypto'`
  */
 
-export const VERSION = '2.0.0-beta.0'
+export const VERSION = '2.0.0'
 
 export { setup, setupDefaults } from './config'
 export type { SparkUtilsSetup } from './config'
