@@ -12,6 +12,13 @@
  *   自动重新解析，跨实例一致性不受影响。
  * - bug 修复（2.0）：旧版 getStorage 在 createWebStorage 返回 false 时仍然继续
  *   调用 webStorage.getAll()，直接 TypeError；新版失败时返回 null。
+ * - bug 修复（2.0）：带 invalidTime 的实例读到「非包装条目」（普通实例或外部
+ *   写入的同键数据）时，旧实现把 undefined 当 updateTime 参与运算（NaN 恒不过期）
+ *   并把 undefined 重新包装回写，静默损毁存量数据；新实现三态解析条目
+ *   （corrupt / plain / wrapped），plain 数据原样返回且永不被过期实例改写，
+ *   损坏 JSON 条目按缺失处理并告警，不再裸抛 SyntaxError；反向混读（永不过期
+ *   实例读到包装条目）旧版返回整个 {value, updateTime} 壳，新版解包返回真实值，
+ *   跨实例读写两个方向语义一致。
  * - 移除（2.0）：已弃用的 init 别名（旧版仅打 deprecation 日志后转发）。
  * - 日志经 getSetup().showLog 门控（旧版无条件 console.log）。
  */
@@ -31,6 +38,12 @@ interface StorageRecord {
   value: unknown
   updateTime: number
 }
+
+/** 条目解析三态：corrupt=损坏 JSON；plain=非本实例包装的外部数据；wrapped=过期实例管辖的包装条目 */
+type ParsedEntry =
+  | { kind: 'corrupt' }
+  | { kind: 'plain'; record: unknown }
+  | { kind: 'wrapped'; wrapped: StorageRecord }
 
 /** webStorage 实例（createWebStorage 的返回类型；false 代表创建失败） */
 export interface WebStorageCreator {
@@ -107,6 +120,28 @@ class WebStorageCreatorImpl implements WebStorageCreator {
     this.commit({})
   }
 
+  /**
+   * 条目三态解析：损坏 JSON / 非包装数据（普通实例或外部写入）/ 本实例管辖的包装条目。
+   * 仅「对象且 updateTime 为数字」按包装处理——其余一律视为 plain，
+   * 保证过期实例读外部数据时原样返回、不回写不删除（不再静默损毁）。
+   */
+  private parseEntry(entry: string): ParsedEntry {
+    let record: unknown
+    try {
+      record = JSON.parse(entry)
+    } catch {
+      return { kind: 'corrupt' }
+    }
+    if (
+      record !== null &&
+      typeof record === 'object' &&
+      typeof (record as StorageRecord).updateTime === 'number'
+    ) {
+      return { kind: 'wrapped', wrapped: record as StorageRecord }
+    }
+    return { kind: 'plain', record }
+  }
+
   get(key: string): unknown {
     const map = this.readMap()
     if (map === null) {
@@ -117,22 +152,26 @@ class WebStorageCreatorImpl implements WebStorageCreator {
     if (!entry) {
       return null
     }
-    const record: unknown = JSON.parse(entry)
-    if (record === null || record === undefined) {
+    const parsed = this.parseEntry(entry)
+    if (parsed.kind === 'corrupt') {
+      warnLog(`webStorage "${this.storageName}" 的 ${key}: 条目损坏，按缺失处理`)
       return null
     }
-    if (this.invalidTime !== -1) {
-      const wrapped = record as StorageRecord
-      const seconds = (Date.now() - wrapped.updateTime) / 1000
-      if (seconds > this.invalidTime) {
-        this.remove(key)
-        return null
-      }
-      // 命中即刷新使用时间（旧版语义）
-      this.set(key, wrapped.value)
-      return wrapped.value
+    if (parsed.kind === 'plain') {
+      return parsed.record === null || parsed.record === undefined ? null : parsed.record
     }
-    return record
+    if (this.invalidTime === -1) {
+      // 永不过期实例读到包装条目：解包返回，不刷新不回写
+      return parsed.wrapped.value
+    }
+    const seconds = (Date.now() - parsed.wrapped.updateTime) / 1000
+    if (seconds > this.invalidTime) {
+      this.remove(key)
+      return null
+    }
+    // 命中即刷新使用时间（旧版语义）
+    this.set(key, parsed.wrapped.value)
+    return parsed.wrapped.value
   }
 
   getAll(): Record<string, unknown> | null {
@@ -189,12 +228,12 @@ class WebStorageCreatorImpl implements WebStorageCreator {
       if (!entry) {
         continue
       }
-      const record: unknown = JSON.parse(entry)
-      if (record === null || record === undefined) {
+      const parsed = this.parseEntry(entry)
+      // plain/corrupt 条目不属于本实例管辖，clean 不动它们
+      if (parsed.kind !== 'wrapped') {
         continue
       }
-      const wrapped = record as StorageRecord
-      const seconds = (Date.now() - wrapped.updateTime) / 1000
+      const seconds = (Date.now() - parsed.wrapped.updateTime) / 1000
       if (seconds > this.invalidTime) {
         this.remove(key)
       }
@@ -237,7 +276,7 @@ export function getStorage(storageName: string, storageKey?: string, isLocal = f
   const webStorageInstance = createWebStorage(storageName, { isLocal })
   if (webStorageInstance === false) {
     // 修复旧版：此处继续调用 .getAll() 会 TypeError
-    console.error('[spark-utils]: 创建 WebStorages 失败!')
+    warnLog('创建 WebStorages 失败!')
     return null
   }
   if (storageKey === undefined) {

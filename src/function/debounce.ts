@@ -21,9 +21,9 @@ export interface DebounceOptions {
   trailing?: boolean
 }
 
-/** 带取消能力的包装函数 */
-export interface CancelableFunction {
-  (...args: unknown[]): void
+/** 带取消能力的包装函数（泛型参数为回调参数元组；throttle 复用本声明） */
+export interface CancelableFunction<A extends unknown[] = unknown[]> {
+  (this: unknown, ...args: A): void
   /** 取消挂起的执行，返回是否存在生效中的定时器 */
   cancel(): boolean
 }
@@ -36,12 +36,12 @@ export interface CancelableFunction {
  * @param options {leading: 是否在之前执行, trailing: 是否在之后执行}，或布尔简写
  * @returns 防抖后的包装函数（含 cancel）
  */
-export function debounce(
-  callback: (this: unknown, ...args: unknown[]) => unknown,
+export function debounce<A extends unknown[], R>(
+  callback: (this: unknown, ...args: A) => R,
   wait: number,
   options?: DebounceOptions | boolean
-): CancelableFunction {
-  let args: unknown[] | undefined
+): CancelableFunction<A> {
+  let args: A | undefined
   let context: unknown
   let runFlag = false
   let timeout: ReturnType<typeof setTimeout> | 0 = 0
@@ -50,7 +50,8 @@ export function debounce(
   const runFn = (): void => {
     runFlag = true
     timeout = 0
-    callback.apply(context, args ?? [])
+    // 空参兜底（runFn 触发路径必先有调用记录 args，纯防御）
+    callback.apply(context, args ?? ([] as unknown as A))
   }
   const endFn = (): void => {
     if (optLeading === true) {
@@ -66,7 +67,7 @@ export function debounce(
     timeout = 0
     return rest
   }
-  const debounced = function (this: unknown, ...callArgs: unknown[]): void {
+  const debounced = function (this: unknown, ...callArgs: A): void {
     runFlag = false
     args = callArgs
     // eslint-disable-next-line @typescript-eslint/no-this-alias -- 旧版语义：记录每次调用的 this 供回调使用（runFn 为工厂层箭头函数，无法词法捕获包装函数的 this）

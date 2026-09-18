@@ -207,3 +207,37 @@ describe('loop', () => {
     errorSpy.mockRestore()
   })
 })
+
+describe('泛型签名（2.0：类型化回调直传，不再需要 as 断言）', () => {
+  it('debounce/throttle 接受类型化回调并按元组约束调用参数', () => {
+    const { debounce, throttle } = api
+    const deb = debounce((e: { id: number }) => e.id + 1, 100)
+    deb({ id: 41 })
+    // @ts-expect-error 泛型约束：参数形状不符应报错
+    deb('nope')
+    vi.advanceTimersByTime(100)
+    const thr = throttle((a: number, b: string) => `${b}${a}`, 100, true)
+    expect(thr(1, 'x')).toBeUndefined()
+    // @ts-expect-error 泛型约束：参数个数/类型不符应报错
+    thr(1)
+  })
+
+  it('after/before 回调参数为 (rests, ...args) 且 args 按元组透传', () => {
+    const { after, before } = api
+    const seen: string[] = []
+    const afterFn = after(2, (rests: unknown[], a: number, b: string) => {
+      seen.push(`after:${rests.join(',')}:${a}${b}`)
+    })
+    afterFn(1, '一')
+    expect(seen).toEqual([])
+    afterFn(2, '二')
+    expect(seen).toEqual(['after:1,2:2二'])
+    const beforeFn = before(3, (_rests: unknown[], a: number) => {
+      seen.push(`before:${a}`)
+    })
+    beforeFn(10)
+    beforeFn(20)
+    beforeFn(30)
+    expect(seen).toEqual(['after:1,2:2二', 'before:10', 'before:20'])
+  })
+})

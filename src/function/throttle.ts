@@ -12,19 +12,14 @@
  * {leading: true}、false 等价 {trailing: true}。
  */
 
+import type { CancelableFunction } from './debounce'
+
 /** 节流/防抖选项 */
 export interface ThrottleOptions {
   /** 是否在之前执行 */
   leading?: boolean
   /** 是否在之后执行 */
   trailing?: boolean
-}
-
-/** 带取消能力的包装函数 */
-export interface CancelableFunction {
-  (...args: unknown[]): void
-  /** 取消挂起的执行，返回是否存在生效中的定时器 */
-  cancel(): boolean
 }
 
 /**
@@ -35,12 +30,12 @@ export interface CancelableFunction {
  * @param options {leading: 是否在之前执行, trailing: 是否在之后执行}，或布尔简写
  * @returns 节流后的包装函数（含 cancel）
  */
-export function throttle(
-  callback: (this: unknown, ...args: unknown[]) => unknown,
+export function throttle<A extends unknown[], R>(
+  callback: (this: unknown, ...args: A) => R,
   wait: number,
   options?: ThrottleOptions | boolean
-): CancelableFunction {
-  let args: unknown[] | undefined
+): CancelableFunction<A> {
+  let args: A | undefined
   let context: unknown
   let runFlag = false
   let timeout: ReturnType<typeof setTimeout> | 0 = 0
@@ -48,7 +43,8 @@ export function throttle(
   const optTrailing = typeof options !== 'boolean' ? (options ? options.trailing : true) : !options
   const runFn = (): void => {
     runFlag = true
-    callback.apply(context, args ?? [])
+    // 空参兜底（runFn 触发路径必先有调用记录 args，纯防御）
+    callback.apply(context, args ?? ([] as unknown as A))
     timeout = setTimeout(endFn, wait)
   }
   const endFn = (): void => {
@@ -64,7 +60,7 @@ export function throttle(
     timeout = 0
     return rest
   }
-  const throttled = function (this: unknown, ...callArgs: unknown[]): void {
+  const throttled = function (this: unknown, ...callArgs: A): void {
     args = callArgs
     // eslint-disable-next-line @typescript-eslint/no-this-alias -- 旧版语义：记录每次调用的 this 供回调使用（runFn 为工厂层箭头函数，无法词法捕获包装函数的 this）
     context = this

@@ -72,6 +72,19 @@ describe('StateFlow', () => {
     flow.set('rebuilt', 'ok')
     expect(flow.get('rebuilt')).toBe('ok')
   })
+
+  it('2.0 修复：深层路径中途为假值不再抛 TypeError', () => {
+    const flow = new StateFlow()
+    flow.set('a', null)
+    // 旧版守卫位于循环之后，此处对 null 取 'b' 直接 TypeError
+    expect(flow.get('a.b')).toBeUndefined()
+    expect(flow.get('a.b.c')).toBeUndefined()
+    expect(flow.action('a.b.c')).toBeUndefined()
+    expect(() => flow.destroy('a.b.c')).not.toThrow()
+    // set 后再取深层：真值中途路径行为不变
+    flow.set('x.y.z', 1)
+    expect(flow.get('x.y.z')).toBe(1)
+  })
 })
 
 describe('promiseResultHandle', () => {

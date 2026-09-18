@@ -17,16 +17,16 @@
  * @param context 回调执行的上下文
  * @returns 包装函数
  */
-export function before(
+export function before<A extends unknown[], R>(
   this: unknown,
   count: number,
-  callback: (this: unknown, rests: unknown[], ...args: unknown[]) => unknown,
+  callback: (this: unknown, rests: unknown[], ...args: A) => R,
   context?: unknown
-): (...args: unknown[]) => void {
+): (...args: A) => void {
   let runCount = 0
   const rests: unknown[] = []
   const ctx = context || this
-  return (...args: unknown[]): void => {
+  return (...args: A): void => {
     runCount++
     if (runCount < count) {
       rests.push(args[0])

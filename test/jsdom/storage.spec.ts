@@ -122,6 +122,63 @@ describe('webStorage 失效时间（invalidTime）', () => {
   })
 })
 
+describe('webStorage 混用与损坏条目（三态解析）', () => {
+  it('过期实例读到普通实例写入的数据：原样返回，不回写不损毁', () => {
+    const plain = createWebStorage('st_mix')
+    const exp = createWebStorage('st_mix', { invalidTime: 600 })
+    expect(plain).not.toBe(false)
+    expect(exp).not.toBe(false)
+    if (plain === false || exp === false) return
+    plain.set('k', 'v')
+    // 旧版此处 exp.get 把 undefined 当 updateTime 回写，静默损毁条目
+    expect(exp.get('k')).toBe('v')
+    const raw = window.sessionStorage.getItem('st_mix') ?? ''
+    expect(raw).not.toContain('updateTime')
+    // 普通实例视角数据完好
+    expect(plain.get('k')).toBe('v')
+  })
+
+  it('过期实例写入的数据，普通实例读取时解包返回真实值', () => {
+    const exp = createWebStorage('st_unwrap', { invalidTime: 600 })
+    expect(exp).not.toBe(false)
+    if (exp === false) return
+    exp.set('k', { n: 1 })
+    const plain = createWebStorage('st_unwrap')
+    expect(plain).not.toBe(false)
+    if (plain === false) return
+    // 旧版返回整个 { value, updateTime } 壳
+    expect(plain.get('k')).toEqual({ n: 1 })
+  })
+
+  it('损坏 JSON 条目按缺失处理，不再裸抛 SyntaxError', () => {
+    window.sessionStorage.setItem(
+      'st_corrupt',
+      JSON.stringify({ bad: '不是合法JSON', nullEntry: 'null' })
+    )
+    const store = createWebStorage('st_corrupt', { invalidTime: 600 })
+    expect(store).not.toBe(false)
+    if (store === false) return
+    expect(store.get('bad')).toBeNull()
+    expect(store.get('nullEntry')).toBeNull()
+    expect(() => store.cleanFailureData()).not.toThrow()
+    // 损坏条目保持原样，clean 不动它们
+    expect(store.getAllKeys()).toEqual(expect.arrayContaining(['bad', 'nullEntry']))
+  })
+
+  it('plain 数据不受过期管辖：过期实例 get/clean 均不删除', () => {
+    vi.useFakeTimers()
+    // 外部直写 plain 条目（绕过过期实例的包装格式）
+    window.sessionStorage.setItem('st_plain', JSON.stringify({ k: JSON.stringify('v') }))
+    const exp = createWebStorage('st_plain', { invalidTime: 30 })
+    expect(exp).not.toBe(false)
+    if (exp === false) return
+    vi.advanceTimersByTime(60_000)
+    expect(exp.get('k')).toBe('v')
+    exp.cleanFailureData()
+    expect(exp.getAllKeys()).toContain('k')
+  })
+})
+
 describe('webStorage 命名空间与 getStorage', () => {
   it('getStorage 不传 key 返回整个映射', () => {
     const store = createWebStorage('st_all')

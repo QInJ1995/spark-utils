@@ -9,7 +9,11 @@
  *   会在严格模式下抛 TypeError，与旧版 ESM 行为一致）；
  * - get：路径中途为假值时返回 undefined；空键返回 undefined；
  * - action：取到的值为函数才调用并透传参数，否则返回 undefined；
- * - destroy：无参清空全部自有数据键（原型方法不受影响）；有参删单键/点路径末级键。
+ * - destroy：无参清空全部自有数据键（原型方法不受影响）；有参删单键/点路径末级键，
+ *   点路径中途为假值时不抛错、无事发生。
+ * - bug 修复（2.0）：中途假值守卫原本位于逐级取值循环**之后**，深层路径
+ *   （如 set('a', null) 后 get('a.b.c')）在循环内即对 null 取键抛 TypeError；
+ *   现守卫内置于循环每一步。
  *
  * 适配说明：旧版 Object.hasOwn（ES2022）超出主包 lib（ES2020），改用等价的
  * internal/type 的 hasOwnProp（Object.prototype.hasOwnProperty 语义）。
@@ -60,6 +64,9 @@ export class StateFlow {
       // 与旧版 reduce 等价：自 this 起逐级取到末级前一站（首段显式取出，避免 this 别名）
       let target: unknown = (this as unknown as Record<string, unknown>)[segments[0] as string]
       for (const key of segments.slice(1, -1)) {
+        if (!target) {
+          return
+        }
         target = (target as Record<string, unknown>)[key]
       }
       if (!target) {
@@ -87,6 +94,9 @@ export class StateFlow {
         // 与旧版 reduce 等价：自 this 起逐级取到末级前一站（首段显式取出，避免 this 别名）
         let target: unknown = (this as unknown as Record<string, unknown>)[segments[0] as string]
         for (const key of segments.slice(1, -1)) {
+          if (!target) {
+            return
+          }
           target = (target as Record<string, unknown>)[key]
         }
         if (target) {

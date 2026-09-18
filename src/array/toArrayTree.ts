@@ -69,9 +69,11 @@ export function toArrayTree(
   let list = array as unknown[] | null | undefined
 
   if (optSortKey) {
-    list = orderBy([...(list as unknown[])], optSortKey as string)
+    // orderBy 返回新数组且不改入参（旧版外层浅拷贝 spread 无观测效果，
+    // 反而在 array 为 null 时抛 "list is not iterable"——2.0 修复）
+    list = orderBy(list, optSortKey as string)
     if (optReverse) {
-      ;(list as unknown[]).reverse()
+      list.reverse()
     }
   }
 
