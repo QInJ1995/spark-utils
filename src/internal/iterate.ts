@@ -23,13 +23,13 @@ export type IterateCallback<T, K extends string | number = string | number> = (
  * @param obj 数组（运行时兼容无 forEach 的类数组）
  * @param iterate(item, index, array) 回调
  * @param context 上下文
- * @returns 是否执行了迭代（falsy 入参返回 false）
+ * @returns 无返回值（忠实旧版 void 语义；falsy 入参静默跳过）
  */
 export function arrayEach<T>(
   obj: T[] | null | undefined,
   iterate: (this: unknown, item: T, index: number, array: T[]) => boolean | void,
   context?: unknown
-): boolean {
+): void {
   if (obj) {
     if (typeof obj.forEach === 'function') {
       obj.forEach(iterate as (value: T, index: number, array: T[]) => void, context)
@@ -38,9 +38,7 @@ export function arrayEach<T>(
         iterate.call(context, obj[index] as T, index, obj)
       }
     }
-    return true
   }
-  return false
 }
 
 /**
@@ -52,18 +50,17 @@ export function arrayEach<T>(
  * @param obj 数组
  * @param iterate(item, index, array) 回调
  * @param context 上下文
- * @returns 遍历完成返回 true
+ * @returns 无返回值（忠实旧版 void 语义）
  */
 export function lastArrayEach<T>(
   obj: T[] | null | undefined,
   iterate: (this: unknown, item: T, index: number, array: T[]) => boolean | void,
   context?: unknown
-): boolean {
+): void {
   const list = obj as T[]
   for (let len = list.length - 1; len >= 0; len--) {
     iterate.call(context, list[len] as T, len, list)
   }
-  return true
 }
 
 /**
@@ -75,22 +72,20 @@ export function lastArrayEach<T>(
  * @param obj 对象（运行时兼容字符串等非数组可枚举值）
  * @param iterate(value, key, obj) 回调
  * @param context 上下文
- * @returns 是否执行了迭代（falsy 入参返回 false）
+ * @returns 无返回值（忠实旧版 void 语义；falsy 入参静默跳过）
  */
 export function objectEach<T extends object>(
   obj: T | null | undefined,
   iterate: (this: unknown, item: T[keyof T], key: string, obj: T) => boolean | void,
   context?: unknown
-): boolean {
+): void {
   if (obj) {
     for (const key in obj) {
       if (hasOwnProp(obj, key)) {
         iterate.call(context, obj[key as keyof T], key, obj)
       }
     }
-    return true
   }
-  return false
 }
 
 /**
@@ -102,13 +97,13 @@ export function objectEach<T extends object>(
  * @param obj 对象
  * @param iterate(value, key, obj) 回调
  * @param context 上下文
- * @returns 是否执行了迭代（falsy 入参返回 false，与旧版 keys(null) 为空数组一致）
+ * @returns 无返回值（忠实旧版 void 语义；null 入参等价遍历空集，不抛错）
  */
 export function lastObjectEach<T extends object>(
   obj: T | null | undefined,
   iterate: (this: unknown, item: T[keyof T], key: string, obj: T) => boolean | void,
   context?: unknown
-): boolean {
+): void {
   if (obj) {
     const keyList = Object.keys(obj)
     for (let len = keyList.length - 1; len >= 0; len--) {
@@ -117,9 +112,7 @@ export function lastObjectEach<T extends object>(
         iterate.call(context, obj[key as keyof T], key, obj)
       }
     }
-    return true
   }
-  return false
 }
 
 /**

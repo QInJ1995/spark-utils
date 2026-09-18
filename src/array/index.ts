@@ -1,0 +1,46 @@
+/**
+ * array —— 数组模块（严格 TS 重写，M2）
+ *
+ * 具名导出（2.0 起不再聚合为 default 对象）；
+ * 顺序沿用旧 src/array/index.js（不含 2.0 已删除的
+ * slice/indexOf/arrayIndexOf/lastIndexOf/arrayLastIndexOf/includes/copyWithin/invoke）。
+ */
+
+export { arrayEach } from './arrayEach'
+export { lastArrayEach } from './lastArrayEach'
+export { findIndexOf } from './findIndexOf'
+export { findLastIndexOf } from './findLastIndexOf'
+export { includeArrays } from './includeArrays'
+export { remove } from './remove'
+export { orderBy } from './orderBy'
+export { shuffle } from './shuffle'
+export { sample } from './sample'
+export { some } from './some'
+export { every } from './every'
+export { filter } from './filter'
+export { find } from './find'
+export { findKey } from './findKey'
+export { map } from './map'
+export { sum } from './sum'
+export { mean } from './mean'
+export { toArray } from './toArray'
+export { reduce } from './reduce'
+export { zip } from './zip'
+export { unzip } from './unzip'
+export { zipObject } from './zipObject'
+export { uniq } from './uniq'
+export { union } from './union'
+export { flatten } from './flatten'
+export { chunk } from './chunk'
+export { pluck } from './pluck'
+export { groupBy } from './groupBy'
+export { countBy } from './countBy'
+export { toArrayTree } from './toArrayTree'
+export { toTreeArray } from './toTreeArray'
+export { findTree } from './findTree'
+export { eachTree } from './eachTree'
+export { mapTree } from './mapTree'
+export { filterTree } from './filterTree'
+export { searchTree } from './searchTree'
+export { arrayDistinct } from './arrayDistinct'
+export { sortBy } from './sortBy'

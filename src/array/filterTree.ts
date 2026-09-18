@@ -1,0 +1,35 @@
+import { type TreeIterate, type TreeOptions } from '../internal/tree'
+import { eachTree } from './eachTree'
+
+/**
+ * 从树结构中根据回调过滤数据（移植自旧 src/array/filterTree.js）
+ *
+ * 深度优先遍历全部节点，命中项平铺收集（不保留树结构）；
+ * obj/iterate 为空返回 []。
+ *
+ * @param obj 对象/数组
+ * @param iterate(item, index, items, path, parent, nodes) 回调
+ * @param options {children: 'children'}
+ * @param context 上下文
+ * @returns 命中节点组成的扁平数组
+ */
+export function filterTree(
+  obj: unknown,
+  iterate: TreeIterate,
+  options?: TreeOptions | null,
+  context?: unknown
+): unknown[] {
+  const result: unknown[] = []
+  if (obj && iterate) {
+    eachTree(
+      obj,
+      function filterTreeItem(item, index, items, path, parent, nodes) {
+        if (iterate.call(context, item, index, items, path, parent, nodes)) {
+          result.push(item)
+        }
+      },
+      options
+    )
+  }
+  return result
+}

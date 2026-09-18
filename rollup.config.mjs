@@ -10,8 +10,9 @@ import typescript from '@rollup/plugin-typescript'
 const MAIN_ENTRIES = [
   'src/index.ts',
   'src/basic/index.ts',
+  'src/array/index.ts',
   // 随里程碑逐步加入：
-  // 'src/array/index.ts', 'src/object/index.ts',
+  // 'src/object/index.ts',
   // 'src/function/index.ts', 'src/number/index.ts', 'src/string/index.ts',
   // 'src/date/index.ts', 'src/log/index.ts', 'src/other/index.ts', 'src/http/index.ts',
   'src/pinyin.ts',
