@@ -134,5 +134,24 @@
     "hkIdVerify",
     "macauIdCard",
     "validate2ndIdCard"
+  ],
+  "date": [
+    "StringToDate",
+    "dateDiff",
+    "dateToString",
+    "getDateDiff",
+    "getDayOfMonth",
+    "getDayOfYear",
+    "getMonthWeek",
+    "getWhatDay",
+    "getWhatMonth",
+    "getWhatWeek",
+    "getWhatYear",
+    "getYearDay",
+    "getYearWeek",
+    "isDateTime",
+    "isTime",
+    "toDateString",
+    "toStringDate"
   ]
 }
