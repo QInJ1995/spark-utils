@@ -25,6 +25,14 @@ const MAIN_ENTRIES = [
 const BROWSER_ENTRIES = ['src/browser.ts']
 const CRYPTO_ENTRIES = ['src/crypto.ts']
 
+/**
+ * browser/crypto 域的 rollup 构建用专属 tsconfig：其 include 必须覆盖
+ * 域文件 + 它们引用的 src/internal（tsconfig.browser.json 仅含域文件，
+ * 供 tsc -b 经 project references 做类型检查；rollup 的 typescript 插件
+ * 只转换 include 内的文件，裸 .ts 会以 JS 解析报错）。
+ */
+const DOM_TSCONFIG = 'tsconfig.rollup-dom.json'
+
 const EXTERNAL = [/^dayjs/, /^crypto-js/, /^jsrsasign/, /^node:/]
 
 const pluginOverrides = {
@@ -47,7 +55,7 @@ export default [
   {
     input: BROWSER_ENTRIES,
     external: EXTERNAL,
-    plugins: [typescript({ tsconfig: 'tsconfig.browser.json', compilerOptions: pluginOverrides })],
+    plugins: [typescript({ tsconfig: DOM_TSCONFIG, compilerOptions: pluginOverrides })],
     output: [
       { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].js' },
       { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs' },
@@ -56,7 +64,7 @@ export default [
   {
     input: CRYPTO_ENTRIES,
     external: EXTERNAL,
-    plugins: [typescript({ tsconfig: 'tsconfig.browser.json', compilerOptions: pluginOverrides })],
+    plugins: [typescript({ tsconfig: DOM_TSCONFIG, compilerOptions: pluginOverrides })],
     output: [
       { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].js' },
       { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs' },

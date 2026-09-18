@@ -40,6 +40,21 @@ export interface SparkUtilsSetup {
   formatString: string
   /** getDateDiff 的默认换算规则（只读二元组：[规则名, 毫秒数]） */
   dateDiffRules: ReadonlyArray<readonly [string, number]>
+  /**
+   * cookie 写入的默认选项（M5 补齐：旧版 src/browser/cookie.js 读取 setupDefaults.cookies，
+   * 但旧 setupDefaults 从未定义该字段，读取恒为 undefined，默认配置形同虚设）。
+   * 每次写入时与传入项浅合并，项自身字段优先；可经 setup({ cookies: {...} }) 全量替换。
+   */
+  cookies: {
+    /** 默认路径，缺省时由浏览器按当前页面路径处理 */
+    path?: string
+    /** 默认作用域 */
+    domain?: string
+    /** 默认是否仅 https 传输 */
+    secure?: boolean
+    /** 默认过期：天数 / 时间戳 / Date / '30d' 单位串（y M d H h m s） */
+    expires?: string | number | Date
+  }
 }
 
 /** 深度冻结：含嵌套对象与数组（元组按数组冻结），已冻结的跳过 */
@@ -83,6 +98,9 @@ const defaults: SparkUtilsSetup = {
     ['ss', 1000],
     ['S', 0],
   ],
+  // 旧版读取 setupDefaults.cookies 恒为 undefined（assign 静默跳过），
+  // 2.0 显式补齐为空默认：不改变写入行为，但让 setup({ cookies }) 真正可配置
+  cookies: {},
 }
 
 deepFreeze(defaults)

@@ -59,6 +59,7 @@
   "author": "QINJIN",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.0",
     "@types/node": "^22.0.0",
