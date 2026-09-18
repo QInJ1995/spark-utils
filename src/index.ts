@@ -7,6 +7,9 @@
 
 export const VERSION = '2.0.0-beta.0'
 
+export { setup, setupDefaults } from './config'
+export type { SparkUtilsSetup } from './config'
+
 export * from './basic/index'
 export * from './array/index'
 export * from './number/index'

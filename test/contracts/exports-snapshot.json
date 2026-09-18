@@ -141,6 +141,8 @@
     "sample",
     "searchTree",
     "set",
+    "setup",
+    "setupDefaults",
     "shuffle",
     "some",
     "sortBy",
