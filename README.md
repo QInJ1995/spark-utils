@@ -26,7 +26,7 @@ yarn add spark-utils
 
 | 入口 | 内容 | 体积特征 |
 | --- | --- | --- |
-| `spark-utils` | 基础 / 数组 / 对象 / 函数 / 日期 / 数值 / 字符串 / http / log / other（176 个具名导出） | minify+gzip 约 17KB（不含 dayjs）；dayjs 为 external 依赖；Node 可安全 import |
+| `spark-utils` | 基础 / 数组 / 对象 / 函数 / 日期 / 数值 / 字符串 / http / other（168 个具名导出） | minify+gzip 约 17KB（不含 dayjs）；dayjs 为 external 依赖；Node 可安全 import |
 | `spark-utils/browser` | cookie / storage / dom / ua / url / crossDomain / clipboard（28 个导出） | 轻量；懒求值，Node 下 import 零副作用 |
 | `spark-utils/crypto` | `aesEncrypt` `aesDecrypt` `md5Sign` `rsaEncrypt` `rsaDecrypt` `rsaSign` `rsaVerify` `sm4Encrypt` `sm4Decrypt` `sm3Sign` `sm2Encrypt` `create64Key` | 较重；crypto-js + jsrsasign 仅此入口可达 |
 | `spark-utils/pinyin` | `pinyin` 对象（`getFullChars` / `getCamelChars` / `init`） | 拼音字典独立分包 |

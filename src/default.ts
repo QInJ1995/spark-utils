@@ -14,7 +14,6 @@ import * as number from './number/index'
 import * as string from './string/index'
 import * as object from './object/index'
 import * as functionModule from './function/index'
-import * as log from './log/index'
 import * as http from './http/index'
 import * as other from './other/index'
 import * as date from './date/index'
@@ -28,7 +27,6 @@ const sparkUtils = {
   ...string,
   ...object,
   ...functionModule,
-  ...log,
   ...http,
   ...other,
   ...date,

@@ -33,7 +33,6 @@ export default defineConfig({
           { text: '数值金额', link: '/markdown/number' },
           { text: '字符串', link: '/markdown/string' },
           { text: '网络请求', link: '/markdown/http' },
-          { text: '日志打印', link: '/markdown/log' },
           { text: '其他方法', link: '/markdown/other' }
         ]
       },

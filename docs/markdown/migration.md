@@ -111,7 +111,7 @@ findLastIndexOf([11, 22, 33, 22], 22)             // 3
 | 证件三校验出参 | 返回值各异 + `errors` 数组副作用 | 统一 `{ valid, code?, msg? }` 判别对象 |
 | `debounce` / `throttle` 第三参不传 | 抛 `TypeError` | 正常按 trailing 执行 |
 | `isWindow`（Node 下） | `0` | `false` |
-| `log` 系列（Node 下） | 默认打印 | 默认静默（浏览器仍默认开启） |
+| `log` 模块 | 默认打印 | **整体移除**（8 导出；改用 `console` 或自建 logger） |
 | `copyText` | 同步返回 `boolean` | `async`，返回 `Promise<boolean>` |
 | `crossDomain` | import 即挂全局 + `eval` 执行 | `setupCrossDomain` 显式注册 + 双白名单，无 `eval` |
 | `https.init` 等 | axios 封装 | `createHttp`（原生 fetch，钩子 `beforeRequest` / `afterResponse`） |

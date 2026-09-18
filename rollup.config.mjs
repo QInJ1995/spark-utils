@@ -22,7 +22,6 @@ const ENTRIES = [
   'src/string/index.ts',
   'src/object/index.ts',
   'src/function/index.ts',
-  'src/log/index.ts',
   'src/http/index.ts',
   'src/other/index.ts',
   'src/date/index.ts',

@@ -15,7 +15,6 @@
     "src/string",
     "src/object",
     "src/function",
-    "src/log",
     "src/http",
     "src/other",
     "src/date",

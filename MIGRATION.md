@@ -61,7 +61,7 @@ import { pinyin } from 'spark-utils/pinyin'
 | `spark-utils/pinyin` | `pinyin` 对象（`init` / `getFullChars` / `getCamelChars`） | 拼音字典独立分包 |
 | `spark-utils/umd` | `dist/spark-utils.min.js` | UMD 产物保留（dayjs 已打入；不含 crypto 子入口） |
 
-**default 聚合对象**：`import SparkUtils from 'spark-utils'` 的聚合形态在 2.0 保留兼容（173 个主包方法平铺；不再含 log/https/webStorage/crypto 嵌套命名空间），但会阻断 tree-shaking，新代码请一律使用具名导入（包声明 `sideEffects: false`，具名导入可被有效摇树）。
+**default 聚合对象**：`import SparkUtils from 'spark-utils'` 的聚合形态在 2.0 保留兼容（165 个主包方法平铺；不再含 log/https/webStorage/crypto 嵌套命名空间），但会阻断 tree-shaking，新代码请一律使用具名导入（包声明 `sideEffects: false`，具名导入可被有效摇树）。
 
 ## 删除的 41 项
 
@@ -132,6 +132,7 @@ arr.map(m => m.format('YYYY-MM-DD'))
 | `array.invoke(list, method)` | `list.map(item => item[method]())` |
 | `storage.init`（别名） | `createWebStorage`（该别名本就已标记弃用） |
 | `onMountDialog` | Vue2 专属命令式弹窗挂载，不再随库分发；请用组件方式实现 |
+| `log` 模块全部 8 导出（`info` / `warning` / `warn` / `error` / `success` / `table` / `image` / `createStyledLogger`） | 2.0 不再内置日志打印，请直接使用 `console` 或自建 logger |
 | `https.axios` | 不再透出 axios 实例；需要 axios 请自行安装引入 |
 | `https.init` / `https.submit` | `createHttp(config)` 实例的 `submit` 等（见[行为变更](#行为修复与变更)） |
 | `submit` 的 `autoQs` 参数 | 对象请求体统一 JSON 序列化，未显式指定 Content-Type 时自动置 `application/json; charset=UTF-8` |
@@ -246,9 +247,9 @@ if (!result.valid) {
 
 Node / 非浏览器环境返回 `false`（1.x 返回 `0`）。其余 isXxx 家族在 Node 下的行为同构化：涉及浏览器全局的判定安全返回 `false` 而非抛错。
 
-### log：Node 下默认静默
+### log 模块：整体移除
 
-`info` / `warning` / `error` / `success` / `table` / `image` 受日志开关控制：浏览器默认开启、**Node 默认关闭**（1.x 默认恒开启）。旧版关闭时向上遍历 `window.parent` 的 iframe 逃生通道已删除。Node 下需要输出请关注 M7 的全局配置（`setup`）落地。
+`info` / `warning` / `warn` / `error` / `success` / `table` / `image` / `createStyledLogger` 共 8 个导出随 log 模块整体移除（2.0 不再内置日志打印，请直接使用 `console` 或自建 logger）。`setup` 的 `showLog` 字段保留，仅用于门控 `spark-utils/browser` 中 storage 写入的操作日志。
 
 ### copyText：改为异步
 
@@ -346,7 +347,7 @@ await http.submit({ url: '/login', data: { user, pass } })     // autoQs 已删�
 确认升级到 2.0 版本；`keys` / `values` / `entries` / moment 桥等 41 项已删除（见删除清单）。
 
 **Q：Node 下 `log` / `table` 不输出了？**
-2.0 Node 默认静默（浏览器默认开启），属有意变更；`setup({ showLog: true })` 可显式开启（注意：`setup()` 一经调用即视为显式配置，Node 下配置其他字段时需同时显式 `showLog: false`）。
+2.0 已随 log 模块整体移除（见行为变更表），该问题不复存在；`showLog` 仅继续门控 browser 子入口 storage 的写入日志。
 
 **Q：`copyText` 返回值变成 Promise 了？**
 是 2.0 破坏点，改用 `await copyText(text)`。

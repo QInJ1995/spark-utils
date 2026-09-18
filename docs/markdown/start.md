@@ -28,7 +28,7 @@ $ yarn add spark-utils
 
 | 入口 | 内容 | 体积特征 | Node 下 import |
 | --- | --- | --- | --- |
-| `spark-utils` | 主包：类型判定 / 数组 / 对象 / 函数 / 日期 / 数值 / 字符串 / http / log / other（176 个具名导出） | 轻量（minify+gzip 约 17KB 不含 dayjs）；dayjs 为 external 依赖；无浏览器全局触碰 | 安全（推荐） |
+| `spark-utils` | 主包：类型判定 / 数组 / 对象 / 函数 / 日期 / 数值 / 字符串 / http / other（168 个具名导出） | 轻量（minify+gzip 约 17KB 不含 dayjs）；dayjs 为 external 依赖；无浏览器全局触碰 | 安全（推荐） |
 | `spark-utils/browser` | 浏览器专属 28 个方法：cookie / storage / dom / ua / url / crossDomain / clipboard | 轻量；懒求值，Node 下 import 零副作用 | 安全（调用返回空值/false） |
 | `spark-utils/crypto` | 12 个加解密方法：AES / MD5 / RSA / SM 系列 / create64Key | 较重（crypto-js + jsrsasign 仅此入口可达） | 可用 |
 | `spark-utils/pinyin` | `pinyin` 对象（getFullChars / getCamelChars） | 拼音字典独立分包，不拖累主包 | 可用 |
@@ -73,10 +73,8 @@ aesDecrypt(cipher, 'abcdefghijkl', 'opqrstuvwxyz') // '你好，坤坤'
 ```ts
 import { setup, setupDefaults } from 'spark-utils'
 
-// Node 下开启日志输出（默认静默；一经 setup 即以显式配置为准）
-setup({ showLog: true })
-
-// 常用配置项：httpConfig（createHttp 默认）、treeOptions（树形方法默认键名）、
+// 常用配置项：showLog（browser 子入口 storage 写入日志开关）、
+// httpConfig（createHttp 默认）、treeOptions（树形方法默认键名）、
 // formatDate / formatString（日期解析与输出默认格式）、cookies（写入默认项）
 setup({ treeOptions: { parentKey: 'pid', key: 'id', children: 'nodes' } })
 
@@ -87,7 +85,7 @@ setupDefaults // 默认配置（只读）
 
 ## 同构说明
 
-- 主包在 Node 中可直接 `import`：`isWindow` 等浏览器判定返回 `false`（旧版返回 `0`），`log` 系列在 Node 下默认静默（浏览器默认开启）。
+- 主包在 Node 中可直接 `import`：`isWindow` 等浏览器判定返回 `false`（旧版返回 `0`）。
 - `spark-utils/browser` 的所有浏览器全局访问均为惰性求值：Node 下 import 不抛错，调用时返回空值或 `false`。
 - `createHttp` 基于原生 `fetch`，Node 18+ 与浏览器行为一致。
 
