@@ -1,587 +1,163 @@
 # 浏览器工具
 
-## browse
+浏览器专属能力收敛在 `spark-utils/browser` 子入口（28 个具名导出），按 cookie / storage / dom / ua / url / crossDomain / clipboard 分组：
 
-获取浏览器信息
-
-### 参数
-
-`browse()`
-
-### 返回
-
-`Object`
-
-### 示例
-
-```js
-
-import { browse } from 'spark-utils';
-
-browse();
-// {
-//     "isNode": false,
-//     "isMobile": false,
-//     "isPC": true,
-//     "isDoc": true,
-//     "-webkit": true,
-//     "-khtml": false,
-//     "-moz": false,
-//     "-ms": false,
-//     "-o": false,
-//     "edge": false,
-//     "firefox": false,
-//     "msie": false,
-//     "safari": false,
-//     "isLocalStorage": true,
-//     "isSessionStorage": true
-// }
-
+```ts
+import { copyText, parseUrl, isChrome, setupCrossDomain } from 'spark-utils/browser'
 ```
 
-## sendMessage
+::: tip 同构安全
+所有 `window` / `document` / `location` / `navigator` 访问均为惰性求值：Node 下 import 本入口零副作用、不抛错；方法调用时返回空值或 `false`。
+:::
 
-页面传值
+::: tip 2.0 变更
+- IE 系 7 方法（`isIE` / `isIE9` / `isIE10` / `isIE11` / `IEVersion` / `notSupported` 等）已删除；
+- `clientBrowser` / `clientSystem` / `clientScreenSize` 由加载期求值的常量改为**惰性函数**，调用时才读取环境；
+- `copyText` 改为异步方法；
+- `crossDomain` 重设计为 `setupCrossDomain`（详见下文）。
+:::
 
-### 参数
+## 环境与 UA
 
-`sendMessage(target, callFun, [arg], [callBackFun])`
+### browse
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| target | String | 是 | iframe控件的ID）/object（iframe window,eq:如果是向父页面发送消息,则传window.parent） | window.top |
-| callFun | - | 是 | 要访问目标html的方法名,一般这个方法是放在window上的 | - |
-| arg | object | 否 | 访问目标iframe的方法的参数 | - |
-| callBackFun | function | 否 | 消息反馈时调用的方法名,一般这个方法是放在window上的 | - |
+获取浏览器内核与能力信息。
 
-### 返回
+`browse(): BrowseInfo`
 
-`undefined`
+```ts
+import { browse } from 'spark-utils/browser'
 
-### 示例
-
-```js
-
-import { sendMessage } from 'spark-utils';
-
-// a.html
-<template>
-    <ta-button @click="example">将该值传到顶部页面top</ta-button>
-</template>
-<script>
-export default {
-    data () {
-        return {
-        }
-    },
-    methods: {
-        example() {
-            sendMessage(null, 'csMessage', { a:'123' })
-        }
-    }
-}
-</script>
-
-// top页面
-<template>
-    <div>
-        {{ message }}
-    </div>
-</template>
-<script>
-export default {
-    data () {
-        return {
-            message: ''
-        }
-    },
-    mounted () {
-        window.csMessage= (value) => {
-            console.log(value)
-            this.message = value
-        }
-    }
-}
-</script>
-
+const env = browse()
+env.isMobile    // 是否移动端
+env.isPC        // 是否 PC 端
+env.isNode      // 是否 Node 环境
+env.isLocalStorage  // localStorage 是否可用
 ```
 
-## locat
+### getBrowserInfo / clientBrowser
 
-解析 URL 参数
+`getBrowserInfo()` 返回 `{ browser, version }`（firefox / edge / chrome / safari / opera / UNKNOWN）；`clientBrowser()` 直接返回浏览器名。
 
-### 参数
+```ts
+import { getBrowserInfo, clientBrowser } from 'spark-utils/browser'
 
-`locat(url)`
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| url | String | 是 | 需要解析的URL | - |
-
-### 返回
-
-`Object`
-
-### 示例
-
-```js
-
-import { locat, parseUrl } from 'spark-utils';
-
-locat() // parseUrl
-// {
-//     "href": "http://localhost:8080/",
-//     "hash": "",
-//     "host": "localhost:8080",
-//     "hostname": "localhost",
-//     "protocol": "http:",
-//     "port": "8080",
-//     "search": "",
-//     "path": "/",
-//     "pathname": "/",
-//     "origin": "http://localhost:8080",
-//     "hashKey": "",
-//     "hashQuery": {},
-//     "searchQuery": {}
-// }
-
+getBrowserInfo()  // { browser: 'chrome', version: '122' }
+clientBrowser()   // 'chrome'
 ```
 
-## serialize
+### clientSystem / clientScreenSize
 
-序列化查询参数
+当前操作系统名（win / mac / ios / android / …）与屏幕尺寸 `'宽,高'`。2.0 起为函数调用。
 
-### 参数
+```ts
+import { clientSystem, clientScreenSize } from 'spark-utils/browser'
 
-`serialize(obj)`
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| obj | Object | 是 | 需要序列化的对象 | - |
-
-### 返回
-
-`String`
-
-### 示例
-
-```js
-
-import { serialize, objectToUrlParam } from 'spark-utils';
-
-serialize({ a: 1, b: 2 }) // "a=1&b=2"
-
-objectToUrlParam({ a: 1, b: 2 }) // "a=1&b=2" 
-
+clientSystem()     // 'mac'
+clientScreenSize() // '1920,1080'
 ```
 
-## unserialize
+### isChrome / isFireFox / isSafari
 
-反序列化查询参数
+```ts
+import { isChrome, isFireFox, isSafari } from 'spark-utils/browser'
 
-### 参数
-
-`unserialize(str)`
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| str | String | 是 | 需要反序列化的字符串 | - |
-
-### 返回
-
-`Object`
-
-### 示例
-
-```js
-
-import { unserialize, getNowPageParam } from 'spark-utils';
-
-unserialize('a=1&b=2') // { a: 1, b: 2 }
-
-getNowPageParam() // 获取当前url的查询参数，并反序列化为对象
-
+isChrome()   // true
+isFireFox()  // false
+isSafari()   // false
 ```
 
-## getBaseURL
+## URL 处理
 
-获取上下文路径
+### parseUrl
 
-### 参数
+解析 URL（协议相对 / 根相对路径会补全当前 origin）。
 
-`getBaseURL()`
+`parseUrl(url: string): ParsedUrl`
 
-### 返回
+```ts
+import { parseUrl } from 'spark-utils/browser'
 
-`String`
-
-### 示例
-
-```js
-
-import { getBaseURL } from 'spark-utils';
-
-getBaseURL() // 'http://localhost:8080/'
-
+const info = parseUrl('https://a.com/path/page?x=1#hash?q=2')
+info.host         // 'a.com'
+info.pathname     // '/path/page'
+info.searchQuery  // { x: '1' }
+info.hashQuery    // { q: '2' }
 ```
 
-## cookie
+### locat / getBaseURL / getNowPageParam
 
-Cookie 操作函数
+- `locat()`：当前地址栏信息（同 `parseUrl` 的返回结构；非浏览器返回空对象）；
+- `getBaseURL()`：当前站点基础路径（origin + 到最后一个 `/` 的路径）；
+- `getNowPageParam(s?)`：当前地址（或指定串）的全部查询参数。
 
-### 参数
+```ts
+import { locat, getBaseURL, getNowPageParam } from 'spark-utils/browser'
 
-`cookie(name, value, options)`
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| name | String | 是 | Cookie 名称 | - |
-| value | String | 否 | Cookie 值 | - |
-| options | Object | 否 | Cookie 配置项 | - |
-
-### 配置项
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| expires | string | 否 | 过期时间 | - |
-| path | String | 否 | Cookie 路径 | - |
-| domain | String | 否 | Cookie 域名 | - |
-| secure | Boolean | 否 | 是否启用安全协议 | - |
-| sameSite | String | 否 | Cookie 是否启用 SameSite 属性 | - |
-
-### 返回
-
-`String`
-
-### 示例
-
-```js
-    
-import { cookie } from 'spark-utils';
-
-// 获取所有
-cookie()
-// 根据name获取
-cookie('name')
-// 删除
-cookie('name', null, {expires: -1})
-cookie('name', null, {expires: -1, path: '/'})
-// 添加/修改
-cookie('name', 'value')
-// 指定 10 秒后过期
-cookie('name', 'value', {expires: '10s'})
-// 指定 1 分钟后过期.cookie('name', 'value', {expires: '1m'})
-// 指定 1 小时后过期
-cookie('name', 'value', {expires: '1H'})
-// 指定 1 天后过期
-cookie('name', 'value', {expires: '1d'})
-// 指定 1 月后过期
-cookie('name', 'value', {expires: '1M'})
-// 指定 1 年后过期
-
-cookie('name', 'value', {expires: '1y'})
-// 指定时间戳后过期
-
-cookie('name', 'value', {expires: 1525541938031})
-// 指定日期过期
-
-cookie('name', 'value', {expires: new Date()})
-// 指定 UTCString 格式日期
-
-cookie('name', 'value', {expires: new Date().toUTCString()})
-// 指定数值 1 天后过期
-
-cookie('name', 'value', {expires: 1})
-// 完整设置domain/path/secure/expires
-
-cookie('name', 'value', {domain: 'xxx.com', path: '/', expires: 7, secure: true})
-
-// 批量删除
-
-cookie([{name: 'name', expires: -1}])
-// 批量添加/修改
-
-cookie([{name: 'name', value: 'value'}])
-// 批量添加并设置domain/path/secure/expires 7天后过期
-cookie([{name: 'name', value: 'value', domain: 'xxx.com', path: '/', expires: 7, secure: true}])
-
-// 判断name是否存在
-cookie.has(name)
-// 添加
-cookie.set(name, value, option)
-cookie.set(name, value, option).set(name, value, option)
-// 根据name获取
-cookie.get(name)
-// 删除
-cookie.remove(name)
-cookie.remove(name, {path: '/'})
-                
+locat().origin      // 'https://a.com'
+getBaseURL()        // 'https://a.com/path/'
+getNowPageParam()   // { x: '1' }
 ```
 
-## isIE
+### serialize / unserialize / objectToUrlParam
 
-是否是IE浏览器
+查询参数对象 ↔ 查询串互转（`objectToUrlParam` 为 `serialize` 别名；嵌套值以 `key[i]` 括号展开）。
 
-### 参数
+```ts
+import { serialize, unserialize } from 'spark-utils/browser'
 
-`isIE()`
-
-### 返回
-
-`Boolean`
-
-### 示例
-
-```js
-    
-import { isIE } from 'spark-utils';
-
-isIE()
-
+serialize({ a: 1, b: [2, 3] })   // 'a=1&b[0]=2&b[1]=3'
+unserialize('a=1&b=2')           // { a: '1', b: '2' }
 ```
 
-## notSupported
+## 跨文档通讯（crossDomain）
 
-是否不支持的浏览器（IE8及以下）
+::: tip 2.0 安全重设计
+1.x 在模块加载时即向 `window` 挂载全局并注册监听，且以 `eval` 执行消息携带的任意函数名——等于向任何来源开放任意代码执行。2.0 改为：
 
-### 参数
+- 显式调用 `setupCrossDomain(options)` 后才建立监听；
+- 移除 `eval`：仅执行 `allowCalls` 白名单中注册过的函数；
+- 增加 `event.origin` 来源白名单校验（`allowOrigins` 精确匹配，不支持通配符）；
+- 不再向 window 挂载全局变量；消息协议字段（`crossDomain` / `call` / `callFun` / `arg` / `callBackFun`）保持不变。
+:::
 
-`notSupported()`
+```ts
+import { setupCrossDomain, sendMessage } from 'spark-utils/browser'
 
-### 返回
+// 宿主页：注册来源与可被调用方法
+const handle = setupCrossDomain({
+  allowOrigins: ['https://child.example.com'],
+  allowCalls: {
+    getUser: (arg: unknown) => ({ id: 1, name: 'spark' }),
+  },
+  targetOrigin: 'https://child.example.com',
+})
 
-`Boolean`
+// 向 iframe 发起调用（目标为 iframe id / window 对象 / null 顶层窗口）
+sendMessage('myIframe', 'refresh', { force: true }, 'onRefreshed')
 
-### 示例
-
-```js
-    
-import { notSupported } from 'spark-utils';
-
-notSupported()
-
+// 注销监听（幂等）
+handle.destroy()
 ```
 
-## isIE9
+## 剪贴板
 
-是否是IE9浏览器
+### copyText
 
-### 参数
+复制文本到剪贴板。优先走异步 Clipboard API，失败回退隐藏 textarea + `execCommand('copy')`。
 
-`isIE9()`
+::: tip 2.0 变更
+返回值由同步 `boolean` 改为 `Promise<boolean>`；非浏览器环境返回 `false`。
+:::
 
-### 返回
+```ts
+import { copyText } from 'spark-utils/browser'
 
-`Boolean`
-
-### 示例
-
-```js
-    
-import { isIE9 } from 'spark-utils';
-
-isIE9()
-
+const ok = await copyText('要复制的文本')
 ```
 
-## isIE10
-
-是否是IE10浏览器
-
-### 参数
-
-`isIE10()`
-
-### 返回
-
-`Boolean`
-
-### 示例
-
-```js
-    
-import { isIE10 } from 'spark-utils';
-
-isIE10()
-
-```
-
-## isIE11
-
-是否是IE11浏览器
-
-### 参数
-
-`isIE11()`
-
-### 返回
-
-`Boolean`
-
-### 示例
-
-```js
-    
-import { isIE11 } from 'spark-utils';
-
-isIE11()
-
-```
-
-## isChrome
-
-是否是Chrome浏览器
-
-### 参数
-
-`isChrome()`
-
-### 返回
-
-`Boolean`
-
-### 示例
-
-```js
-    
-import { isChrome } from 'spark-utils';
-
-isChrome()
-
-```
-
-## isFirefox
-
-是否是Firefox浏览器
-
-### 参数
-
-`isFirefox()`
-
-### 返回
-
-`Boolean`
-
-### 示例
-
-```js
-    
-import { isFirefox } from 'spark-utils';
-
-isFirefox()
-
-```
-
-## isSafari
-
-是否是Safari浏览器
-
-### 参数
-
-`isSafari()`
-
-### 返回
-
-`Boolean`
-
-### 示例
-
-```js
-    
-import { isSafari } from 'spark-utils';
-
-isSafari()
-
-```
-
-## clientSystem
-
-获取客户端系统信息
-
-### 参数
-
-`clientSystem`
-
-### 返回
-
-`String`
-
-### 示例
-
-```js
-    
-import { clientSystem } from 'spark-utils';
-
-clientSystem // Mac
-
-```
-
-## clientBrowser
-
-获取客户端浏览器信息
-
-### 参数
-
-`clientBrowser`
-
-### 返回
-
-`String`
-
-### 示例
-
-```js
-    
-import { clientBrowser } from 'spark-utils';
-
-clientBrowser // Chrome
-
-```
-
-## clientScreenSize
-
-获取客户端屏幕尺寸
-
-### 参数
-
-`clientScreenSize`
-
-### 返回
-
-`String`
-
-### 示例
-
-```js
-    
-import { clientScreenSize } from 'spark-utils';
-
-clientScreenSize // 1680,1050
-
-```
-
-## copyText
-
-复制字符串到剪切板
-
-### 参数
-
-`copyText(text)`
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| text | `String` | 是 | 需要复制的文本 | - |
-
-### 返回
-
-`Boolean`
-
-### 示例
-
-```js
-    
-import { copyText } from 'spark-utils';
-
-copyText('123') // true
-
-```
+## 相关页面
+
+- [Cookie](./cookie)：`cookie` / `setCookie` / `getCookie` / `getToken`
+- [WebStorage](./storage)：`createWebStorage` / `getStorage` / `webStorage`
+- [DOM](./dom)：`getStyle` / `getWidth` / `getHeight`

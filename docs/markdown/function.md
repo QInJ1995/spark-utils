@@ -1,339 +1,133 @@
-# Function
+# 函数
 
-## loop
+函数执行控制工具。全部从主入口具名导入。
 
-循环执行回调函数，直到超时或回调函数返回`true`停止
+::: tip 2.0 变更
+`bind` 已删除——请使用原生 `Function.prototype.bind` 或箭头函数。
+:::
 
-### 参数
+## debounce
 
-`loop(callback, time = 500, timeout = 3)`
+函数去抖：调用后等待 `wait` 毫秒执行，期间再次调用则重新计时。返回的包装函数带 `cancel()` 方法。
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| callback | Function | 是 | 回调函数 |
-| time | Number | 否 | 间隔时间，单位毫秒，默认500毫秒 |
-| timeout | Number | 否 | 超时时间，单位毫秒，默认3秒 |
+`debounce(callback, wait, options?: DebounceOptions | boolean)`
 
-### 返回值
+```ts
+import { debounce } from 'spark-utils'
 
-`void`
+const search = debounce((keyword: string) => {
+  console.log('search:', keyword)
+}, 300)
 
-### 示例
+search('sp')
+search('spark')  // 只在最后一次调用 300ms 后执行一次
 
-```js
-
-import { loop } from 'spark-utils';
-
-loop((i) => {
-    console.log(i);
-    return i < 10;  
-})
-
-loop((i) => {
-    console.log(i);
-    return i < 10;  
-}, 1000, 5) // 当回调函数返回true或者超时5秒时停止
-
+search.cancel()  // 取消挂起的执行
 ```
 
-## noop
+`options`：`{ leading?: boolean, trailing?: boolean }`，也兼容布尔简写（`true` 等价 `{ leading: true }`、`false` 等价 `{ trailing: true }`）。
 
-一个空的方法，始终返回 undefined，可用于初始化值
+::: tip 2.0 变更
+1.x 不传第三参会抛 `TypeError`；2.0 第三参可选，缺省按 trailing 执行。
+:::
 
-### 参数
+## throttle
 
-`noop()`
+函数节流：间隔 `wait` 毫秒内最多执行一次。同样带 `cancel()`。
 
-### 返回值
+`throttle(callback, wait, options?: ThrottleOptions | boolean)`
 
-`void`
+```ts
+import { throttle } from 'spark-utils'
 
-### 示例
-
-```js
-
-import { noop } from 'spark-utils';
-
-[11, 22, 33].map(noop) // [undefined, undefined, undefined]
-
+window.addEventListener('resize', throttle(() => {
+  console.log('resize')
+}, 500))
 ```
+
+::: tip 2.0 变更
+与 `debounce` 同型：第三参不传不再抛 `TypeError`。
+:::
 
 ## once
 
-只执行一次的函数
+创建只能调用一次的函数，重复调用只返回第一次的结果。
 
-### 参数
+`once(callback, context?, ...presetArgs?)`
 
-`once(callback, [context], [arguments])`
+```ts
+import { once } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| callback | Function | 是 | 回调函数 |
-| context | Object | 否 | 上下文 |
-| arguments | Array | 否 | 参数 |
+const init = once(() => {
+  console.log('只执行一次')
+  return 'ready'
+})
 
-### 返回值
-
-`Function`
-
-### 示例
-
-```js
-
-import { once } from 'spark-utils';
-
-let rest = once(function (val) {
-    return this.name + ' = ' + val
-}, {name: 'test'})
-rest(123) // 'test = 123'
-rest(456) // 'test = 123'
-
+init()  // 打印并返回 'ready'
+init()  // 直接返回 'ready'，不再执行
 ```
 
 ## after
 
-创建一个函数, 调用次数超过 count 次之后执行回调并将所有结果记住后返回
+从第 `count` 次调用起执行回调（其后每次调用均执行；回调参数为 `(rests, ...args)`，rests 为前 count 次的首参收集）。
 
-### 参数
+`after(count, callback, context?)`
 
-`after(count, callback, [context])`
+```ts
+import { after } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| count | Number | 是 | 调用次数 |
-| callback | Function | 是 | 回调函数 |
-| context | Object | 否 | 上下文 |
+const ready = after(3, () => console.log('3 次之后触发'))
 
-### 返回值
-
-`Function`
-
-### 示例
-
-```js
-
-import { after } from 'spark-utils';
-
-function getJSON (url, callback) {
-    setTimeout(function() {
-    callback({name: 'test1'})
-    }, 200)
-}
-
-// 如果你想确保所有异步请求完成之后才执行这个函数
-let finish = after(3, function (rests) {
-    console.log('All finish')
-})
-getJSON('/api/list1', finish)
-getJSON('/api/list2', finish)
-getJSON('/api/list3', finish)
-
+ready(); ready(); ready()  // 第 3 次调用起打印
 ```
 
 ## before
 
-创建一个函数, 调用次数不超过 count 次之前执行回调并将所有结果记住后返回
+只在前 `count - 1` 次调用时执行回调，达到次数后不再执行（回调参数为 `(rests, ...args)`，rests 为已执行调用的首参收集）。
 
-### 参数
+`before(count, callback, context?)`
 
-`before(count, callback, [context])`
+```ts
+import { before } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| count | Number | 是 | 调用次数 |
-| callback | Function | 是 | 回调函数 |
-| context | Object | 否 | 上下文 |
+const limit = before(3, (rests, msg) => console.log(msg))
 
-### 返回值
-
-`Function`
-
-### 示例
-
-```js
-
-import { before } from 'spark-utils';
-
-document.querySelector('.btn').addEventListener('click', before(4, function (rests) {
-    console.log('只能点击三次')
-}))
-
+limit('a')  // 打印 'a'
+limit('b')  // 打印 'b'
+limit('c')  // 不再执行
 ```
 
 ## delay
 
-该方法和 setTimeout 一样的效果，区别就是支持额外参数
+延迟执行（setTimeout 封装，返回定时器 id，回调可带参）。
 
-### 参数
+`delay(callback, wait, ...args)`
 
-`delay(callback, wait, [arguments])`
+```ts
+import { delay } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| callback | Function | 是 | 回调函数 |
-| wait | Number | 是 | 延迟时间，单位毫秒 |
-| arguments | Array | 否 | 参数 |
-
-### 返回值
-
-`void`
-
-### 示例
-
-```js
-
-import { delay } from 'spark-utils';
-
-delay(function (action) {
-    console.log("🚀 ~ action:", action) // 唱、跳、rap、篮球 
-}, 300, '唱、跳、rap、篮球')
-
+delay((name: string) => console.log(`hi ${name}`), 300, 'spark')
 ```
 
-## bind
+## loop
 
-创建一个绑定上下文的函数
+循环函数：每 `time` 毫秒执行一次回调，回调返回真值或超时（`timeout` 秒，默认 3s）后停止。
 
-### 参数
+`loop(callback, time?, timeout?)`
 
-`bind(callback, context, [arguments])`
+```ts
+import { loop } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| callback | Function | 是 | 回调函数 |
-| context | Object | 否 | 上下文 |
-| arguments | Array | 否 | 参数 |
-
-### 返回值
-
-`Function`
-
-### 示例
-
-```js
-
-import { bind } from 'spark-utils';
-
-let rest = bind(function (val) {
-    return this.name + ' = ' + val
-}, {name: 'test'})
-rest('坤') // 'test = 坤'
-rest('少') // 'test = 少'
-
+// 每 500ms 检查一次，data.ready 时停止，最长 5 秒
+loop(() => data.ready, 500, 5)
 ```
 
-## throttle
+## noop
 
-节流函数；当被调用 n 毫秒后才会执行，如果在这时间内又被调用则至少每隔 n 秒毫秒调用一次该函数
+空函数占位。
 
-### 参数
+```ts
+import { noop } from 'spark-utils'
 
-`throttle(callback, wait, [options])`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| callback | Function | 是 | 回调函数 |
-| wait | Number | 是 | 延迟时间，单位毫秒 |
-| options | Object | 否 | 配置项 |
-
-### 配置项
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| leading | Boolean | 否 | 是否在延迟开始前调用 |
-| trailing | Boolean | 否 | 是否在延迟结束后调用 |
-
-### 返回值
-
-`Function`
-
-### 示例
-
-```js
-
-import { throttle } from 'spark-utils';
-
-function scrollEvent (evnt) {
-        console.log('至少每隔wait秒毫秒之内只会调用一次')
-    }
-
-    // 在计时结束之前执行
-    document.body.addEventListener('scroll', throttle(scrollEvent, 100))
-    // 在计时结束之前执行
-    document.body.addEventListener('scroll', throttle(scrollEvent, 100, {
-        leading: true,
-        trailing: false
-    }))
-    // 在计时结束之后执行
-    document.body.addEventListener('scroll', throttle(scrollEvent, 100, {
-        leading: false,
-        trailing: true
-    }))
-
-    let func = throttle(function (msg) {
-        console.log(msg)
-    }, 300)
-    func('执行一次')
-    func.cancel()
-    func('取消后中断计时，再次调用会马上执行')
-
-```
-
-## debounce
-
-防抖函数；当被调用 n 毫秒后才会执行，如果在这时间内又被调用则将重新计时，直到 n 毫秒后才会执行
-
-### 参数
-
-`debounce(callback, wait, [options])`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| callback | Function | 是 | 回调函数 |
-| wait | Number | 是 | 延迟时间，单位毫秒 |
-| options | Object | 否 | 配置项 |
-
-### 配置项
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| leading | Boolean | 否 | 是否在延迟开始前调用 |
-| trailing | Boolean | 否 | 是否在延迟结束后调用 |
-
-### 返回值
-
-`Function`
-
-### 示例
-
-```js
-
-import  { debounce } from 'spark-utils';
-
-function resizeEvent (evnt) {
-    console.log('如果wait毫秒内重复调用则会重新计时，在函数最后一次调用wait毫秒之后才会执行回调')
-}
-
-// 在计时结束之后执行
-document.addEventListener('resize', debounce(resizeEvent, 100))
-// 在计时结束之前执行
-document.addEventListener('resize', debounce(resizeEvent, 100, true))
-// 在计时结束之前执行
-document.addEventListener('resize', debounce(resizeEvent, 100, {
-    leading: true,
-    trailing: false
-}))
-// 在计时结束之后执行
-document.addEventListener('resize', debounce(resizeEvent, 100, {
-    leading: false,
-    trailing: true
-}))
-
-let func = debounce(function (msg) {
-    console.log(msg)
-}, 300)
-func('计时结束之前执行一次')
-func.cancel()
-func('取消后中重新计时，在计时结束之前执行')
-
+const onDone = config.onDone ?? noop
 ```

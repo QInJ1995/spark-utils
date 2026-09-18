@@ -1,21 +1,30 @@
 # 简介
 
-SparkUtils 是一个功能强大且易于使用的 JavaScript 工具库，它为开发人员提供了一系列实用的函数和方法，可以简化 JavaScript 应用程序的开发过程。它涵盖了各种常见的任务和操作，包括字符串处理、日期和时间操作、数组和对象处理、DOM 操作等等。
+spark-utils 是一个功能丰富、可扩展的**同构 JavaScript / TypeScript 工具库**，覆盖类型判定、数组、对象、函数、日期、数值金额、字符串脱敏、网络请求、日志打印、浏览器能力与加解密等日常开发场景。
 
-主要特点：
+2.0 是一次全面重构：TypeScript 严格模式重写、全量具名导出、Node 与浏览器同构、浏览器/加密/拼音拆分为独立子入口。
 
-::: info 简洁易用
-SparkUtils 的设计目标之一是提供简洁易用的 API，以便开发人员能够轻松地集成和使用它们。
+::: info TypeScript 原生
+2.0 以 TS 严格模式重写全部模块，`import { debounce } from 'spark-utils'` 即获得完整参数与返回值类型提示；类型随 npm 包直接分发（`.d.ts`），无需额外安装 `@types` 包。
 :::
 
-::: info 广泛的功能覆盖
-该工具库涵盖了许多常见的功能需求，如字符串处理（截取、替换、格式化等）、日期和时间操作（格式化、解析、计算等）、数组和对象处理（排序、过滤、映射等）、DOM 操作（选择元素、添加/移除类名、事件绑定等）等等。
+::: info 同构（Node 与浏览器通用）
+主入口在 Node 下可安全 `import`——所有 `window` / `document` / `location` 访问都做了惰性求值，不会在加载期触碰浏览器全局。浏览器专属能力（cookie / storage / dom / ua / url / crossDomain / clipboard）收敛在 `spark-utils/browser` 子入口，Node 下 import 该入口同样零副作用。
 :::
 
-::: info 高度可定制
-SparkUtils 提供了多种选项和参数，使开发人员能够根据自己的需求进行定制和配置。
+::: info 子入口分包
+体积较大的能力独立成子入口：`spark-utils/browser`（28 个浏览器方法）、`spark-utils/crypto`（12 个加解密方法，crypto-js / jsrsasign 仅在此入口可达）、`spark-utils/pinyin`（拼音字典）。主包保持轻量，`sideEffects: false` 对打包器友好。
 :::
 
-::: info 跨浏览器兼容性
-SparkUtils 被设计为兼容各种主流浏览器，并提供了统一的 API，以便在不同环境下保持一致性。用它们。
+::: info 安全重设计
+跨文档通讯移除 `eval` 改为白名单注册（`setupCrossDomain`）；网络请求由 axios 封装换为原生 `fetch`（`createHttp`）；加密错误统一抛出类型化 `CryptoError`；剪贴板优先走异步 Clipboard API。
 :::
+
+## 环境要求
+
+- Node.js >= 18（`package.json` `engines` 约束；`createHttp` 依赖原生 fetch）
+- 现代浏览器（IE 系列判定与分支已随 2.0 删除）
+
+## 反馈与贡献
+
+- 提交遵循 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/)：`feat` / `fix` / `docs` / `style` / `refactor` / `perf` / `test` / `chore`
