@@ -21,11 +21,12 @@ const OVERRIDES: Record<string, { caseIndexes?: number[]; reason?: string }> = J
 const newModuleCache: Record<string, Record<string, unknown>> = {}
 
 async function loadNewModule(module: string): Promise<Record<string, unknown>> {
-  if (!(module in newModuleCache)) {
-    // 动态加载新版模块入口（ported 中登记的模块其 src/<module>/index.ts 必然存在）
-    newModuleCache[module] = (await import(`../../src/${module}/index.ts`)) as Record<string, unknown>
-  }
-  return newModuleCache[module]
+  const cached = newModuleCache[module]
+  if (cached) return cached
+  // 动态加载新版模块入口（ported 中登记的模块其 src/<module>/index.ts 必然存在）
+  const loaded = (await import(`../../src/${module}/index.ts`)) as Record<string, unknown>
+  newModuleCache[module] = loaded
+  return loaded
 }
 
 function invokeImpl(fn: unknown, args: unknown[]): unknown {

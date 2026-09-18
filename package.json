@@ -38,7 +38,7 @@
     "dist"
   ],
   "scripts": {
-    "typecheck": "tsc -b",
+    "typecheck": "tsc -b && tsc -p tsconfig.test.json",
     "build": "npm run typecheck && rollup -c && rollup -c rollup.umd.config.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
