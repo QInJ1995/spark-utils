@@ -1,0 +1,8 @@
+{
+  ".": [
+    "VERSION"
+  ],
+  "./browser": [],
+  "./crypto": [],
+  "./pinyin": []
+}

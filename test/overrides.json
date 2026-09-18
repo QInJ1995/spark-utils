@@ -1,1 +1,10 @@
-{}
+{
+  "number.moneyFormat": {
+    "caseIndexes": [3],
+    "reason": "2.0 修复 0 值 bug：旧版 !money 把 0 当非法返回空串，新版 0 为合法金额输出 '0'（commafy 已并入 moneyFormat）"
+  },
+  "basic.isWindow": {
+    "caseIndexes": [0, 1, 2],
+    "reason": "2.0 类型规范化：旧版 node 下 staticWindow 为 0，短路返回数字 0；新版惰性 getWindow() 在 node 下为 undefined，统一返回 false"
+  }
+}
