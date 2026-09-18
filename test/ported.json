@@ -129,5 +129,10 @@
   ],
   "function": [
     "noop"
+  ],
+  "other": [
+    "hkIdVerify",
+    "macauIdCard",
+    "validate2ndIdCard"
   ]
 }

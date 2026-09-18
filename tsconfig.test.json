@@ -8,5 +8,5 @@
     "incremental": false,
     "rootDir": "."
   },
-  "include": ["test"]
+  "include": ["test/node", "test/contracts"]
 }
