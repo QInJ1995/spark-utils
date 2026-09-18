@@ -65,6 +65,8 @@ declare module 'jsrsasign' {
 
   /** 签名/验签实例 */
   export interface Signature {
+    /** 注入密钥对象（与 prvkeypem 路径逐位等价；公钥依 isPublic 自动分派到验签状态） */
+    init(key: RSAKeyObject | string): void
     updateString(data: string): void
     sign(): string
     verify(hexSignature: string): boolean

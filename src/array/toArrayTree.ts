@@ -77,9 +77,13 @@ export function toArrayTree(
     }
   }
 
-  const idList = map(list, function pickId(item) {
-    return (item as Record<string, unknown>)[optKey]
-  })
+  // 根判定查重表：Set.has 与旧数组 includes 同为 SameValueZero 语义，
+  // 逐节点 O(n) 线性扫（整体 O(n²)）收敛为 O(1)
+  const idSet = new Set(
+    map(list, function pickId(item) {
+      return (item as Record<string, unknown>)[optKey]
+    })
+  )
 
   each(list, function buildTree(item) {
     const node = item as Record<string, unknown>
@@ -103,8 +107,8 @@ export function toArrayTree(
     treeData[optParentKey] = parentId
     treeData[optChildren] = treeMap[id as string]
     if (!optStrict || (optStrict && !parentId)) {
-      // 旧 includes(idList, parentId)：数组走原生 includes（SameValueZero）
-      if (!idList.includes(parentId)) {
+      // 旧数组 includes（SameValueZero）→ Set.has，语义逐点相同
+      if (!idSet.has(parentId)) {
         result.push(treeData)
       }
     }

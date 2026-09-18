@@ -33,8 +33,9 @@ function clearObject(obj: unknown): unknown {
  *
  * - iterate 为 null/undefined 时走 clear：清空并返回 obj 本身（fixture：[1,2,3] → []）；
  * - iterate 为函数时按回调命中；为其他值（字符串属性名）时按键名匹配（旧 pluckProperty 内联）；
- * - 数组：倒序遍历 removeKeys 逐个 splice，返回被移除元素组成的数组
- *   （怪癖：倒序收集，[1,2,3,4] 移除 >2 得 [4,3]，fixture 锁定）；
+ * - 数组：被移除元素倒序收集进返回数组（怪癖：[1,2,3,4] 移除 >2 得 [4,3]，
+ *   fixture 锁定）；原数组正序单趟压缩抹除命中位（旧为逐键倒序 splice，
+ *   2.0 性能改写，结果逐元素相同）；
  * - 对象：返回被移除键值组成的对象；
  * - obj 为空原样返回。
  *
@@ -85,12 +86,25 @@ export function remove(obj: unknown, iterate: unknown, context?: unknown): unkno
       })
       if (isArray(obj)) {
         const list = obj as unknown[]
-        // 倒序移除，避免索引位移（旧 lastEach(removeKeys, ...)）
+        // 被移除值倒序收集（旧 lastEach(removeKeys) 语义，fixture 锁定）
+        const removed = rest as unknown[]
         for (let len = removeKeys.length - 1; len >= 0; len--) {
-          const index = removeKeys[len] as number
-          ;(rest as unknown[]).push(list[index])
-          list.splice(index, 1)
+          removed.push(list[removeKeys[len] as number])
         }
+        // 2.0 性能：旧实现逐键倒序 splice（O(n·k)），改为正序单趟压缩
+        //（O(n)，removeKeys 由 each 升序产出，双指针跳过命中位）
+        let write = 0
+        let keyPos = 0
+        const keyCount = removeKeys.length
+        for (let index = 0; index < list.length; index++) {
+          if (keyPos < keyCount && removeKeys[keyPos] === index) {
+            keyPos++
+            continue
+          }
+          list[write] = list[index]
+          write++
+        }
+        list.length = write
       } else {
         rest = {}
         const target = obj as Record<string, unknown>

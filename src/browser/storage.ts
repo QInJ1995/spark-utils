@@ -169,8 +169,15 @@ class WebStorageCreatorImpl implements WebStorageCreator {
       this.remove(key)
       return null
     }
-    // 命中即刷新使用时间（旧版语义）
-    this.set(key, parsed.wrapped.value)
+    // 命中即刷新使用时间（旧版语义）。2.0 读放大收口：旧路径经 this.set
+    // 会再次 readMap（又一次同步 getItem），改为就地更新缓存条目后回写，
+    // 单次 get 由「2 读 + 1 写」降为「1 读 + 1 写」；写放大（整映射重序列化）
+    // 由单键存储格式决定，无法避免
+    map[key] = JSON.stringify({
+      value: parsed.wrapped.value,
+      updateTime: Date.now(),
+    } satisfies StorageRecord)
+    this.commit(map)
     return parsed.wrapped.value
   }
 
