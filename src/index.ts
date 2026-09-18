@@ -17,3 +17,5 @@ export * from './log/index'
 export * from './http/index'
 export * from './other/index'
 export * from './date/index'
+
+export { default } from './default'

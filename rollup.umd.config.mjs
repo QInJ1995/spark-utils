@@ -20,10 +20,11 @@ const dayjsEsmAlias = {
  * UMD 单文件构建：存量 <script> 标签用户兼容件。
  * 仅含主包（同构部分）；dayjs 经 node-resolve 实际打入以保持单文件可用
  * （裸导入若无解析插件会被 rollup 默认外置，script 标签场景即断）。
- * TODO(M7): default 聚合对象落地后设置 exports: 'default'，维持旧版 SparkUtils.xxx 平铺用法。
+ * 入口取 default 聚合对象 + exports:'default'：全局 SparkUtils 直接就是
+ * 平铺方法对象（SparkUtils.debounce(...)），与 1.x 用法一致。
  */
 export default {
-  input: 'src/index.ts',
+  input: 'src/default.ts',
   plugins: [
     dayjsEsmAlias,
     nodeResolve(),
@@ -42,5 +43,6 @@ export default {
     file: 'dist/spark-utils.min.js',
     format: 'umd',
     name: 'SparkUtils',
+    exports: 'default',
   },
 }

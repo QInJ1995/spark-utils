@@ -22,6 +22,7 @@
     "dateDiff",
     "dateToString",
     "debounce",
+    "default",
     "delay",
     "destructuring",
     "divide",
