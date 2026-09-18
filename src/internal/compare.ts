@@ -1,4 +1,4 @@
-import { isArray, isNumber, isString, isUndefined } from './type'
+import { isArray, isBoolean, isDate, isNumber, isRegExp, isString, isUndefined } from './type'
 
 /**
  * 比较器完整形态：旧实现会以 (v1, v2, key, obj1, obj2) 五参调用 compare
@@ -20,22 +20,6 @@ type FullCompareFn = (
   obj1?: unknown,
   obj2?: unknown
 ) => boolean
-
-/**
- * 以下类型守卫为本地实现：'./type' 约定导出中未包含这些符号，
- * 语义与旧版一致（isRegExp/isDate 走 Object.prototype.toString，isBoolean 走 typeof）。
- */
-function isRegExp(value: unknown): value is RegExp {
-  return Object.prototype.toString.call(value) === '[object RegExp]'
-}
-
-function isDate(value: unknown): value is Date {
-  return Object.prototype.toString.call(value) === '[object Date]'
-}
-
-function isBoolean(value: unknown): value is boolean {
-  return typeof value === 'boolean'
-}
 
 /** 旧实现直接读取 .constructor（null 原型对象得到 undefined，不抛错） */
 function getConstructor(value: unknown): unknown {

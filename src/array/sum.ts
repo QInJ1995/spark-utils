@@ -1,50 +1,7 @@
 import { each } from '../internal/iterate'
 import { helperNumberAdd } from '../internal/number'
-import { getHGSKeys, staticHGKeyRE } from '../internal/paths'
-import { eqNull, hasOwnProp, isFunction } from '../internal/type'
-
-/** 取单段路径的值（旧 src/object/get.js 的 getDeepProps 内联） */
-function getDeepProps(obj: unknown, key: string): unknown {
-  const matchs = key ? key.match(staticHGKeyRE) : ''
-  if (matchs) {
-    const indexKey = matchs[2] as string
-    const baseKey = matchs[1]
-    if (baseKey) {
-      const baseVal = (obj as Record<string, unknown>)[baseKey]
-      return baseVal ? (baseVal as Record<string, unknown>)[indexKey] : undefined
-    }
-    return (obj as Record<string, unknown>)[indexKey]
-  }
-  return (obj as Record<string, unknown>)[key]
-}
-
-/** 按路径取值（旧 src/object/get.js 的 getValueByPath 内联，仅 string/number 属性形态） */
-function getValueByPath(obj: unknown, property: string | number | unknown[]): unknown {
-  if (obj) {
-    const name = property as string
-    const target = obj as Record<string, unknown>
-    if (target[name] || hasOwnProp(target, name)) {
-      return target[name]
-    }
-    const props = getHGSKeys(property as string)
-    const len = props.length
-    if (len) {
-      let rest: unknown = obj
-      for (let index = 0; index < len; index++) {
-        rest = getDeepProps(rest, props[index] as string)
-        if (eqNull(rest)) {
-          if (index === len - 1) {
-            return rest
-          }
-          return undefined
-        }
-      }
-      return rest
-    }
-    return undefined
-  }
-  return undefined
-}
+import { getValueByPath } from '../internal/paths'
+import { isFunction } from '../internal/type'
 
 /**
  * 求和函数，将数值相加（移植自旧 src/array/sum.js）

@@ -1,8 +1,9 @@
 /**
  * basic —— 基础方法（2.0 严格 TS 版）
  *
- * - isXxx 家族 / isLeapYear / isMatch / getType：实现位于 ../internal/type，
- *   此处具名 re-export（不 export *：eqNull/hasOwnProp 为 internal 私有能力，
+ * - isXxx 家族 / getType：实现位于 ../internal/type；isLeapYear 位于
+ *   ../internal/datetime（与 canonical toStringDate 同文件）、isMatch 为本域
+ *   ./isMatch；此处具名 re-export（不 export *：eqNull/hasOwnProp 为 internal 私有能力，
  *   不是公共 API——eqNull 仅供模块内如 toJSONString 使用）。
  * - 旧版“每方法一个文件 + 默认导出对象”的目录形态不再保留，
  *   全部为具名导出；keys/values/entries（原生镜像）已从 2.0 删除，
@@ -72,10 +73,10 @@ export { isDocument } from '../internal/type'
 export { isWindow } from '../internal/type'
 /** 判断是否 FormData */
 export { isFormData } from '../internal/type'
-/** 判断是否闰年 */
-export { isLeapYear } from '../internal/type'
+/** 判断是否闰年（canonical 位于 internal/datetime，与 toStringDate 同文件） */
+export { isLeapYear } from '../internal/datetime'
 /** 判断属性中的键和值是否包含在对象中 */
-export { isMatch } from '../internal/type'
+export { isMatch } from './isMatch'
 /** 获取对象类型 */
 export { getType } from '../internal/type'
 

@@ -9,8 +9,9 @@
  *
  * 旧版 helperNumberAdd/helperNumberDivide 依赖 src/number/toNumberString.js、
  * src/number/multiply.js（间接还有 toNumber.js）。L0 层不得引用旧 src，故将
- * 三者以私有函数在此逐行内联（行为对齐，不做“优化”）；公共 API
- * toNumberString/multiply 由 M3 的 number 模组另行实现，此处只导出 helper 四件套。
+ * 三者在此逐行内联（行为对齐，不做“优化”）；toNumberString 已导出为唯一
+ * canonical 实现（2.0 去重，number 域公共出口经 re-export 保持），toNumber/
+ * multiply 保持私有，公共 multiply 由 M3 的 number 模组另行实现。
  *
  * 依赖方向与旧版一致：number → string（旧 number/toNumberString.js 引
  * helpers/helperStringRepeat.js），不构成环。
@@ -66,10 +67,21 @@ export function helperNumberDivide(divisor: number | string, dividend: number | 
 }
 
 /**
- * 数值转字符串，科学计数法展开为十进制字面量（旧 src/number/toNumberString.js
- * 的私有内联）。私有不导出：它是 M3 number 模组的公共 API。
+ * 数值转字符串，科学计数法展开为十进制字面量（canonical，旧
+ * src/number/toNumberString.js）。
+ *
+ * 2.0 去重：M3 时期本函数私有内联（number/toNumberString.ts 公共版与
+ * string/toValueString.ts 复刻版各自一份），现导出为唯一实现，
+ * 两处改引本函数（number 域公共 API 经 number/toNumberString.ts 具名 re-export
+ * 保持出口不变）。
+ *
+ * 行为（含怪癖）与旧版一致，见 test/fixtures/number/toNumberString.json：
+ * - 1e+21 → "1000000000000000000000"、1.2e-7 → "0.00000012"；
+ * - 非数字字符串原样返回（"abc" → "abc"，仅做 '' + num 取串）；
+ * - 负号取自 `num < 0` 的比较结果而非正则捕获的符号位（旧实现如此，忠实保留；
+ *   字符串入参时 JS 关系比较会按数值比较，行为与数值入参一致）。
  */
-function toNumberString(num: number | string): string {
+export function toNumberString(num: number | string): string {
   const rest = '' + num
   const scienceMatchs = rest.match(/^([-+]?)((\d+)|((\d+)?[.](\d+)?))e([-+]{1})([0-9]+)$/)
   if (scienceMatchs) {

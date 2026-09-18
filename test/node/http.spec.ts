@@ -8,7 +8,7 @@
  * AbortController 超时中止（vi.useFakeTimers）与外部 signal 联动。
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { createHttp } from '../../src/http'
+import { createHttp, HttpError } from '../../src/http'
 import type { HttpRequestInit, HttpResponse } from '../../src/types/http'
 
 /** 打桩 fetch 时收到的 init（与实现传给 fetch 的形状一致） */
@@ -162,6 +162,41 @@ describe('createHttp', () => {
       const assertion = expect(pending).rejects.toThrow('[spark-utils][http]: 请求超时（100ms）')
       vi.advanceTimersByTime(100)
       await assertion
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('HttpError：非 2xx 与超时抛类型化错误（kind/status/url/timeout 字段）', async () => {
+    fetchMock.mockImplementationOnce(() => Promise.resolve(jsonResponse({ msg: 'nope' }, { status: 500 })))
+    const http = createHttp({ baseURL: 'https://api.test' })
+    const failure = await http.get('/boom').catch((error: unknown) => error)
+    expect(failure).toBeInstanceOf(HttpError)
+    expect(failure).toBeInstanceOf(Error)
+    const httpErr = failure as HttpError
+    expect(httpErr.kind).toBe('http')
+    expect(httpErr.status).toBe(500)
+    expect(httpErr.url).toBe('https://api.test/boom')
+    expect(httpErr.timeout).toBeUndefined()
+
+    vi.useFakeTimers()
+    try {
+      const hanging: FetchImpl = (_url, init) =>
+        new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener('abort', () => reject(new Error('aborted')))
+        })
+      vi.stubGlobal('fetch', hanging)
+      const slowHttp = createHttp({ timeout: 80 })
+      const pending = slowHttp.get('https://api.test/slow')
+      const caught = pending.catch((error: unknown) => error)
+      vi.advanceTimersByTime(80)
+      const timeoutErr = (await caught) as HttpError
+      expect(timeoutErr).toBeInstanceOf(HttpError)
+      expect(timeoutErr.kind).toBe('timeout')
+      expect(timeoutErr.timeout).toBe(80)
+      expect(timeoutErr.url).toBe('https://api.test/slow')
+      expect(timeoutErr.status).toBeUndefined()
+      expect(timeoutErr.name).toBe('HttpError')
     } finally {
       vi.useRealTimers()
     }

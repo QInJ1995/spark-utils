@@ -304,6 +304,20 @@ await http.post('/users', { name: 'spark' })                   // 对象自动 J
 await http.submit({ url: '/login', data: { user, pass } })     // autoQs 已删除
 ```
 
+非 2xx 响应与超时抛类型化 `HttpError`（`kind: 'http' | 'timeout'`，附 `status` / `url` / `timeout` 字段；message 文案与裸 `Error` 时期一致）：
+
+```ts
+import { HttpError } from 'spark-utils'
+
+try {
+  await http.get('/users')
+} catch (e) {
+  if (e instanceof HttpError && e.kind === 'timeout') {
+    // e.timeout 毫秒数、e.url 完整地址
+  }
+}
+```
+
 ### crypto：错误统一抛 CryptoError
 
 1.x 加解密失败静默返回 `false` 等假值；2.0 统一抛出类型化 `CryptoError`（含失败原因），调用方需按需 try/catch。方法清单不变（12 个），调用方式从 `crypto.xxx` 命名空间改为具名导入。另有三处细节：

@@ -1,6 +1,6 @@
 import { arrayEach } from '../internal/iterate'
-import { getHGSKeys, staticHGKeyRE } from '../internal/paths'
-import { eqNull, hasOwnProp, isArray, isFunction, isNull, isPlainObject, isUndefined } from '../internal/type'
+import { getValueByPath } from '../internal/paths'
+import { eqNull, isArray, isFunction, isNull, isPlainObject, isUndefined } from '../internal/type'
 import { map } from './map'
 import { toArray } from './toArray'
 
@@ -25,49 +25,6 @@ export type OrderFieldConf =
   | ((this: unknown, item: unknown, index: number, arr: unknown) => unknown)
   | ReadonlyArray<unknown>
   | Record<string, unknown>
-
-/** 取单段路径的值（旧 src/object/get.js 的 getDeepProps 内联） */
-function getDeepProps(obj: unknown, key: string): unknown {
-  const matchs = key ? key.match(staticHGKeyRE) : ''
-  if (matchs) {
-    const indexKey = matchs[2] as string
-    const baseKey = matchs[1]
-    if (baseKey) {
-      const baseVal = (obj as Record<string, unknown>)[baseKey]
-      return baseVal ? (baseVal as Record<string, unknown>)[indexKey] : undefined
-    }
-    return (obj as Record<string, unknown>)[indexKey]
-  }
-  return (obj as Record<string, unknown>)[key]
-}
-
-/** 按路径取值（旧 src/object/get.js 的 getValueByPath 内联，仅 string/number 属性形态） */
-function getValueByPath(obj: unknown, property: string | number): unknown {
-  if (obj) {
-    const name = property as string
-    const target = obj as Record<string, unknown>
-    if (target[name] || hasOwnProp(target, name)) {
-      return target[name]
-    }
-    const props = getHGSKeys(name)
-    const len = props.length
-    if (len) {
-      let rest: unknown = obj
-      for (let index = 0; index < len; index++) {
-        rest = getDeepProps(rest, props[index] as string)
-        if (eqNull(rest)) {
-          if (index === len - 1) {
-            return rest
-          }
-          return undefined
-        }
-      }
-      return rest
-    }
-    return undefined
-  }
-  return undefined
-}
 
 /** 单层比较（旧 handleSort）：'' < 数字 < 字符 < null < undefined */
 function handleSort(v1: unknown, v2: unknown): number {
@@ -158,14 +115,14 @@ function getSortConfs(
  * @param context 上下文
  * @returns 排序后的新数组
  */
-export function orderBy(
-  arr: ReadonlyArray<unknown> | Record<string, unknown> | null | undefined,
+export function orderBy<T>(
+  arr: ReadonlyArray<T> | Record<string, T> | null | undefined,
   fieldConfs?: OrderFieldConf | ReadonlyArray<OrderFieldConf> | null,
   context?: unknown
-): unknown[] {
+): T[] {
   if (arr) {
     if (eqNull(fieldConfs)) {
-      return (toArray(arr) as unknown[]).sort(handleSort)
+      return (toArray(arr) as T[]).sort(handleSort)
     }
     let list = map(arr, function wrapSortItem(item) {
       return { data: item } as SortItem
@@ -178,7 +135,7 @@ export function orderBy(
     }
     return map(list, function pluckData(item) {
       return item.data
-    })
+    }) as T[]
   }
   return []
 }

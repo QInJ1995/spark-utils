@@ -216,6 +216,30 @@ export function toStringDate(str: unknown, format?: string): Date {
 }
 
 /* ---------------------------------------------------------------------------
+ * isLeapYear（canonical，自旧 src/basic/isLeapYear.js）
+ * ------------------------------------------------------------------------- */
+
+/**
+ * 判断是否闰年（canonical，自旧 src/basic/isLeapYear.js）
+ *
+ * 2.0 去重：M3 时期在 internal/type/guards.ts 私有移植过一套 toStringDate
+ * 解析栈，现收敛至此——toStringDate 即本文件 canonical 实现，闰年判定
+ * 直接复用；默认解析格式经 getSetup().formatDate 读取（旧版读取可变单例
+ * setupDefaults.formatDate，setup() 后生效的语义一致）。
+ *
+ * @param date 日期或数字（falsy 取当前时间）
+ * @returns 是否闰年（无法解析为 Date 时 false）
+ */
+export function isLeapYear(date: unknown): boolean {
+  const currentDate = date ? toStringDate(date) : new Date()
+  if (isDate(currentDate)) {
+    const year = currentDate.getFullYear()
+    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
+  }
+  return false
+}
+
+/* ---------------------------------------------------------------------------
  * getWhatYear / getWhatMonth / getWhatWeek / getYearWeek / getYearDay / getMonthWeek
  * （canonical，自旧 src/date 同名文件下沉，为 toDateString 的 w/W/O token 依赖）
  * ------------------------------------------------------------------------- */

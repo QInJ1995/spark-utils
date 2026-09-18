@@ -14,10 +14,13 @@
  * - 默认配置槽：baseURL / timeout / headers 三层（请求级 > 实例级 > setup().httpConfig），
  *   setup 槽即旧 setupDefaults.axiosConfig（10000ms 超时、默认表单 Content-Type），
  *   每次请求时读取，setup() 后立即生效；
- * - 超时经 AbortController 中止；外部 signal 与超时联动（任一触发即中止请求）。
+ * - 超时经 AbortController 中止；外部 signal 与超时联动（任一触发即中止请求）；
+ * - 非 2xx 响应与超时抛类型化 HttpError（kind/status/url/timeout 字段，
+ *   message 文案与 2.0 初版的裸 Error 逐字一致）。
  */
 import { getSetup } from '../internal/config'
 import { isString } from '../internal/type'
+import { HttpError } from './error'
 import type {
   HttpConfig,
   HttpInstance,
@@ -156,12 +159,18 @@ export function createHttp(config: HttpConfig = {}): HttpInstance {
         } satisfies HttpResponse<unknown>)
       }
       if (!response.ok) {
-        throw new Error(`[spark-utils][http]: 请求失败（${response.status}）${finalInit.url}`)
+        throw new HttpError('http', `[spark-utils][http]: 请求失败（${response.status}）${finalInit.url}`, {
+          url: finalInit.url,
+          status: response.status,
+        })
       }
       return bodyData as T
     } catch (error) {
       if (timedOut) {
-        throw new Error(`[spark-utils][http]: 请求超时（${finalInit.timeout}ms）${finalInit.url}`)
+        throw new HttpError('timeout', `[spark-utils][http]: 请求超时（${finalInit.timeout}ms）${finalInit.url}`, {
+          url: finalInit.url,
+          timeout: finalInit.timeout,
+        })
       }
       throw error
     } finally {

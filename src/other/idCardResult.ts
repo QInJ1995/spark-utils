@@ -12,8 +12,8 @@
 export interface IDCardResult {
   /** 是否通过校验 */
   valid: boolean
-  /** 失败分支码（LENGTH / PATTERN / CHECKSUM），通过时缺省 */
-  code?: string
+  /** 失败分支码（LENGTH=长度 / PATTERN=正则 / CHECKSUM=校验位），通过时缺省 */
+  code?: 'LENGTH' | 'PATTERN' | 'CHECKSUM'
   /** 失败原因（沿用旧版 errors.push 的文案），通过时缺省 */
   msg?: string
 }

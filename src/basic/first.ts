@@ -11,9 +11,11 @@
  * 获取对象第一个值
  *
  * @param obj 对象/数组
- * @returns 第一个值（空值/空集合为 undefined）
+ * @returns 第一个值（空值/空集合为 undefined；字符串入参得首字符）
  */
-export function first(obj: unknown): unknown {
+export function first<T = unknown>(
+  obj: Record<string, T> | ReadonlyArray<T> | string | null | undefined
+): T | undefined {
   const list = obj ? Object.values(obj as object) : []
-  return list[0]
+  return list[0] as T | undefined
 }

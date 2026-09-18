@@ -4,6 +4,8 @@
  * 旧 https.init / https.axios / https.submit 的迁移说明见 ./createHttp.ts 文件头 MIGRATION 段。
  */
 export { createHttp } from './createHttp'
+export { HttpError } from './error'
+export type { HttpErrorKind } from './error'
 export type {
   HttpConfig,
   HttpInstance,

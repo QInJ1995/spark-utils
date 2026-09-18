@@ -4,8 +4,8 @@
  * 行为与旧版一致，见 test/fixtures/date/getDayOfYear.json：
  * 闰年 366、平年 365；year 偏移先经 getWhatYear 生效再判定。
  */
-import { getWhatYear, toStringDate } from '../internal/datetime'
-import { isLeapYear, isValidDate } from '../internal/type'
+import { getWhatYear, isLeapYear, toStringDate } from '../internal/datetime'
+import { isValidDate } from '../internal/type'
 
 /**
  * 返回某个年份的天数

@@ -10,9 +10,11 @@
  * 获取对象最后一个值
  *
  * @param obj 对象/数组
- * @returns 最后一个值（空值/空集合为 undefined）
+ * @returns 最后一个值（空值/空集合为 undefined；字符串入参得末字符）
  */
-export function last(obj: unknown): unknown {
+export function last<T = unknown>(
+  obj: Record<string, T> | ReadonlyArray<T> | string | null | undefined
+): T | undefined {
   const list = obj ? Object.values(obj as object) : []
-  return list[list.length - 1]
+  return list[list.length - 1] as T | undefined
 }
