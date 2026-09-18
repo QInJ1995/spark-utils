@@ -8,6 +8,18 @@
     "incremental": false
   },
   "include": [
+    "src/index.ts",
+    "src/basic",
+    "src/array",
+    "src/number",
+    "src/string",
+    "src/object",
+    "src/function",
+    "src/log",
+    "src/http",
+    "src/other",
+    "src/date",
+    "src/pinyin.ts",
     "src/browser.ts",
     "src/browser",
     "src/crypto.ts",

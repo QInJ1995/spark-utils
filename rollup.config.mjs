@@ -2,12 +2,19 @@ import typescript from '@rollup/plugin-typescript'
 
 /**
  * 主构建：preserveModules 多入口，产出 ESM + CJS 双格式。
- * - 主包（同构）：tsconfig.src.json（无 DOM lib，编译期拦截 window 泄漏）
- * - browser / crypto 子入口：tsconfig.browser.json（带 DOM lib）
+ *
+ * 所有入口（主包 + browser + crypto + pinyin）必须在**同一次构建**里emit：
+ * preserveModules 下共享模块（src/internal/*）只落盘一份，若分多次构建
+ * 写同一 dist，后写的会用「本入口裁剪过的导出」覆盖完整版（曾导致
+ * guards.js 丢失 isNumber 等，主入口运行时拿到 undefined）。
+ * rollup 在单次构建中对导出取「全部入口的并集」，不会误裁。
+ *
+ * 类型检查不依赖本构建：tsc -b（tsconfig.src/browser/test）已按各自
+ * 严格度把关；此处统一用带 DOM lib 的宽松 tsconfig 仅作转换。
  * 第三方依赖（dayjs/crypto-js/jsrsasign）全部 external，不打进产物。
  */
 
-const MAIN_ENTRIES = [
+const ENTRIES = [
   'src/index.ts',
   'src/basic/index.ts',
   'src/array/index.ts',
@@ -20,54 +27,18 @@ const MAIN_ENTRIES = [
   'src/other/index.ts',
   'src/date/index.ts',
   'src/pinyin.ts',
+  'src/browser.ts',
+  'src/crypto.ts',
 ]
-
-const BROWSER_ENTRIES = ['src/browser.ts']
-const CRYPTO_ENTRIES = ['src/crypto.ts']
-
-/**
- * browser/crypto 域的 rollup 构建用专属 tsconfig：其 include 必须覆盖
- * 域文件 + 它们引用的 src/internal（tsconfig.browser.json 仅含域文件，
- * 供 tsc -b 经 project references 做类型检查；rollup 的 typescript 插件
- * 只转换 include 内的文件，裸 .ts 会以 JS 解析报错）。
- */
-const DOM_TSCONFIG = 'tsconfig.rollup-dom.json'
 
 const EXTERNAL = [/^dayjs/, /^crypto-js/, /^jsrsasign/, /^node:/]
 
-const pluginOverrides = {
-  declaration: false,
-  emitDeclarationOnly: false,
-  composite: false,
-  incremental: false,
+export default {
+  input: ENTRIES,
+  external: EXTERNAL,
+  plugins: [typescript({ tsconfig: 'tsconfig.rollup.json' })],
+  output: [
+    { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].js' },
+    { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs' },
+  ],
 }
-
-export default [
-  {
-    input: MAIN_ENTRIES,
-    external: EXTERNAL,
-    plugins: [typescript({ tsconfig: 'tsconfig.src.json', compilerOptions: pluginOverrides })],
-    output: [
-      { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].js' },
-      { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs' },
-    ],
-  },
-  {
-    input: BROWSER_ENTRIES,
-    external: EXTERNAL,
-    plugins: [typescript({ tsconfig: DOM_TSCONFIG, compilerOptions: pluginOverrides })],
-    output: [
-      { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].js' },
-      { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs' },
-    ],
-  },
-  {
-    input: CRYPTO_ENTRIES,
-    external: EXTERNAL,
-    plugins: [typescript({ tsconfig: DOM_TSCONFIG, compilerOptions: pluginOverrides })],
-    output: [
-      { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].js' },
-      { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs' },
-    ],
-  },
-]
