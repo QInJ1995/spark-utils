@@ -305,7 +305,11 @@ await http.submit({ url: '/login', data: { user, pass } })     // autoQs 已删�
 
 ### crypto：错误统一抛 CryptoError
 
-1.x 加解密失败静默返回 `false` 等假值；2.0 统一抛出类型化 `CryptoError`（含失败原因），调用方需按需 try/catch。方法清单不变（12 个），调用方式从 `crypto.xxx` 命名空间改为具名导入。
+1.x 加解密失败静默返回 `false` 等假值；2.0 统一抛出类型化 `CryptoError`（含失败原因），调用方需按需 try/catch。方法清单不变（12 个），调用方式从 `crypto.xxx` 命名空间改为具名导入。另有三处细节：
+
+- **AES 新增密钥长度校验**：密钥非 16/24/32 字节或 IV 非 16 字节抛 `INVALID_KEY`。旧版对错误长度密钥静默产出**自身都无法解回**的乱码密文（属修 bug 性质收紧）；合法长度但错误的密钥解密仍返回乱码不抛错（CBC 无认证，与旧版一致）。
+- **rsaVerify**：密钥/签名解析失败旧版返回 `false`，2.0 抛 `VERIFY_FAILED`；验签不通过仍返回 `false`（与旧版一致）。
+- **md5Sign** 底层从 jsrsasign 内置 CryptoJS 切换为 crypto-js（输出逐字节一致，仅依赖面收敛）。
 
 ### storage：若干修复
 

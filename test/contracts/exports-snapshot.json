@@ -208,7 +208,21 @@
     "unserialize",
     "webStorage"
   ],
-  "./crypto": [],
+  "./crypto": [
+    "CryptoError",
+    "aesDecrypt",
+    "aesEncrypt",
+    "create64Key",
+    "md5Sign",
+    "rsaDecrypt",
+    "rsaEncrypt",
+    "rsaSign",
+    "rsaVerify",
+    "sm2Encrypt",
+    "sm3Sign",
+    "sm4Decrypt",
+    "sm4Encrypt"
+  ],
   "./pinyin": [
     "pinyin"
   ]
