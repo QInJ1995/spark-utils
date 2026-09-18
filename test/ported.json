@@ -111,5 +111,20 @@
     "template",
     "toString",
     "unescape"
+  ],
+  "object": [
+    "assign",
+    "clear",
+    "clone",
+    "destructuring",
+    "get",
+    "has",
+    "lastObjectEach",
+    "merge",
+    "objectEach",
+    "objectMap",
+    "omit",
+    "pick",
+    "set"
   ]
 }
