@@ -11,7 +11,10 @@
  *    新版改为 allowCalls 白名单注册表，仅执行显式注册过的函数，
  *    未注册的调用名一律丢弃。
  * 3. 增加来源校验：收到消息时校验 event.origin 必须命中 allowOrigins
- *    白名单（精确匹配，不支持通配符），未注册来源直接丢弃。
+ *    白名单（按 origin 归一化后精确匹配，不支持通配符），未注册来源直接丢弃。
+ *    归一化规则：条目经 new URL().origin 处理——大小写、默认端口（:443/:80）、
+ *    尾斜杠等写法差异不再导致白名单漏配；无法解析的条目登记时丢弃并告警，
+ *    特例 'null'（沙箱 iframe 的不透明 origin）按字面放行。
  * 4. postMessage 目标 origin 显式化：setupCrossDomain 的 targetOrigin
  *    （默认仍为 '*' 仅作保底，强烈建议显式指定）；回执消息固定回发到
  *    已通过校验的对端 origin，不再使用 '*'。
@@ -19,14 +22,40 @@
  *    通讯双方协议字段（crossDomain/call/callFun/arg/callBackFun）保持不变，
  *    但回调名同样必须在对端 allowCalls 中注册。
  */
+import { getSetup } from '../internal/config'
 import { getDocument, getWindow } from '../internal/env'
+
+/** 日志经 showLog 门控 */
+function warnLog(message: string): void {
+  if (getSetup().showLog) {
+    console.warn(`[spark-utils]: ${message}`)
+  }
+}
 
 /** 可被跨域调用的本地函数（入参为消息 arg，返回值作为回执） */
 export type CrossDomainCallFn = (arg: unknown) => unknown
 
+/**
+ * 归一化 origin 写法（'HTTPS://A.COM:443/' -> 'https://a.com'）；
+ * 沙箱 iframe 的不透明 origin 按字面放行；无法解析返回 null
+ */
+function normalizeOrigin(origin: string): string | null {
+  if (origin === 'null') {
+    return origin
+  }
+  try {
+    return new URL(origin).origin
+  } catch {
+    return null
+  }
+}
+
 /** setupCrossDomain 选项 */
 export interface CrossDomainOptions {
-  /** 允许接收消息的来源 origin 白名单（精确匹配，如 'https://a.com'） */
+  /**
+   * 允许接收消息的来源 origin 白名单（归一化后精确匹配，如 'https://a.com'；
+   * 大小写/默认端口/尾斜杠写法差异会被归一，通配符不支持）
+   */
   allowOrigins: readonly string[]
   /** 允许被跨域调用的方法注册表（方法名 -> 本地实现；未注册的调用名被丢弃） */
   allowCalls: Readonly<Record<string, CrossDomainCallFn>>
@@ -56,6 +85,7 @@ interface CrossDomainMessage {
 
 /** 当前注册（未 setup 时为 undefined，收到消息直接忽略） */
 let activeOptions: CrossDomainOptions | undefined
+let activeOrigins: Set<string> | undefined
 let activeListener: ((event: MessageEvent) => void) | undefined
 
 /** 校验并处理一条入站消息（模块内部；来源与调用名双白名单） */
@@ -64,8 +94,8 @@ function receiveMessage(event: MessageEvent): void {
   if (!options) {
     return
   }
-  // 来源白名单：精确匹配，未注册来源直接丢弃
-  if (!options.allowOrigins.includes(event.origin)) {
+  // 来源白名单：与 event.origin（浏览器已归一化）比对；未注册来源直接丢弃
+  if (!activeOrigins?.has(event.origin)) {
     return
   }
   const data: unknown = event.data
@@ -120,6 +150,7 @@ function destroyActive(): void {
   }
   activeListener = undefined
   activeOptions = undefined
+  activeOrigins = undefined
 }
 
 /**
@@ -135,6 +166,17 @@ export function setupCrossDomain(options: CrossDomainOptions): CrossDomainHandle
   // 幂等：重复 setup 先注销旧监听
   destroyActive()
   activeOptions = options
+  // 白名单登记时归一化（大小写/默认端口/尾斜杠写法差异统一），
+  // 无法解析的条目丢弃并告警；event.origin 由浏览器序列化，天然已归一化
+  activeOrigins = new Set()
+  for (const entry of options.allowOrigins) {
+    const normalized = normalizeOrigin(entry)
+    if (normalized === null) {
+      warnLog(`crossDomain allowOrigins 条目无法解析，已丢弃：${entry}`)
+      continue
+    }
+    activeOrigins.add(normalized)
+  }
   const listener = (event: MessageEvent): void => {
     receiveMessage(event)
   }

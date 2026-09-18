@@ -7,17 +7,46 @@
  * 旧行为差异（破坏性，MIGRATION 登记）：
  * - 旧版 wrapper 所有 try/catch 吞错返回 false；新版抛 CryptoError
  *   （ENCRYPT_FAILED / DECRYPT_FAILED / SIGN_FAILED）。
+ * - 新增 SM4 密钥/初始向量校验（INVALID_KEY）：b64 解码失败或长度非 16 字节
+ *   显式拒绝；旧版对畸形密钥静默产出乱码密文（与 aes 的 2.0 收紧一致）。
  * - 旧 wrapper 内部的 sm2GroupingEncrypt / sm2Decrypt 空实现未移植：
  *   两者从未出现在旧 crypto 命名空间的公共导出面上。
  *
- * 已知限制（与旧版一致）：vendored sm2-1.0.js 在模块加载期读取 window/navigator
- * 全局，纯 Node 环境 import 本模块前需先注入 window（如 globalThis.window = globalThis）。
+ * 同构说明：vendored sm2-1.0.js 已打 __su_nav/__su_win 守卫补丁（见
+ * sm-vendor/README.md），纯 Node 环境 import 无需注入 window。
  */
 import Hex from '../sm-vendor/utils/hex'
 import SM3 from '../sm-vendor/sm3-1.0'
 import SM4 from '../sm-vendor/sm4-1.0'
 import SM2 from '../sm-vendor/sm2-1.0'
 import { CryptoError } from './error'
+
+/** SM4 密钥与初始向量固定 16 字节（GB/T 32907） */
+const SM4_KEY_BYTES = 16
+const SM4_IV_BYTES = 16
+
+/**
+ * 校验并解码 SM4 密钥/初始向量（与 aes 的 INVALID_KEY 收紧一致）：
+ * b64 解码失败或字节长度非 16 抛 CryptoError('INVALID_KEY')，
+ * 旧版对畸形密钥静默产出无法往返的乱码密文。
+ */
+function parseSm4Key(keyStr: string, ivStr: string): { key: number[]; iv: number[] } {
+  let key: number[]
+  let iv: number[]
+  try {
+    key = Hex.b64toBA(keyStr)
+    iv = Hex.b64toBA(ivStr)
+  } catch (e) {
+    throw new CryptoError('INVALID_KEY', `SM4 密钥/初始向量无法按 base64 解析：${String(e)}`, e)
+  }
+  if (key.length !== SM4_KEY_BYTES) {
+    throw new CryptoError('INVALID_KEY', `SM4 密钥长度非法：${key.length} 字节（仅允许 16）`)
+  }
+  if (iv.length !== SM4_IV_BYTES) {
+    throw new CryptoError('INVALID_KEY', `SM4 初始向量长度非法：${iv.length} 字节（仅允许 16）`)
+  }
+  return { key, iv }
+}
 
 /**
  * sm4 加密（CBC，PKCS7 填充）
@@ -27,11 +56,10 @@ import { CryptoError } from './error'
  * @returns base64 密文
  */
 export function sm4Encrypt(data: string, keyStr: string, ivStr: string): string {
+  const { key, iv } = parseSm4Key(keyStr, ivStr)
   try {
     // utf-8 字符串 => byte 数组
     const value = Hex.utf8StrToBytes(data)
-    const key = Hex.b64toBA(keyStr)
-    const iv = Hex.b64toBA(ivStr)
     const sm4 = new SM4()
     // 入参全部为 byte，返回的值为 byte
     const rs = sm4.encrypt_cbc(key, iv, value)
@@ -49,10 +77,9 @@ export function sm4Encrypt(data: string, keyStr: string, ivStr: string): string 
  * @returns 明文字符串
  */
 export function sm4Decrypt(data: string, keyStr: string, ivStr: string): string {
+  const { key, iv } = parseSm4Key(keyStr, ivStr)
   try {
     const value = Hex.b64toBA(data)
-    const key = Hex.b64toBA(keyStr)
-    const iv = Hex.b64toBA(ivStr)
     const sm4 = new SM4()
     const rs = sm4.decrypt_cbc(key, iv, value)
     return Hex.bytesToUtf8Str(rs)

@@ -79,6 +79,44 @@ describe('setupCrossDomain 白名单', () => {
   })
 })
 
+describe('allowOrigins 归一化（2.0：写法差异不再漏配）', () => {
+  it('大小写 / 默认端口 / 尾斜杠写法均命中同一白名单', () => {
+    const sink = vi.fn()
+    handle = setupCrossDomain({ allowOrigins: ['HTTPS://Trusted.Example:443/'], allowCalls: { sink } })
+    expect(handle).not.toBe(false)
+    // event.origin 由浏览器序列化，恒为归一化形态 'https://trusted.example'
+    dispatch(callMessage('sink', 'x'), TRUSTED)
+    expect(sink).toHaveBeenCalledTimes(1)
+  })
+
+  it('非默认端口条目同样归一化命中', () => {
+    const sink = vi.fn()
+    handle = setupCrossDomain({ allowOrigins: ['https://port.example:8443/'], allowCalls: { sink } })
+    expect(handle).not.toBe(false)
+    dispatch(callMessage('sink', 'x'), 'https://port.example:8443')
+    expect(sink).toHaveBeenCalledTimes(1)
+  })
+
+  it('无法解析的条目被丢弃并告警，其余条目仍生效', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const sink = vi.fn()
+    handle = setupCrossDomain({ allowOrigins: ['not a url', TRUSTED], allowCalls: { sink } })
+    expect(handle).not.toBe(false)
+    dispatch(callMessage('sink', 'x'), TRUSTED)
+    expect(sink).toHaveBeenCalledTimes(1)
+    expect(warnSpy).toHaveBeenCalledTimes(1)
+    warnSpy.mockRestore()
+  })
+
+  it('沙箱 iframe 的不透明 origin（"null"）按字面放行', () => {
+    const sink = vi.fn()
+    handle = setupCrossDomain({ allowOrigins: ['null'], allowCalls: { sink } })
+    expect(handle).not.toBe(false)
+    dispatch(callMessage('sink', 'x'), 'null')
+    expect(sink).toHaveBeenCalledTimes(1)
+  })
+})
+
 describe('crossDomain 回执', () => {
   it('携带 callBackFun 时结果回发到 event.source，targetOrigin 为对端 origin', () => {
     const peer = { postMessage: vi.fn() } as unknown as Window

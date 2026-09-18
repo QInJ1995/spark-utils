@@ -11,7 +11,7 @@
  * vendored sm2-1.0.js 已打同构守卫补丁（__su_nav/__su_win 垫片，见
  * sm-vendor/README.md）：纯 Node 无需注入 window/navigator 即可 import。
  */
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 
 import {
   aesEncrypt,
@@ -166,8 +166,18 @@ describe('sm4', () => {
     }
   })
 
-  it('坏密钥抛 CryptoError(ENCRYPT_FAILED)，不再返回 false', () => {
-    expectCryptoError(() => sm4Encrypt('abc', 'bad!!key', SM4_IV_B64), 'ENCRYPT_FAILED')
+  it('坏密钥（非法 base64）抛 CryptoError(INVALID_KEY)，不再返回 false', () => {
+    // 2.0 收紧：畸形密钥改在解析期显式拒绝（与 aes 一致），不再进入加密路径
+    expectCryptoError(() => sm4Encrypt('abc', 'bad!!key', SM4_IV_B64), 'INVALID_KEY')
+    expectCryptoError(() => sm4Decrypt('irrelevant', 'bad!!key', SM4_IV_B64), 'INVALID_KEY')
+  })
+
+  it('密钥/初始向量字节长度非 16 抛 CryptoError(INVALID_KEY)', () => {
+    const key15 = Buffer.alloc(15, 1).toString('base64')
+    const iv8 = Buffer.alloc(8, 1).toString('base64')
+    expectCryptoError(() => sm4Encrypt('abc', key15, SM4_IV_B64), 'INVALID_KEY')
+    expectCryptoError(() => sm4Encrypt('abc', SM4_KEY_B64, iv8), 'INVALID_KEY')
+    expectCryptoError(() => sm4Decrypt('irrelevant', key15, iv8), 'INVALID_KEY')
   })
 
   it('空明文抛 CryptoError(ENCRYPT_FAILED)（vendored encrypt_cbc 对空输入返回 null，旧版吞错为 false）', () => {
@@ -256,6 +266,14 @@ describe('create64Key', () => {
 
   it('两次调用产出不同随机串', () => {
     expect(create64Key(64)).not.toBe(create64Key(64))
+  })
+
+  it('2.0：随机源优先 CSPRNG（getRandomValues 被调用）', () => {
+    const spy = vi.spyOn(globalThis.crypto, 'getRandomValues')
+    create64Key(64)
+    // 拒绝采样存在重抽可能，仅断言确实走了 CSPRNG 路径
+    expect(spy).toHaveBeenCalled()
+    spy.mockRestore()
   })
 })
 

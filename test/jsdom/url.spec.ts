@@ -81,6 +81,14 @@ describe('serialize / unserialize / objectToUrlParam', () => {
     expect(unserialize('a=b=c')).toEqual({ a: 'b' })
   })
 
+  it('2.0 修复：非法百分号序列不再抛 URIError，按原串保留', () => {
+    expect(unserialize('a=%&b=%E4%B8%AD')).toEqual({ a: '%', b: '中' })
+    expect(unserialize('100%')).toEqual({ '100%': '' })
+    // parseUrl / getNowPageParam 经 unserialize 收敛，同样不再炸
+    expect(() => parseUrl('https://x.example/?k=%')).not.toThrow()
+    expect(getNowPageParam('?k=%&ok=1')).toEqual({ k: '%', ok: '1' })
+  })
+
   it('objectToUrlParam 是 serialize 的别名', () => {
     expect(objectToUrlParam({ a: 1, b: [1, 2] })).toBe(serialize({ a: 1, b: [1, 2] }))
   })

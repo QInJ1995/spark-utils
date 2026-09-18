@@ -12,8 +12,7 @@
  * - aes/md5 统一使用 crypto-js（旧 md5 取 jsrsasign 内置 CryptoJS，输出不变）；
  * - rsa 使用 jsrsasign（密钥传参为「PEM 文本的 base64」，与旧版一致）；
  * - SM 系列使用 src/sm-vendor（vendored 副本，随本入口打包、不 external），
- *   其中 vendored sm2-1.0.js 在模块加载期读取 window/navigator 全局，
- *   纯 Node 环境 import 前需注入 window（与旧版一致的固有限制）。
+ *   已打同构守卫补丁（sm-vendor/README.md），纯 Node import 无需注入 window。
  *
  * 未移植项：旧 sm wrapper 内部的 sm2GroupingEncrypt 与空实现的 sm2Decrypt
  * 从未出现在旧 crypto 命名空间导出面上，故不再提供。

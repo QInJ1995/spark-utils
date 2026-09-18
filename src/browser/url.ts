@@ -8,6 +8,9 @@
  * - 行为忠实旧版，含已知怪癖：unserialize 按 split('=') 取第二段（'a=b=c' → { a: 'b' }）；
  *   serialize 顶层跳过 undefined、嵌套不跳过；%20 输出为 '+'。
  * - 旧 getNowPageParam 直接读 document.location，新版统一经 getLocation()。
+ * - bug 修复（2.0）：查询参数解码改走 safeDecode——非法百分号转义串
+ *   （如 '?k=%'）旧版裸抛 URIError 并炸掉整个 unserialize/parseUrl 调用，
+ *   新版按原串保留该参数、其余参数正常解析。
  */
 import { getLocation } from '../internal/env'
 import { each } from '../internal/iterate'
@@ -62,6 +65,15 @@ function locatOrigin(): string {
   return location ? location.origin || `${location.protocol}//${location.host}` : ''
 }
 
+/** decodeURIComponent 防御：非法转义串（如 '%'）不再裸抛 URIError，按原串返回 */
+function safeDecode(str: string): string {
+  try {
+    return decodeURIComponent(str)
+  } catch {
+    return str
+  }
+}
+
 /**
  * 反序列化查询参数（旧 src/browser/unserialize.js）
  * 怪癖忠实保留：按 '=' 切分后仅取第二段，'a=b=c' → { a: 'b' }。
@@ -72,7 +84,7 @@ export function unserialize(str: unknown): Record<string, string> {
   if (str && isString(str)) {
     for (const param of str.split('&')) {
       const items = param.split('=')
-      result[decodeURIComponent(items[0] ?? '')] = decodeURIComponent(items[1] || '')
+      result[safeDecode(items[0] ?? '')] = safeDecode(items[1] || '')
     }
   }
   return result

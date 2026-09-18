@@ -278,7 +278,7 @@ sendMessage('iframeId', 'refresh', { force: true }, 'onRefreshed')
 handle.destroy()   // 注销监听（幂等）
 ```
 
-变更点：import 零副作用（未 setup 不监听）；来源与调用名双白名单，未注册一律丢弃；不再挂 window 全局；消息协议字段（`crossDomain` / `call` / `callFun` / `arg` / `callBackFun`）不变。
+变更点：import 零副作用（未 setup 不监听）；来源与调用名双白名单，未注册一律丢弃；不再挂 window 全局；消息协议字段（`crossDomain` / `call` / `callFun` / `arg` / `callBackFun`）不变。`allowOrigins` 条目按 origin 归一化匹配——大小写、默认端口（`:443` / `:80`）、尾斜杠等写法差异不再导致漏配（无法解析的条目登记时丢弃并告警；沙箱 iframe 的不透明 origin 按字面 `'null'` 放行）。
 
 ### https.init / https.axios / https.submit → createHttp（fetch）
 
@@ -309,6 +309,7 @@ await http.submit({ url: '/login', data: { user, pass } })     // autoQs 已删�
 1.x 加解密失败静默返回 `false` 等假值；2.0 统一抛出类型化 `CryptoError`（含失败原因），调用方需按需 try/catch。方法清单不变（12 个），调用方式从 `crypto.xxx` 命名空间改为具名导入。另有三处细节：
 
 - **AES 新增密钥长度校验**：密钥非 16/24/32 字节或 IV 非 16 字节抛 `INVALID_KEY`。旧版对错误长度密钥静默产出**自身都无法解回**的乱码密文（属修 bug 性质收紧）；合法长度但错误的密钥解密仍返回乱码不抛错（CBC 无认证，与旧版一致）。
+- **SM4 同步收紧**：密钥 / IV 的 base64 解码失败或字节长度非 16 抛 `INVALID_KEY`（旧版同样静默产出乱码密文）；密文本身的解析失败仍抛 `ENCRYPT_FAILED` / `DECRYPT_FAILED`。另 `create64Key` 随机源由 `Math.random` 改为优先 CSPRNG（`crypto.getRandomValues`，拒绝采样无偏；环境不支持时回退 `Math.random`）。
 - **rsaVerify**：密钥/签名解析失败旧版返回 `false`，2.0 抛 `VERIFY_FAILED`；验签不通过仍返回 `false`（与旧版一致）。
 - **md5Sign** 底层从 jsrsasign 内置 CryptoJS 切换为 crypto-js（输出逐字节一致，仅依赖面收敛）。
 
@@ -320,6 +321,7 @@ await http.submit({ url: '/login', data: { user, pass } })     // autoQs 已删�
 | `getStorage` 创建失败 | 继续 `getAll()` 抛 `TypeError` | 返回 `null` |
 | 实例 `remove` 未初始化 | 返回 `undefined` | 返回 `false`（归一化 boolean） |
 | 读写性能 | 每次 `JSON.parse` 整个原始串 | 实例级缓存（跨实例写入自动失效） |
+| 混用 `invalidTime` 实例读同键外部数据 | 把 `undefined` 当 `updateTime` 参与运算并把 `undefined` 重新包装回写，**静默损毁存量数据**；损坏 JSON 条目裸抛 `SyntaxError` | 三态解析：外部数据原样返回且永不被过期实例改写，损坏条目按缺失处理并告警；反向（永不过期实例读包装条目）解包返回真实值，不再泄漏 `{value, updateTime}` 壳 |
 | 存储日志 | 无条件 `console.log` | 经日志开关门控 |
 
 ### browser 域：惰性函数化
@@ -327,6 +329,13 @@ await http.submit({ url: '/login', data: { user, pass } })     // autoQs 已删�
 - `clientBrowser` / `clientSystem` / `clientScreenSize` 由**加载期求值的常量**改为**函数**：`clientBrowser()`、`clientSystem()`、`clientScreenSize()`；
 - `cookie` 域的 `setCookie(name, value, seconds, path)` / `getCookie(name)`（未命中返回 `null`）/ `getToken(name?)` 保留为兼容别名（与 `cookie` 主函数合并为唯一实现）；`getToken` 收紧为精确键名匹配；`expires` 为 NaN（含 Invalid Date）时不再抛 `TypeError`；
 - 所有浏览器全局访问惰性求值：Node 下 import `spark-utils/browser` 零副作用，`locat()` / `getBaseURL()` 返回空值，`copyText` / cookie 写入返回 `false`。
+
+### 其他修复（1.x 崩溃/类型缺陷）
+
+- **`toArrayTree(null, { sortKey })`**：1.x 抛 `TypeError: list is not iterable`（对 null 展开）；2.0 与无 `sortKey` 路径一致返回 `[]`。
+- **`StateFlow` 深层点路径**：中途假值（如 `set('a', null)` 后 `get('a.b.c')`）1.x 抛 `TypeError`；2.0 返回 `undefined`，`destroy` 同型路径不抛错。
+- **URL 查询参数解码**：非法百分号序列（如 `?k=%`）1.x 使 `unserialize` / `parseUrl` / `getNowPageParam` 裸抛 `URIError`；2.0 该参数按原串保留、其余正常解析。
+- **`debounce` / `throttle` / `after` / `before` 泛型化**：回调签名改为 `<A extends unknown[], R>` 泛型推断，类型化回调（如 `(e: MouseEvent) => void`）直传不再报 TS2345；运行时行为不变。
 
 ## 入口与依赖变化
 
