@@ -78,6 +78,10 @@ export function revive(normalized) {
     case 'Function':
       return new Function(`return (${normalized.src})`)()
     case 'Error': {
+      // 按 name 重建内建子类（TypeError 等），否则 constructor 语义在往返后失真
+      const Ctors = { TypeError, RangeError, ReferenceError, SyntaxError, EvalError, URIError }
+      const Ctor = Ctors[normalized.name]
+      if (typeof Ctor === 'function') return new Ctor(normalized.message)
       const error = new Error(normalized.message)
       error.name = normalized.name
       return error

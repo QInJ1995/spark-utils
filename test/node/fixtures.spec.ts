@@ -72,11 +72,12 @@ describe('行为快照对照（旧版 v1.1.10 基线）', () => {
           const args = mapping?.transform ? mapping.transform(caseItem.args) : caseItem.args
           let actual: unknown
           try {
-            actual = invokeImpl(impl, args)
+            actual = normalize(invokeImpl(impl, args))
           } catch (error) {
+            // 抛错记录与生成器约定同形（顶层 __type:'Throw'），不得再过 normalize（会被当普通对象二次包裹）
             actual = { __type: 'Throw', name: (error as Error)?.name ?? 'Error', message: String((error as Error)?.message ?? error) }
           }
-          expect(normalize(actual)).toEqual(caseItem.output)
+          expect(actual).toEqual(caseItem.output)
         })
       })
     })
