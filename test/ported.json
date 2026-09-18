@@ -126,5 +126,8 @@
     "omit",
     "pick",
     "set"
+  ],
+  "function": [
+    "noop"
   ]
 }
