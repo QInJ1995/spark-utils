@@ -1,0 +1,62 @@
+{
+  "module": "basic",
+  "method": "isDateSame",
+  "cases": [
+    {
+      "args": [
+        "2024-03-05 08:30:00",
+        "2024-03-05 08:30:00"
+      ],
+      "output": true,
+      "note": "默认格式化后字符串相等，true"
+    },
+    {
+      "args": [
+        "2024-03-05",
+        "2024-03-06"
+      ],
+      "output": false,
+      "note": "不同日 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        {
+          "__type": "Date",
+          "value": "2024-03-05T15:59:59.000Z"
+        },
+        "yyyy-MM-dd"
+      ],
+      "output": true,
+      "note": "按天比较，true"
+    },
+    {
+      "args": [
+        null,
+        "2024-03-05"
+      ],
+      "output": false,
+      "note": "空值直接 false"
+    },
+    {
+      "args": [
+        "abc",
+        "2024-03-05"
+      ],
+      "output": false,
+      "note": "非法日期格式化为 Invalid Date，false"
+    },
+    {
+      "args": [
+        "2024-01-01",
+        "2024-08-15",
+        "yyyy"
+      ],
+      "output": true,
+      "note": "按年比较，true"
+    }
+  ]
+}

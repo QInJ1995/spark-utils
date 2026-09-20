@@ -1,0 +1,22 @@
+{
+  "number.moneyFormat": {
+    "caseIndexes": [3],
+    "reason": "2.0 修复 0 值 bug：旧版 !money 把 0 当非法返回空串，新版 0 为合法金额输出 '0'（commafy 已并入 moneyFormat）"
+  },
+  "basic.isWindow": {
+    "caseIndexes": [0, 1, 2],
+    "reason": "2.0 类型规范化：旧版 node 下 staticWindow 为 0，短路返回数字 0；新版惰性 getWindow() 在 node 下为 undefined，统一返回 false"
+  },
+  "other.validate2ndIdCard": {
+    "caseIndexes": [0, 1, 2],
+    "reason": "2.0 证件校验统一出参 IDCardResult：旧 true/false/undefined 返回值改为 {valid, code?, msg?} 判别对象，errors 数组副作用参数删除"
+  },
+  "other.hkIdVerify": {
+    "caseIndexes": [0, 1, 2, 3, 4],
+    "reason": "2.0 证件校验统一出参 IDCardResult：旧 true/false 返回值改为 {valid, code?, msg?} 判别对象"
+  },
+  "other.macauIdCard": {
+    "caseIndexes": [0, 1, 2, 3, 4, 5],
+    "reason": "2.0 证件校验统一出参 IDCardResult：旧 true/false/undefined 返回值改为 {valid, code?, msg?} 判别对象（[5] 竖线怪癖保持合法，仅出参形状变化）"
+  }
+}

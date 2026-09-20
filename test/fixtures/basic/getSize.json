@@ -1,0 +1,62 @@
+{
+  "module": "basic",
+  "method": "getSize",
+  "cases": [
+    {
+      "args": [
+        "abc"
+      ],
+      "output": 3,
+      "note": "字符串取 length，3"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": 3,
+      "note": "数组取 length，3"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        }
+      ],
+      "output": 3,
+      "note": "对象遍历计数，3"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": 0,
+      "note": "0"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": 0,
+      "note": "0"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": 0,
+      "note": "空字符串 0"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "module": "array",
+  "method": "toTreeArray",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2,
+                    "children": [
+                      {
+                        "__type": "Object",
+                        "value": {
+                          "id": 3
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 4
+            }
+          }
+        ]
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1,
+            "children": [
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 2,
+                  "children": [
+                    {
+                      "__type": "Object",
+                      "value": {
+                        "id": 3
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "__type": "Circular"
+        },
+        {
+          "__type": "Circular"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "id": 4
+          }
+        }
+      ],
+      "note": "默认 children 键，深度优先展平"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Object",
+          "value": {
+            "clear": true
+          }
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "id": 2
+          }
+        }
+      ],
+      "note": "clear 删除展开后节点上的 children 键（原地变异，生成器已克隆）"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "data": {
+                "__type": "Object",
+                "value": {
+                  "v": 1
+                }
+              }
+            }
+          }
+        ],
+        {
+          "__type": "Object",
+          "value": {
+            "data": "data"
+          }
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "v": 1
+          }
+        }
+      ],
+      "note": "data 配置解包节点数据"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": [],
+      "note": "空数组返回 []"
+    }
+  ]
+}

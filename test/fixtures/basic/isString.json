@@ -1,0 +1,43 @@
+{
+  "module": "basic",
+  "method": "isString",
+  "cases": [
+    {
+      "args": [
+        "abc"
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": true,
+      "note": "空字符串仍是字符串，true"
+    },
+    {
+      "args": [
+        123
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        [
+          "a"
+        ]
+      ],
+      "output": false,
+      "note": "数组 false"
+    }
+  ]
+}

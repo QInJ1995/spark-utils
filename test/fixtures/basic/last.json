@@ -1,0 +1,55 @@
+{
+  "module": "basic",
+  "method": "last",
+  "cases": [
+    {
+      "args": [
+        [
+          3,
+          4,
+          5
+        ]
+      ],
+      "output": 5,
+      "note": "取末元素 5"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        }
+      ],
+      "output": 2,
+      "note": "对象取最后一个值 2"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空数组 undefined"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": "c",
+      "note": "怪癖：字符串取末字符 \"c\""
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "undefined"
+    }
+  ]
+}

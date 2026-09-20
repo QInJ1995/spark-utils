@@ -1,0 +1,47 @@
+{
+  "module": "basic",
+  "method": "isNaN",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "NaN"
+        }
+      ],
+      "output": true,
+      "note": "NaN 判定为 true"
+    },
+    {
+      "args": [
+        0
+      ],
+      "output": false,
+      "note": "0 是数字，false"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": false,
+      "note": "字符串先进 isNumber 门卫（不像全局 isNaN 会强转），false"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": false,
+      "note": "非数字类型 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Infinity"
+        }
+      ],
+      "output": false,
+      "note": "Infinity 是合法数字，false"
+    }
+  ]
+}

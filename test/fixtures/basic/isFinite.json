@@ -1,0 +1,45 @@
+{
+  "module": "basic",
+  "method": "isFinite",
+  "cases": [
+    {
+      "args": [
+        0
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        1.5
+      ],
+      "output": true,
+      "note": "小数也有限，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Infinity"
+        }
+      ],
+      "output": false,
+      "note": "Infinity 非有限，false"
+    },
+    {
+      "args": [
+        "5"
+      ],
+      "output": false,
+      "note": "数字字符串不过 isNumber 门卫，false"
+    },
+    {
+      "args": [
+        {
+          "__type": "NaN"
+        }
+      ],
+      "output": false,
+      "note": "NaN 非有限，false"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "module": "array",
+  "method": "find",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 2 }"
+        }
+      ],
+      "output": 3,
+      "note": "数组走原生 find"
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 9 }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "未命中返回 undefined"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v === 2 }"
+        }
+      ],
+      "output": 2,
+      "note": "对象 for-in 返回匹配值"
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ],
+        "x"
+      ],
+      "output": {
+        "__type": "Throw",
+        "name": "TypeError",
+        "message": "string \"x\" is not a function"
+      },
+      "note": "非函数 iterate 原生 find 抛错"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "module": "basic",
+  "method": "isInteger",
+  "cases": [
+    {
+      "args": [
+        42
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        -7
+      ],
+      "output": true,
+      "note": "负整数 true"
+    },
+    {
+      "args": [
+        3.5
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        "3"
+      ],
+      "output": true,
+      "note": "怪癖：数字字符串 % 1 === 0，true"
+    },
+    {
+      "args": [
+        true
+      ],
+      "output": true,
+      "note": "怪癖：true % 1 === 0，true"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

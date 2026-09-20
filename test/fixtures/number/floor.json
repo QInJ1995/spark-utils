@@ -1,0 +1,39 @@
+{
+  "module": "number",
+  "method": "floor",
+  "cases": [
+    {
+      "args": [
+        4.7
+      ],
+      "output": 4
+    },
+    {
+      "args": [
+        -4.2
+      ],
+      "output": -5,
+      "note": "负数向下舍入为 -5"
+    },
+    {
+      "args": [
+        123.456,
+        2
+      ],
+      "output": 123.45
+    },
+    {
+      "args": [
+        -0.5
+      ],
+      "output": -1
+    },
+    {
+      "args": [
+        3
+      ],
+      "output": 3,
+      "note": "整数原样返回"
+    }
+  ]
+}

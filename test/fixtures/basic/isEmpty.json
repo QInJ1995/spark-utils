@@ -1,0 +1,53 @@
+{
+  "module": "basic",
+  "method": "isEmpty",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": true,
+      "note": "空对象 true"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": true,
+      "note": "空数组 true"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": true,
+      "note": "空字符串 true"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": true,
+      "note": "怪癖：for-in 对 null 不迭代不抛错，true"
+    },
+    {
+      "args": [
+        0
+      ],
+      "output": true,
+      "note": "怪癖：原始值非对象也 true"
+    },
+    {
+      "args": [
+        [
+          0
+        ]
+      ],
+      "output": false,
+      "note": "非空数组 false"
+    }
+  ]
+}

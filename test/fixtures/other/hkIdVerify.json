@@ -1,0 +1,60 @@
+{
+  "module": "other",
+  "method": "hkIdVerify",
+  "cases": [
+    {
+      "args": [
+        "A123456(3)",
+        []
+      ],
+      "output": true,
+      "note": "合法：单字母 + 6 数字 + 括号校验位 3，返回 true"
+    },
+    {
+      "args": [
+        "AB123456(9)",
+        []
+      ],
+      "output": true,
+      "note": "合法：双字母校验位 9，返回 true"
+    },
+    {
+      "args": [
+        "A1234563",
+        []
+      ],
+      "output": true,
+      "note": "合法：无括号 8 位裸格式同样通过"
+    },
+    {
+      "args": [
+        "A123456(0)",
+        []
+      ],
+      "output": false,
+      "note": "校验位错误：errors push \"香港身份证验证失败\"，返回 false"
+    },
+    {
+      "args": [
+        "A12345",
+        []
+      ],
+      "output": false,
+      "note": "长度小于 8：errors push 长度错误，返回 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        },
+        []
+      ],
+      "output": {
+        "__type": "Throw",
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'length')"
+      },
+      "note": "undefined 无 length，抛 TypeError"
+    }
+  ]
+}

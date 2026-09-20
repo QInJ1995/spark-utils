@@ -1,0 +1,66 @@
+{
+  "module": "date",
+  "method": "toStringDate",
+  "cases": [
+    {
+      "args": [
+        "2024-03-05"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-03-04T16:00:00.000Z"
+      },
+      "note": "默认格式解析为本地 0 点"
+    },
+    {
+      "args": [
+        "2024-03-05 08:30:00"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-03-05T00:30:00.000Z"
+      }
+    },
+    {
+      "args": [
+        "05/03/2024",
+        "dd/MM/yyyy"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-03-04T16:00:00.000Z"
+      },
+      "note": "自定义 format 解析英式日期"
+    },
+    {
+      "args": [
+        1709619000000
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-03-05T06:10:00.000Z"
+      },
+      "note": "11-15 位数字串按毫秒时间戳解析"
+    },
+    {
+      "args": [
+        "2024-13-01"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-12-31T16:00:00.000Z"
+      },
+      "note": "怪癖：月份 13 不校验，构造函数进位到 2025-01-01"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "invalid"
+      },
+      "note": "解析失败返回 Invalid Date"
+    }
+  ]
+}

@@ -1,47 +1,98 @@
 {
   "name": "spark-utils",
-  "version": "1.1.10",
-  "description": "js工具库",
-  "main": "dist/spark-utils.min.js",
+  "version": "2.0.0",
+  "description": "同构 JavaScript/TypeScript 工具库（Node 与浏览器通用）",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js",
+      "require": "./dist/browser.cjs"
+    },
+    "./crypto": {
+      "types": "./dist/crypto.d.ts",
+      "import": "./dist/crypto.js",
+      "require": "./dist/crypto.cjs"
+    },
+    "./pinyin": {
+      "types": "./dist/pinyin.d.ts",
+      "import": "./dist/pinyin.js",
+      "require": "./dist/pinyin.cjs"
+    },
+    "./umd": "./dist/spark-utils.min.js",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "jest",
-    "build": "webpack --config ./build/webpack.prod.js",
-    "dev": "webpack serve --config ./build/webpack.dev.js",
+    "typecheck": "tsc -b && tsc -p tsconfig.test.json && tsc -p tsconfig.test.dom.json && tsc -p tsconfig.sm-vendor.json",
+    "build": "npm run typecheck && rollup -c && rollup -c rollup.umd.config.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "depcruise": "depcruise src --config .dependency-cruiser.cjs",
     "docs:dev": "cd docs && vitepress dev",
     "docs:build": "cd docs && vitepress build",
-    "docs:preview": "cd docs && vitepress preview"
-  },
-  "jest": {
-    "collectCoverage": true
+    "docs:preview": "cd docs && vitepress preview",
+    "size": "node scripts/check-size.mjs"
   },
   "keywords": [
-    "spark-utils"
+    "spark-utils",
+    "utils",
+    "utility",
+    "toolkit",
+    "typescript",
+    "isomorphic",
+    "tree-shaking",
+    "dayjs",
+    "lodash-alternative",
+    "xe-utils"
   ],
   "author": "QINJIN",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QInJ1995/spark-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/QInJ1995/spark-utils/issues"
+  },
+  "homepage": "https://github.com/QInJ1995/spark-utils#readme",
   "devDependencies": {
-    "@babel/core": "^7.24.4",
-    "@babel/eslint-parser": "^7.24.1",
-    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
-    "css-minimizer-webpack-plugin": "^6.0.0",
-    "eslint": "^8.57.0",
-    "eslint-webpack-plugin": "^4.1.0",
-    "html-webpack-plugin": "^5.6.0",
-    "jest": "^29.7.0",
-    "mini-css-extract-plugin": "^2.9.0",
-    "mockjs": "^1.1.0",
-    "terser-webpack-plugin": "^5.3.10",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "dependency-cruiser": "^16.3.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.12.0",
+    "jsdom": "^26.0.0",
+    "rollup": "^4.24.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.8.0",
+    "vite-node": "^6.0.0",
     "vitepress": "^1.1.3",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^5.10.0",
-    "webpackbar": "^6.0.1"
+    "vitest": "^3.0.0"
   },
   "dependencies": {
-    "axios": "^1.6.8",
     "crypto-js": "^4.2.0",
-    "jsrsasign": "^10.5.13",
-    "moment": "^2.30.1"
+    "dayjs": "^1.11.23",
+    "jsrsasign": "^11.1.5"
   }
 }

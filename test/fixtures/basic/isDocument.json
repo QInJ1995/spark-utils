@@ -1,0 +1,38 @@
+{
+  "module": "basic",
+  "method": "isDocument",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "nodeName": "#document",
+            "nodeType": 9
+          }
+        }
+      ],
+      "output": false,
+      "note": "node 环境下 staticDocument 为 0 恒返回 false（jsdom/浏览器下为 true——环境敏感，比较器仅应跑在 node 环境）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "nodeType": 1
+          }
+        }
+      ],
+      "output": false,
+      "note": "元素节点 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

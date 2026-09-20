@@ -1,0 +1,45 @@
+{
+  "module": "date",
+  "method": "getMonthWeek",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:00:00.000Z"
+        }
+      ],
+      "output": 1,
+      "note": "月内第 1 周（周一为周首，3 月 4 日起算）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-31T00:00:00.000Z"
+        }
+      ],
+      "output": 4,
+      "note": "月内第 4 周"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-01T00:00:00.000Z"
+        }
+      ],
+      "output": 4,
+      "note": "怪癖：3 月 1 日（周五）落回按 2 月计，返回 2 月的第 4 周"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": {
+        "__type": "NaN"
+      },
+      "note": "非法输入返回 NaN"
+    }
+  ]
+}

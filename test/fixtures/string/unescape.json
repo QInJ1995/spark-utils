@@ -1,0 +1,33 @@
+{
+  "module": "string",
+  "method": "unescape",
+  "cases": [
+    {
+      "args": [
+        "&lt;a href=&quot;#&quot;&gt;&amp;&#x27;&#x60;&lt;/a&gt;"
+      ],
+      "output": "<a href=\"#\">&'`</a>",
+      "note": "与 escape 互逆"
+    },
+    {
+      "args": [
+        "&amp;lt;"
+      ],
+      "output": "&lt;",
+      "note": "单次解码怪癖：只解一层，结果为 &lt;"
+    },
+    {
+      "args": [
+        "plain text"
+      ],
+      "output": "plain text"
+    },
+    {
+      "args": [
+        123
+      ],
+      "output": "123",
+      "note": "非字符串先 toValueString"
+    }
+  ]
+}

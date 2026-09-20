@@ -1,0 +1,40 @@
+{
+  "module": "number",
+  "method": "toInteger",
+  "cases": [
+    {
+      "args": [
+        "12.9"
+      ],
+      "output": 12,
+      "note": "截断小数为 12（非四舍五入）"
+    },
+    {
+      "args": [
+        "0x1F"
+      ],
+      "output": 31,
+      "note": "parseInt 识别 16 进制前缀，返回 31"
+    },
+    {
+      "args": [
+        "  42px"
+      ],
+      "output": 42,
+      "note": "忽略空白并截断后缀"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": 0,
+      "note": "解析失败返回 0"
+    },
+    {
+      "args": [
+        8.9
+      ],
+      "output": 8
+    }
+  ]
+}

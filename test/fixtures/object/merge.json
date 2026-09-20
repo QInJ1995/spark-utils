@@ -1,0 +1,149 @@
+{
+  "module": "object",
+  "method": "merge",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "b": 1
+              }
+            }
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "c": 2
+              }
+            }
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": {
+            "__type": "Object",
+            "value": {
+              "b": 1,
+              "c": 2
+            }
+          }
+        }
+      },
+      "note": "深合并 {a:{b:1,c:2}}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "b": 3
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": 3
+        }
+      },
+      "note": "浅键覆盖 {a:1,b:3}"
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "output": [
+        3,
+        2
+      ],
+      "note": "数组按索引合并 [3,2]"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "null 目标初始化为 {} 再合并 {a:1}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        null
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "空源跳过 {a:1}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": [
+              1,
+              2
+            ]
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "note": "无同名键直接引用源值 {a:[1,2]}"
+    }
+  ]
+}

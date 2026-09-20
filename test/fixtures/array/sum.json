@@ -1,0 +1,72 @@
+{
+  "module": "array",
+  "method": "sum",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": 6,
+      "note": "基础求和"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": 0,
+      "note": "空数组返回 0"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "n": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "n": 2
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "n": 3
+            }
+          }
+        ],
+        "n"
+      ],
+      "output": 6,
+      "note": "属性名 iterate"
+    },
+    {
+      "args": [
+        [
+          0.1,
+          0.2
+        ]
+      ],
+      "output": 0.3,
+      "note": "浮点精度修正应得 0.3"
+    },
+    {
+      "args": [
+        [
+          1,
+          "a",
+          3
+        ]
+      ],
+      "output": 4,
+      "note": "非数字项经 toNumber 按 0 计入，结果 4（怪癖）"
+    }
+  ]
+}

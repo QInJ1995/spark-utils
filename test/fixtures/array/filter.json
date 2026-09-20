@@ -1,0 +1,68 @@
+{
+  "module": "array",
+  "method": "filter",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v % 2 === 0 }"
+        }
+      ],
+      "output": [
+        2,
+        4
+      ],
+      "note": "原生 filter"
+    },
+    {
+      "args": [
+        [],
+        {
+          "__type": "Function",
+          "src": "function (v) { return true }"
+        }
+      ],
+      "output": [],
+      "note": "空数组返回 []"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 1 }"
+        }
+      ],
+      "output": [
+        2,
+        3
+      ],
+      "note": "对象入参返回值数组"
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ],
+        null
+      ],
+      "output": [],
+      "note": "iterate 为空返回 []"
+    }
+  ]
+}

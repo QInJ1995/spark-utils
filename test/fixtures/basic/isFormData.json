@@ -1,0 +1,40 @@
+{
+  "module": "basic",
+  "method": "isFormData",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "FormData",
+          "value": []
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：FormData 实例被 deepClone 拍平，当前生成记 false；且依赖运行环境有全局 FormData，node>=18）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        "form"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "module": "string",
+  "method": "format",
+  "cases": [
+    {
+      "args": [
+        "mobile",
+        "13812345678"
+      ],
+      "output": "138****5678",
+      "note": "手机号：indexRule 打码 4-7 位 → 138****5678"
+    },
+    {
+      "args": [
+        "mobile",
+        13812345678
+      ],
+      "output": "138****5678",
+      "note": "怪癖：数字输入经 toString 后同样打码"
+    },
+    {
+      "args": [
+        "name",
+        "张三"
+      ],
+      "output": "张*",
+      "note": "姓名：保留首字 → 张*"
+    },
+    {
+      "args": [
+        "idcard",
+        "11010519491231002X"
+      ],
+      "output": "110***********002X",
+      "note": "身份证：打码 4-14 位"
+    },
+    {
+      "args": [
+        "email",
+        "user@example.com"
+      ],
+      "output": "****@example.com",
+      "note": "邮箱：reqRule 正则打码 → ****@example.com"
+    },
+    {
+      "args": [
+        "ip",
+        "192.168.1.1"
+      ],
+      "output": {
+        "__type": "Throw",
+        "name": "TypeError",
+        "message": "rule.desensitization is not a function"
+      },
+      "note": "ip 规则为空对象，调用 undefined 抛 TypeError"
+    }
+  ]
+}

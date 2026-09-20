@@ -1,0 +1,69 @@
+{
+  "module": "basic",
+  "method": "evalReplacer",
+  "cases": [
+    {
+      "args": [
+        "2+2"
+      ],
+      "output": 4,
+      "note": "表达式求值得 4"
+    },
+    {
+      "args": [
+        "({\"a\":1,\"b\":[1,2]})"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": [
+            1,
+            2
+          ]
+        }
+      },
+      "note": "json 字符串须包一层括号，得对象"
+    },
+    {
+      "args": [
+        "/ab+c/g"
+      ],
+      "output": {
+        "__type": "RegExp",
+        "source": "ab+c",
+        "flags": "g"
+      },
+      "note": "正则字面量字符串得 RegExp（输出侧可正常快照）"
+    },
+    {
+      "args": [
+        "var a = 1;"
+      ],
+      "output": {
+        "__type": "Throw",
+        "name": "SyntaxError",
+        "message": "Unexpected token 'var'"
+      },
+      "note": "语句被禁止，抛 SyntaxError（Throw 也按行为记录）"
+    },
+    {
+      "args": [
+        123
+      ],
+      "output": 123,
+      "note": "非字符串原样返回"
+    },
+    {
+      "args": [
+        "[1,2,3]"
+      ],
+      "output": [
+        1,
+        2,
+        3
+      ],
+      "note": "数组字面量得数组"
+    }
+  ]
+}

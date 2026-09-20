@@ -1,0 +1,106 @@
+{
+  "module": "array",
+  "method": "mapTree",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return { id: item.id * 10 } }"
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 10,
+            "children": [
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 20
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "note": "保留层级结构，children 由映射结果组成"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "nodes": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return { v: item.id } }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "children": "nodes",
+            "mapChildren": "kids"
+          }
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "v": 1,
+            "kids": [
+              {
+                "__type": "Object",
+                "value": {
+                  "v": 2
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "note": "自定义 children/mapChildren 键"
+    },
+    {
+      "args": [
+        [],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item }"
+        }
+      ],
+      "output": [],
+      "note": "空数组返回 []"
+    }
+  ]
+}

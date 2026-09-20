@@ -1,0 +1,54 @@
+{
+  "module": "object",
+  "method": "lastObjectEach",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "按 keys 倒序遍历，返回 undefined"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空对象返回 undefined"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "keys(null) 为空数组，不抛错返回 undefined"
+    }
+  ]
+}

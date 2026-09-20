@@ -1,0 +1,36 @@
+{
+  "module": "basic",
+  "method": "isUndefined",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "null 不算 undefined，false"
+    },
+    {
+      "args": [
+        0
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": false,
+      "note": "空字符串是已定义值，false"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "module": "array",
+  "method": "searchTree",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "name": "r",
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2,
+                    "name": "axe",
+                    "children": [
+                      {
+                        "__type": "Object",
+                        "value": {
+                          "id": 4,
+                          "name": "zz"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 3,
+                    "name": "b"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.name.indexOf('a') > -1 }"
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1,
+            "name": "r",
+            "children": [
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 2,
+                  "name": "axe",
+                  "children": [
+                    {
+                      "__type": "Object",
+                      "value": {
+                        "id": 4,
+                        "name": "zz",
+                        "children": []
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "note": "保留命中节点及其祖先/后代路径，未命中分支被剪掉，节点为浅拷贝且补 children: []"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return false }"
+        }
+      ],
+      "output": [],
+      "note": "全不命中返回 []"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "nodes": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.id === 2 }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "children": "nodes"
+          }
+        }
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "id": 1,
+            "nodes": [
+              {
+                "__type": "Object",
+                "value": {
+                  "id": 2,
+                  "nodes": []
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "note": "自定义 children 键"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "module": "basic",
+  "method": "isFunction",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Function",
+          "src": "function () {}"
+        }
+      ],
+      "output": true,
+      "note": "普通函数 true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Function",
+          "src": "(a, b) => a + b"
+        }
+      ],
+      "output": true,
+      "note": "箭头函数 true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Function",
+          "src": "class Foo { bar () {} }"
+        }
+      ],
+      "output": true,
+      "note": "class 的 typeof 也是 function，true"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        "function"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "module": "number",
+  "method": "round",
+  "cases": [
+    {
+      "args": [
+        3.14159,
+        2
+      ],
+      "output": 3.14
+    },
+    {
+      "args": [
+        -3.5
+      ],
+      "output": -3,
+      "note": "Math.round 对 -3.5 进位到 -3（向 +Infinity 取半）"
+    },
+    {
+      "args": [
+        1.005,
+        2
+      ],
+      "output": 1,
+      "note": "浮点误差：1.005*100 = 100.4999…，结果为 1"
+    },
+    {
+      "args": [
+        123.456,
+        1
+      ],
+      "output": 123.5
+    },
+    {
+      "args": [
+        0
+      ],
+      "output": 0,
+      "note": "0 为 falsy，helperCreateMathNumber 直接返回 0"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": 0,
+      "note": "toNumber 失败返回 0"
+    }
+  ]
+}

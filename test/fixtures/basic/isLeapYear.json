@@ -1,0 +1,51 @@
+{
+  "module": "basic",
+  "method": "isLeapYear",
+  "cases": [
+    {
+      "args": [
+        "2024-02-29"
+      ],
+      "output": true,
+      "note": "闰年日期字符串 true"
+    },
+    {
+      "args": [
+        "2023-06-15"
+      ],
+      "output": false,
+      "note": "平年 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": true,
+      "note": "Date 对象按 getFullYear 判定，true"
+    },
+    {
+      "args": [
+        "2024"
+      ],
+      "output": true,
+      "note": "怪癖：纯年字符串可按默认格式位置解析，true"
+    },
+    {
+      "args": [
+        2024
+      ],
+      "output": false,
+      "note": "怪癖：数字 2024 不满足 11-15 位时间戳规则，toStringDate 得 Invalid Date、getFullYear 为 NaN，false"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": false,
+      "note": "非法输入 false"
+    }
+  ]
+}

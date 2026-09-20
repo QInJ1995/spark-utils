@@ -1,0 +1,82 @@
+{
+  "module": "array",
+  "method": "map",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v * 2 }"
+        }
+      ],
+      "output": [
+        2,
+        4,
+        6
+      ],
+      "note": "原生 map"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return k + v }"
+        }
+      ],
+      "output": [
+        "a1",
+        "b2"
+      ],
+      "note": "对象映射值数组"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": [],
+      "note": "缺 iterate 返回 []"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": [],
+      "note": "null 返回 []"
+    },
+    {
+      "args": [
+        "abc",
+        {
+          "__type": "Function",
+          "src": "function (c) { return c.toUpperCase() }"
+        }
+      ],
+      "output": [
+        "A",
+        "B",
+        "C"
+      ],
+      "note": "字符串逐字符映射（无原生 map，走 each）"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "module": "date",
+  "method": "getYearDay",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": 65,
+      "note": "年内第 65 天（31+29+5，闰年）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "output": 1,
+      "note": "第 1 天"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2023-12-31T00:00:00.000Z"
+        }
+      ],
+      "output": 365,
+      "note": "平年最后一天 365"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-12-31T00:00:00.000Z"
+        }
+      ],
+      "output": 366,
+      "note": "闰年最后一天 366"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": {
+        "__type": "NaN"
+      },
+      "note": "非法输入返回 NaN"
+    }
+  ]
+}

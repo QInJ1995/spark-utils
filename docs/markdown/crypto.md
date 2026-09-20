@@ -1,334 +1,146 @@
-# 加密工具
+# 加密
 
-## aesEncrypt
+AES / MD5 / RSA 签名验签 / 国密系列，收敛在 `spark-utils/crypto` 子入口（10 个方法 + `CryptoError`）。`crypto-js` 与 `jsrsasign` 仅在此入口可达，不拖累主包体积。
 
-AES加密
-
-### 参数
-
-`aesEncrypt(data, keyStr, ivStr)`
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待加密的数据 | - |
-| keyStr | string | 是 | 密钥 | - |
-| ivStr | string | 否 | 初始化向量 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-crypto.aesEncrypt('你好，坤坤', 'abcdefghijkl', 'opqrstuvwxyz') // '8GB6KdX6YTD2PJI7Iohp4A=='
-
+```ts
+import { aesEncrypt, aesDecrypt } from 'spark-utils/crypto'
 ```
 
-## aesDecrypt
+::: tip 2.0 变更
+- 调用方式由命名空间对象（旧：`import { crypto } from 'spark-utils'` 后 `crypto.aesEncrypt(...)`）改为**具名导入**；
+- 错误处理统一为抛出类型化 `CryptoError`（不再吞错返回 `false` 等假值），失败场景可按 `instanceof` / 错误信息分支处理；
+- `md5Sign` 统一由 crypto-js 实现（输出小写十六进制摘要）。
+:::
 
-AES解密
+## AES
 
-### 参数
+### aesEncrypt / aesDecrypt
 
-`aesDecrypt(data, keyStr, ivStr)`
+`aesEncrypt(data, keyStr, ivStr)` 加密、`aesDecrypt(data, keyStr, ivStr)` 解密（Base64 密文形态）。`keyStr` / `ivStr` 均必填（UTF-8 字节长度须为 16，不合法抛 `CryptoError('INVALID_KEY')`）。
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待解密的数据 | - |
-| keyStr | string | 是 | 密钥 | - |
-| ivStr | string | 否 | 初始化向量 | - |
+```ts
+import { aesEncrypt, aesDecrypt } from 'spark-utils/crypto'
 
-### 返回值
+const cipher = aesEncrypt('你好，坤坤', 'abcdefghijkl', 'opqrstuvwxyz')
+// '8GB6KdX6YTD2PJI7Iohp4A=='
 
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-crypto.aesDecrypt('8GB6KdX6YTD2PJI7Iohp4A==', 'abcdefghijkl', 'opqrstuvwxyz') // '你好，坤坤'
-
+aesDecrypt(cipher, 'abcdefghijkl', 'opqrstuvwxyz')  // '你好，坤坤'
 ```
 
-## md5Sign
+## MD5
 
-md5Sign加密
+### md5Sign
 
-### 参数
+`md5Sign(data: string): string`，返回 32 位小写十六进制摘要（crypto-js 实现）。
 
-`md5(data)`
+```ts
+import { md5Sign } from 'spark-utils/crypto'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待加密的数据 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-crypto.md5Sign('你好，坤坤') // 'b3e4a01478a0855984731f6bf4a4a11b'
-
+md5Sign('你好，坤坤')  // 'b3e4a01478a0855984731f6bf4a4a11b'
 ```
 
-## rsaEncrypt
+## RSA
 
-RSA加密
+### rsaEncrypt / rsaDecrypt（已移除）
 
-`rsaEncrypt(data, pubKey)`
+2.0 不再提供 RSA 加解密：依赖 jsrsasign 升至 11.x 后，其因 Marvin Attack（CVE-2024-21484，RSA 解密时序侧信道，纯 JS 无法常数时间实现）彻底移除了该原语。请改用平台原生 WebCrypto（Node ≥18 与现代浏览器写法一致，注意为异步）：
 
-### 参数
+```ts
+const subtle = globalThis.crypto.subtle
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待加密的数据 | - |
-| pubKey | string | 是 | 公钥 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-let pk1="LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSkprUERyV2pRUG1JTnhMZzJpeWtYZU82RwpYTk8wNXZyMjdkcExUeW9KWWgrYjQxQVVLWXprVk5tZ0pTV2lHaktvQVc1cnVMdCtGaC9sNy9RanZmR2Z2OVY3CkZ1STREU0pCSzdQZHI0alQ1aGNhb1hHYkdiUDlGL1dneUdMMGYxV05sbnpSOUEzNTRuSlo3Nms3aHpvMHYwbjgKZzRockxJOWMrTGZTWmNNc1JRSURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo="
-let rsaData = crypto.rsaEncrypt("Hello World", pk1)
-console.log(rsaData)
-
+// 旧密钥形制为 base64(PEM 文本)：剥掉 PEM 头尾行后，剩余 base64 即 DER（公钥 SPKI / 私钥 PKCS8）
+const pub = await subtle.importKey('spki', derBytes, { name: 'RSA-OAEP' }, false, ['encrypt'])
+const cipher = await subtle.encrypt({ name: 'RSA-OAEP' }, pub, new TextEncoder().encode('Hello World'))
+// 解密方向：importKey('pkcs8', ...) + subtle.decrypt
 ```
 
-## rsaDecrypt
+### rsaSign / rsaVerify
 
-RSA解密
+`rsaSign(data, priKey)` 私钥签名、`rsaVerify(data, sign, pubKey)` 公钥验签（返回 `boolean`）。
 
-`rsaDecrypt(data, priKey)`
+```ts
+import { rsaSign, rsaVerify } from 'spark-utils/crypto'
 
-### 参数
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待解密的数据 | - |
-| priKey | string | 是 | 私钥 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-    
-import { crypto } from 'spark-utils';
-
- let prv1="LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUNkZ0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQW1Bd2dnSmNBZ0VBQW9HQkFJa21ROE90YU5BK1lnM0UKdURhTEtSZDQ3b1pjMDdUbSt2YnQya3RQS2dsaUg1dmpVQlFwak9SVTJhQWxKYUlhTXFnQmJtdTR1MzRXSCtYdgo5Q085OForLzFYc1c0amdOSWtFcnM5MnZpTlBtRnhxaGNac1pzLzBYOWFESVl2Ui9WWTJXZk5IMERmbmljbG52CnFUdUhPalMvU2Z5RGlHc3NqMXo0dDlKbHd5eEZBZ01CQUFFQ2dZQlA2R09ERnY0Q2x0WTZmMnQxSEErTkJZQ3oKK0ZIQkRQTWIrK2s4QjV2T2E4Vk81bG81NVJ1WnpYWWV3SVgwdEo3ZkZEWnB2UEJBdmxOSGZVOFpwQW1xelJTKwpTdzFPT2hxdUFaTmhWMmRycDhxcW8wc0tDUytqSlRCUHBtUVdBTFdYS3dKT29JRWhGdjg0anFHb3VGRHZtRjRvClhCNXV1M3NpZHkxdTA3bXM0UUpCQVA5Q3dhNWRGMndJVlpneXNxZWI4R0g0RUc2d1JvSHBCUHE5cm5jWmhSNnUKekE4dWNpREdYMVA3SzZmRHNDREx0NndBbXM0TjgzM0tLNCt6Q2F1dVdyTUNRUUNKaS9HUXhwdDFIVXhwbXpjVQpoa093WWFOa3dqVGR4bjBMQTFvT2JyeFB5VEREZVlvZjMwWGRyckl2REh6bnljYW5ZMVlPQ2JVaXQzbm94eXU2CnVMa25Ba0VBL2FMM2tLb3ZlOGxNUTg4Y2RpOGN6RHdSRit0UUpBWEdUTi90VzZxZis3ejBScUdBQmRFWEovdUwKaFVlTTJ3bVJsL2VCMnYxQjFOdnVMUHRad0oyZXdRSkFZaWcxVnJ6MUdjbXp5eldTUkJwZzJkR0QyaGJoeFZhdAp5NXN6dkZMNEhmUVUwWnE5b0dza244UFlzc3kxb25BVFRVY05sVzBHRCtWaG9XWHBaaElIUndKQUI5amFucFdXCk4ySTlYS3lWQlNQajYvWlpKcVZvcjMwVXpiVTZZYm1pOEhiS1FZdktLaEF3N0Z1MW80Zmh3cVAwUEdnNlJtZkoKdDc1bzdHMUtiMnlTVlE9PQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg=="
-crypto.rsaDecrypt(rsaData, prv1) // Hello World
-
+const sign = rsaSign('Hello World', priKey)
+rsaVerify('Hello World', sign, pubKey)  // true
 ```
 
-## rsaSign
+## 国密（SM 系列）
 
-RSA签名
+### sm4Encrypt / sm4Decrypt
 
-`rsaSign(data, priKey)`
+`sm4Encrypt(data, key, ivStr)` 加密、`sm4Decrypt(data, key, ivStr)` 解密。`key` / `ivStr` 均必填（base64 解码后字节长度须为 16，不合法抛 `CryptoError('INVALID_KEY')`）。
 
-### 参数
+```ts
+import { sm4Encrypt, sm4Decrypt } from 'spark-utils/crypto'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待签名的数据 | - |
-| priKey | string | 是 | 私钥 | - |
+const key = 'xi68urbYpXnSlj2RLxHsug=='
+const iv = 'xi68urbYpXnSlj2RLxHsug=='
 
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-let data = crypto.rsaSign("Hello World", prv1)
-
+const cipher = sm4Encrypt('Hello World', key, iv)  // 'QZV35vkbYsAPS/0hZBHJXA=='
+sm4Decrypt(cipher, key, iv)  // 'Hello World'
 ```
 
-## rsaVerify
+### sm3Sign
 
-RSA验签
+`sm3Sign(data: string): string`，SM3 摘要（大写十六进制）。
 
-`rsaVerify(data, sign, pubKey)`
+```ts
+import { sm3Sign } from 'spark-utils/crypto'
 
-### 参数
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待验签的数据 | - |
-| sign | string | 是 | 签名 | - |
-| pubKey | string | 是 | 公钥 | - |
-
-### 返回值
-
-`boolean`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-let data = crypto.rsaVerify("Hello World", sign, pubKey)
-
+sm3Sign('你好')
+// '78E5C78C5322CA174089E58DC7790ACF8CE9D542BEE6AE4A5A0797D5E356BE61'
 ```
 
-## sm4Encrypt
+### sm2Encrypt
 
-sm4加密
+`sm2Encrypt(data, pubKey)`，SM2 公钥加密。
 
-`sm4Encrypt(data, key, ivStr)`
+```ts
+import { sm2Encrypt } from 'spark-utils/crypto'
 
-### 参数
+const pubKey =
+  'BDs0bYE6n6+0IAhLeWqdpHRou1hnlLZZ8OVvHFTjbWYWj1gysKYKw+IBCOgZ5UOsCNdAOP0aTzWuuA1XWhvq19E='
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待加密的数据 | - |
-| key | string | 是 | 密钥 | - |
-| ivStr | string | 否 | 偏移量 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-let key = 'xi68urbYpXnSlj2RLxHsug=='
-let iv = 'xi68urbYpXnSlj2RLxHsug=='
-let pubKey = "BDs0bYE6n6+0IAhLeWqdpHRou1hnlLZZ8OVvHFTjbWYWj1gysKYKw+IBCOgZ5UOsCNdAOP0aTzWuuA1XWhvq19E="
-let value = 'Hello World'
-let sm4Data = crypto.sm4Encrypt(value, key, iv) // QZV35vkbYsAPS/0hZBHJXA==
-
-```
-
-## sm4Decrypt
-
-sm4解密
-
-`sm4Decrypt(data, key, ivStr)`
-
-### 参数
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待解密的数据 | - |
-| key | string | 是 | 密钥 | - |
-| ivStr | string | 否 | 偏移量 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-crypto.sm4Decrypt(sm4Data, key, iv) // Hello World
-
-```
-
-## sm3Sign
-
-sm3签名
-
-`sm3Sign(data)`
-
-### 参数
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待签名的数据 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-crypto.sm3Sign('你好') // 78E5C78C5322CA174089E58DC7790ACF8CE9D542BEE6AE4A5A0797D5E356BE61
-
-```
-
-## sm2Encrypt
-
-sm2加密
-
-`sm2Encrypt(data, pubKey)`
-
-### 参数
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| data | string | 是 | 待加密的数据 | - |
-| pubKey | string | 是 | 公钥 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-crypto.sm2Encrypt(value, pubKey) 
-
+const cipher = sm2Encrypt('Hello World', pubKey)
 ```
 
 ## create64Key
 
-随机产生create64Key
+随机生成 64 字符密钥串。
 
-`create64Key(length, isBase64)`
+`create64Key(length: number, flag?: boolean): string`（`length <= 0` 返回空串；`flag` 为真时对结果做 `encodeURIComponent` + `btoa` 编码返回）
 
-### 参数
+```ts
+import { create64Key } from 'spark-utils/crypto'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| length | number | 否 | 密钥长度 | 0 |
-| isBase64 | string | 否 | 是否转为base64格式 | false |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { crypto } from 'spark-utils';
-
-crypto.create64Key(10)
-
+create64Key(10)         // 10 位随机串
+create64Key(16, true)   // 16 位并以 base64 输出
 ```
+
+## 错误处理（CryptoError）
+
+加密 / 解密 / 签名失败时统一抛出类型化 `CryptoError`（不再静默返回 `false` 等假值），原始异常保留在 `cause` 上，调用方按需捕获：
+
+```ts
+import { aesDecrypt, CryptoError } from 'spark-utils/crypto'
+
+try {
+  aesDecrypt(cipher, 'wrong-key', 'opqrstuvwxyz')
+} catch (error) {
+  if (error instanceof CryptoError && error.code === 'INVALID_KEY') {
+    console.error('密钥不合法：', error.message)
+  }
+}
+```
+
+错误码一览（`error.code`）：
+
+| code | 触发方法 | 含义 |
+| --- | --- | --- |
+| `ENCRYPT_FAILED` | `aesEncrypt` / `sm4Encrypt` / `sm2Encrypt` | 加密失败 |
+| `DECRYPT_FAILED` | `aesDecrypt` / `sm4Decrypt` | 解密失败 |
+| `SIGN_FAILED` | `rsaSign` / `sm3Sign` | 签名 / 摘要失败 |
+| `VERIFY_FAILED` | `rsaVerify` | 验签处理异常（验签不通过仍返回 `false`，不抛错） |
+| `MD5_FAILED` | `md5Sign` | MD5 计算失败（兜底错误码） |
+| `INVALID_KEY` | `aesEncrypt` / `aesDecrypt` / `sm4Encrypt` / `sm4Decrypt` | 密钥 / 初始向量长度或编码不合法 |

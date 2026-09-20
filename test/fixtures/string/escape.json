@@ -1,0 +1,34 @@
+{
+  "module": "string",
+  "method": "escape",
+  "cases": [
+    {
+      "args": [
+        "<a href=\"#\" class='x'>&`</a>"
+      ],
+      "output": "&lt;a href=&quot;#&quot; class=&#x27;x&#x27;&gt;&amp;&#x60;&lt;/a&gt;",
+      "note": "六个保留字符全部转义"
+    },
+    {
+      "args": [
+        "plain text"
+      ],
+      "output": "plain text",
+      "note": "无特殊字符原样返回"
+    },
+    {
+      "args": [
+        "&lt;"
+      ],
+      "output": "&amp;lt;",
+      "note": "二次转义怪癖：& 被再转义为 &amp;lt;"
+    },
+    {
+      "args": [
+        123
+      ],
+      "output": "123",
+      "note": "非字符串先 toValueString 再替换"
+    }
+  ]
+}

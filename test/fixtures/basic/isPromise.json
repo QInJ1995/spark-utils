@@ -1,0 +1,59 @@
+{
+  "module": "basic",
+  "method": "isPromise",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "then": {
+              "__type": "Function",
+              "src": "function () {}"
+            }
+          }
+        }
+      ],
+      "output": true,
+      "note": "thenable 鸭子判定 true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Promise"
+        }
+      ],
+      "output": true,
+      "note": "真 Promise 实例 true（⚠️ 工具链限制：实例被 deepClone 拍平成 {}，当前生成记 false）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "then": "not a function"
+          }
+        }
+      ],
+      "output": false,
+      "note": "then 非函数 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Function",
+          "src": "function () {}"
+        }
+      ],
+      "output": false,
+      "note": "普通函数无 then，false"
+    }
+  ]
+}

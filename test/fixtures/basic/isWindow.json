@@ -1,0 +1,30 @@
+{
+  "module": "basic",
+  "method": "isWindow",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": 0,
+      "note": "怪癖+环境敏感：node 下 staticWindow 为 0，短路返回数字 0 而非 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": 0,
+      "note": "同样返回 0"
+    },
+    {
+      "args": [
+        "x"
+      ],
+      "output": 0,
+      "note": "非对象也返回 0"
+    }
+  ]
+}

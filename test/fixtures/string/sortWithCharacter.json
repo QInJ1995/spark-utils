@@ -1,0 +1,91 @@
+{
+  "module": "string",
+  "method": "sortWithCharacter",
+  "cases": [
+    {
+      "args": [
+        [
+          "banana",
+          "apple",
+          "cherry"
+        ]
+      ],
+      "output": [
+        "apple",
+        "banana",
+        "cherry"
+      ],
+      "note": "默认 zh locale + 升序"
+    },
+    {
+      "args": [
+        [
+          10,
+          2,
+          1,
+          20
+        ]
+      ],
+      "output": [
+        1,
+        2,
+        10,
+        20
+      ],
+      "note": "numeric: true 按数值排序为 [1,2,10,20]"
+    },
+    {
+      "args": [
+        [
+          "b",
+          "A",
+          "C",
+          "a"
+        ]
+      ],
+      "output": [
+        "A",
+        "a",
+        "b",
+        "C"
+      ],
+      "note": "sensitivity: base 忽略大小写"
+    },
+    {
+      "args": [
+        [
+          "张三",
+          "李四",
+          "王五"
+        ],
+        {
+          "__type": "Object",
+          "value": {
+            "locale": "zh",
+            "rule": 0
+          }
+        }
+      ],
+      "output": [
+        "张三",
+        "王五",
+        "李四"
+      ],
+      "note": "rule: 0(DescOrAsc.desc) 降序"
+    },
+    {
+      "args": [
+        [],
+        {
+          "__type": "Object",
+          "value": {
+            "locale": "zh",
+            "rule": 1
+          }
+        }
+      ],
+      "output": [],
+      "note": "空数组返回空数组"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "module": "array",
+  "method": "sortBy",
+  "cases": [
+    {
+      "args": [
+        [
+          3,
+          1,
+          2
+        ]
+      ],
+      "output": [
+        1,
+        2,
+        3
+      ],
+      "note": "与 orderBy 同一实现，无配置按值升序"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "age": 25
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "age": 10
+            }
+          }
+        ],
+        "age"
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "age": 10
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "age": 25
+          }
+        }
+      ],
+      "note": "属性升序"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "age": 25
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "age": 10
+            }
+          }
+        ],
+        [
+          [
+            "age",
+            "desc"
+          ]
+        ]
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "age": 25
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "age": 10
+          }
+        }
+      ],
+      "note": "数组配置 desc"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": [],
+      "note": "null 返回 []"
+    }
+  ]
+}

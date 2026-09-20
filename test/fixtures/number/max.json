@@ -1,0 +1,103 @@
+{
+  "module": "number",
+  "method": "max",
+  "cases": [
+    {
+      "args": [
+        [
+          5,
+          2,
+          8
+        ]
+      ],
+      "output": 8
+    },
+    {
+      "args": [
+        [
+          -5,
+          -2,
+          -8
+        ]
+      ],
+      "output": -2,
+      "note": "负数取最大（-2）"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "v": 3
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 2
+            }
+          }
+        ],
+        "v"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "v": 3
+        }
+      },
+      "note": "字符串 iterate 返回元素对象"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "v": 3
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 9
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 2
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "(item) => item.v"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "v": 9
+        }
+      },
+      "note": "函数 iterate 返回元素对象"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空数组返回 undefined"
+    }
+  ]
+}

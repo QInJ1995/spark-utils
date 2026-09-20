@@ -1,0 +1,41 @@
+{
+  "module": "basic",
+  "method": "isError",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Error",
+          "name": "Error",
+          "message": "boom"
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：Error 实例被 deepClone 拍平、revive 也不还原，两侧一致得 false，正例需工具链支持）"
+    },
+    {
+      "args": [
+        "boom"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

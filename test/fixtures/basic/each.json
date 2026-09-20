@@ -1,0 +1,89 @@
+{
+  "module": "basic",
+  "method": "each",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v, i) { return v * i }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "怪癖：返回值丢失——arrayEach 无 return，整体返回 undefined"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return k }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "对象走 objectEach，同样返回 undefined"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return this.prefix + v }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "prefix": "x"
+          }
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "context 经原生 forEach 传入（副作用不可见，仅锁定返回值 undefined）"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": null,
+      "note": "空值原样返回 null"
+    },
+    {
+      "args": [
+        "abc",
+        {
+          "__type": "Function",
+          "src": "function (c) { return c }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "字符串走 objectEach 逐字符迭代，返回 undefined"
+    }
+  ]
+}
