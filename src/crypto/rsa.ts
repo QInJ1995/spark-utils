@@ -1,27 +1,28 @@
 /**
- * RSA 加解密与签名/验签（jsrsasign）
+ * RSA 签名/验签（jsrsasign）
  *
  * 密钥传参约定（与旧版一致）：pubKey/privKey 均为「PEM 文本的 base64」
  * （内部先经 b64toutf8 还原为 PEM 再交 KEYUTIL 解析），
  * 直接传 PEM 原文或 DER 的 base64 均无法解析。
  *
  * 2.0 性能：PEM -> 密钥对象解析结果按入参缓存（KEYUTIL.getKey 实测约占
- * 单次加密调用的 ~10%，验签等轻操作占比更高；复用密钥对象与逐次解析
- * 输出逐位一致，已对加/解/签/验四路实证）。缓存只收解析成功的条目，
+ * 单次调用的一成上下，验签等轻操作占比更高；复用密钥对象与逐次解析
+ * 输出逐位一致，已实证）。缓存只收解析成功的条目，
  * 软上限 64 条防无界增长；密钥对象只读复用，jsrsasign 不在其上留状态。
  *
  * 旧行为差异（破坏性，MIGRATION 登记）：
  * - 旧版（src/crypto/rsa.js）所有方法 try/catch 吞错返回 false；新版抛
- *   CryptoError（ENCRYPT_FAILED / DECRYPT_FAILED / SIGN_FAILED / VERIFY_FAILED）。
+ *   CryptoError（SIGN_FAILED / VERIFY_FAILED）。
  * - rsaVerify 仅「处理过程异常」（密钥无法解析等）抛错；
  *   验签不通过仍返回 false（旧版两种情况都返回 false）。
+ * - rsaEncrypt / rsaDecrypt 已随依赖升级移除：jsrsasign 11 因 Marvin Attack
+ *   （CVE-2024-21484，RSA 解密时序侧信道，纯 JS 无法常数时间实现）彻底
+ *   删除了 RSA 加解密原语，本入口不再提供；迁移路径见 MIGRATION.md
+ *   （Node ≥18 / 浏览器统一走 crypto.subtle 的 RSA-OAEP）。
  */
 import { KEYUTIL, KJUR, hextob64, b64tohex, b64toutf8 } from 'jsrsasign'
 import type { RSAKeyObject } from 'jsrsasign'
 import { CryptoError } from './error'
-
-/** 加解密默认算法（RSAES-OAEP + SHA-1） */
-const DEFAULT_CIPHER_ALG = 'RSAOAEP'
 
 /** 签名算法（与旧版写死一致） */
 const SIGN_ALG = 'SHA1withRSA'
@@ -43,40 +44,6 @@ function parseKey(b64Key: string): RSAKeyObject {
     keyCache.set(b64Key, key)
   }
   return key
-}
-
-/**
- * rsa 加密
- * @param data 明文
- * @param pubKey 公钥（PEM 文本的 base64）
- * @param algName 加密算法，默认 RSAOAEP
- * @returns base64 密文
- */
-export function rsaEncrypt(data: string, pubKey: string, algName?: string): string {
-  try {
-    const pub = parseKey(pubKey)
-    const enc = KJUR.crypto.Cipher.encrypt(data, pub, algName ?? DEFAULT_CIPHER_ALG)
-    return hextob64(enc)
-  } catch (e) {
-    throw new CryptoError('ENCRYPT_FAILED', `RSA 加密失败：${String(e)}`, e)
-  }
-}
-
-/**
- * rsa 解密
- * @param data 密文（base64）
- * @param privKey 私钥（PEM 文本的 base64）
- * @param algName 解密算法，默认 RSAOAEP（须与加密时一致）
- * @returns 明文字符串
- */
-export function rsaDecrypt(data: string, privKey: string, algName?: string): string {
-  try {
-    const prv = parseKey(privKey)
-    const dec = KJUR.crypto.Cipher.decrypt(b64tohex(data), prv, algName ?? DEFAULT_CIPHER_ALG)
-    return dec
-  } catch (e) {
-    throw new CryptoError('DECRYPT_FAILED', `RSA 解密失败：${String(e)}`, e)
-  }
 }
 
 /**

@@ -13,7 +13,7 @@ spark-utils 是一个功能丰富、可扩展的**同构 JavaScript / TypeScript
 :::
 
 ::: info 子入口分包
-体积较大的能力独立成子入口：`spark-utils/browser`（28 个浏览器方法）、`spark-utils/crypto`（12 个加解密方法，crypto-js / jsrsasign 仅在此入口可达）、`spark-utils/pinyin`（拼音字典）。主包保持轻量，`sideEffects: false` 对打包器友好。
+体积较大的能力独立成子入口：`spark-utils/browser`（28 个浏览器方法）、`spark-utils/crypto`（10 个加解密方法，crypto-js / jsrsasign 仅在此入口可达）、`spark-utils/pinyin`（拼音字典）。主包保持轻量，`sideEffects: false` 对打包器友好。
 :::
 
 ::: info 安全重设计

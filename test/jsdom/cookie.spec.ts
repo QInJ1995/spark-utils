@@ -59,18 +59,36 @@ describe('cookie 删除与过期', () => {
     writeSpy.mockRestore()
   })
 
-  it('单位串过期（1h）同样落 expires', () => {
-    const writeSpy = vi.spyOn(document, 'cookie', 'set')
-    expect(cookie('cu_hour', 'v', { expires: '1h' })).toBe(true)
-    expect(document.cookie).toContain('cu_hour=v')
-    expect(writeSpy.mock.calls[0]?.[0] ?? '').toMatch(/cu_hour=v; expires=[A-Za-z]+, /)
-    writeSpy.mockRestore()
+  it('单位串过期按各自单位换算时长（不再错落数字天数分支）', () => {
+    // '1h' 若漏全局 isNaN 强转会错按 1 天计算——此处断言实际偏移时长
+    const cases: Array<[string, number, number]> = [
+      // [入参, 期望偏移毫秒, 容差毫秒]
+      ['1h', 60 * 60 * 1000, 60 * 1000],
+      ['12h', 12 * 60 * 60 * 1000, 60 * 1000],
+      ['30m', 30 * 60 * 1000, 60 * 1000],
+      ['10s', 10 * 1000, 60 * 1000],
+      ['2y', 2 * 365 * 86400000, 2 * 86400000],
+    ]
+    for (const [unit, expectedMs, tolerance] of cases) {
+      const writeSpy = vi.spyOn(document, 'cookie', 'set')
+      const key = `cu_unit_${unit}`
+      expect(cookie(key, 'v', { expires: unit })).toBe(true)
+      const written = writeSpy.mock.calls[0]?.[0] ?? ''
+      const expiresAttr = /expires=([^;]+)/.exec(written)?.[1] ?? ''
+      const delta = Date.parse(expiresAttr) - Date.now()
+      expect(delta, `单位串 ${unit} 的偏移 ${delta}ms 应≈${expectedMs}ms`).toBeGreaterThan(expectedMs - tolerance)
+      expect(delta).toBeLessThan(expectedMs + tolerance)
+      writeSpy.mockRestore()
+    }
   })
 
-  it('负单位串立即过期（等价删除）', () => {
-    cookie('cu_neg', 'v')
+  it('非单位串（含负号，如 -1h）原样写入属性（忠实旧版 replace 不匹配）', () => {
+    const writeSpy = vi.spyOn(document, 'cookie', 'set')
     cookie('cu_neg', 'v', { expires: '-1h' })
-    expect(cookie('cu_neg')).toBeUndefined()
+    // 旧版 '-1h' 不匹配单位正则，原样写入（浏览器按无效属性忽略 → 会话 cookie）；
+    // 删除请用 cookie.remove（数字 -1 天，见上）
+    expect(writeSpy.mock.calls[0]?.[0] ?? '').toContain('expires=-1h')
+    writeSpy.mockRestore()
   })
 
   it('过去的时间戳直接过期', () => {

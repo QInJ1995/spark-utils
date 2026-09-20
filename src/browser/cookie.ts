@@ -30,7 +30,7 @@ const staticDayTime = 86400000
 export interface CookieItem {
   /** 键名 */
   name: string
-  /** 值；对象/	null 自动 JSON 序列化，其余原样强转字符串 */
+  /** 值；对象/null 自动 JSON 序列化，其余原样强转字符串 */
   value?: unknown
   /** 过期：天数（number）/ 毫秒时间戳 / Date / '30d' 单位串（y M d H h m s） */
   expires?: string | number | Date
@@ -157,9 +157,12 @@ function writeCookies(inserts: readonly CookieItem[]): void {
     )
     let expires = opts.expires
     if (expires) {
-      if (Number.isNaN(expires as number)) {
-        // 单位串（'30d' 等）转 UTC；非单位串原样写入（与旧版 replace 不匹配时一致，
-        // 但旧版对非字符串入参会在此抛 TypeError，新版不再抛错——见文件头说明）
+      // +expires 一元加还原旧版全局 isNaN 的强转语义（本仓移植规约 Number.isNaN(+x)）：
+      // '1h' 等单位串须在此判 NaN 走单位换算，漏加强转会错落进下方「数字按天数」分支
+      if (Number.isNaN(+expires)) {
+        // 单位串（'30d' 等）转 UTC；非单位串（如 '-1h' 不匹配单位正则）原样写入
+        // （与旧版 replace 不匹配时一致，但旧版对非字符串入参会在此抛 TypeError，
+        // 新版不再抛错——见文件头说明）
         const unitMatch = typeof expires === 'string' ? expires.match(cookieUnitRE) : null
         if (unitMatch) {
           expires = toCookieUTCString(toCookieUnitTime(unitMatch[2] as string, unitMatch[1] as string))

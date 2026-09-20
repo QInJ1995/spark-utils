@@ -1,13 +1,13 @@
 # spark-utils 2.0 迁移指南（v1 → v2）
 
-2.0 是一次破坏性重构：TypeScript 严格模式全量重写、具名导出、Node/浏览器同构、浏览器/加密/拼音拆分子入口、删除 41 项旧 API、合并 4 组重复 API、若干行为修复与安全重设计。本指南面向 1.x 使用者，逐条可操作。
+2.0 是一次破坏性重构：TypeScript 严格模式全量重写、具名导出、Node/浏览器同构、浏览器/加密/拼音拆分子入口、删除 43 项旧 API、合并 4 组重复 API、若干行为修复与安全重设计。本指南面向 1.x 使用者，逐条可操作。
 
 ## 目录
 
 - [升级步骤总览](#升级步骤总览)
 - [环境要求](#环境要求)
 - [导入方式迁移](#导入方式迁移)
-- [删除的 41 项](#删除的-41-项)
+- [删除的 43 项](#删除的-43-项)
 - [合并的 4 组 API](#合并的-4-组-api)
 - [行为修复与变更](#行为修复与变更)
 - [入口与依赖变化](#入口与依赖变化)
@@ -15,7 +15,7 @@
 ## 升级步骤总览
 
 1. 确认 Node >= 18（见[环境要求](#环境要求)）；
-2. 全局搜索以下导入与调用，按[删除清单](#删除的-41-项)逐项替换：
+2. 全局搜索以下导入与调用，按[删除清单](#删除的-43-项)逐项替换：
    - `SparkUtils.` 命名空间调用 → 具名导入；
    - `moment` 桥 8 方法 → `dayjs`；
    - `commafy` / `bind` / `invoke` / `onMountDialog` / IE 判定等；
@@ -57,13 +57,13 @@ import { pinyin } from 'spark-utils/pinyin'
 | --- | --- | --- |
 | `spark-utils` | basic / array / object / function / date / number / string / http / log / other（约 180 个具名导出） | Node 下可安全 import |
 | `spark-utils/browser` | cookie / storage / dom / ua / url / crossDomain / clipboard（28 个导出） | Node 下 import 零副作用，调用返回空值/false |
-| `spark-utils/crypto` | 12 个加解密方法（具名打平，不再经 `crypto.` 命名空间） | crypto-js / jsrsasign 仅此入口可达 |
+| `spark-utils/crypto` | 10 个加解密方法 + `CryptoError`（具名打平，不再经 `crypto.` 命名空间） | crypto-js / jsrsasign 仅此入口可达；jsrsasign 已升至 11.x（RSA 加解密随之移除，见[删除清单](#删除的-43-项)） |
 | `spark-utils/pinyin` | `pinyin` 对象（`init` / `getFullChars` / `getCamelChars`） | 拼音字典独立分包 |
 | `spark-utils/umd` | `dist/spark-utils.min.js` | UMD 产物保留（dayjs 已打入；不含 crypto 子入口） |
 
 **default 聚合对象**：`import SparkUtils from 'spark-utils'` 的聚合形态在 2.0 保留兼容（165 个主包方法平铺；不再含 log/https/webStorage/crypto 嵌套命名空间），但会阻断 tree-shaking，新代码请一律使用具名导入（包声明 `sideEffects: false`，具名导入可被有效摇树）。
 
-## 删除的 41 项
+## 删除的 43 项
 
 ### 原生镜像（18 项）——直接改用原生 API
 
@@ -127,6 +127,7 @@ arr.map(m => m.format('YYYY-MM-DD'))
 
 | 已删除 | 替代方案 |
 | --- | --- |
+| `rsaEncrypt(data, pubKey)` / `rsaDecrypt(data, priKey)` | jsrsasign 11 因 Marvin Attack（CVE-2024-21484，RSA 解密时序侧信道，纯 JS 无法常数时间实现）移除了 RSA 加解密原语，随之删除；`rsaSign` / `rsaVerify` 保留。改用平台原生 `crypto.subtle`（异步，示例见[行为变更 crypto 节](#行为修复与变更)） |
 | `commafy(num, digits)` | `moneyFormat(num, digits)`（千分位逻辑并入，行为一致） |
 | `function.bind(fn, ctx)` | 原生 `fn.bind(ctx)` 或箭头函数 |
 | `array.invoke(list, method)` | `list.map(item => item[method]())` |
@@ -318,9 +319,27 @@ try {
 }
 ```
 
-### crypto：错误统一抛 CryptoError
+### crypto：错误统一抛 CryptoError；rsaEncrypt / rsaDecrypt 移除
 
-1.x 加解密失败静默返回 `false` 等假值；2.0 统一抛出类型化 `CryptoError`（含失败原因），调用方需按需 try/catch。方法清单不变（12 个），调用方式从 `crypto.xxx` 命名空间改为具名导入。另有三处细节：
+1.x 加解密失败静默返回 `false` 等假值；2.0 统一抛出类型化 `CryptoError`（含失败原因），调用方需按需 try/catch。调用方式从 `crypto.xxx` 命名空间改为具名导入。
+
+**rsaEncrypt / rsaDecrypt 已删除（方法数 12 → 10）**：jsrsasign 升至 11.x——其因 Marvin Attack（CVE-2024-21484，RSA 解密时序侧信道，纯 JS 无法常数时间实现）彻底移除了 RSA 加解密原语，spark-utils 不再自行维持该不安全原语。`rsaSign` / `rsaVerify` 不受影响。迁移到平台原生 WebCrypto（Node ≥18 与现代浏览器写法一致，注意为异步）：
+
+```ts
+// 旧密钥形制为 base64(PEM 文本)：剥掉 PEM 头尾行后，剩余 base64 即 DER（公钥 SPKI / 私钥 PKCS8）
+const pemToDer = (b64Pem: string) =>
+  Uint8Array.from(
+    atob(b64Pem.replace(/-----(BEGIN|END)[^-]+-----|\s/g, '')),
+    (c) => c.charCodeAt(0),
+  )
+
+const subtle = globalThis.crypto.subtle
+const pub = await subtle.importKey('spki', pemToDer(base64PubPem), { name: 'RSA-OAEP' }, false, ['encrypt'])
+const cipher = await subtle.encrypt({ name: 'RSA-OAEP' }, pub, new TextEncoder().encode('Hello World'))
+// 解密方向：importKey('pkcs8', ...) + subtle.decrypt，同样为异步
+```
+
+另有四处细节：
 
 - **AES 新增密钥长度校验**：密钥非 16/24/32 字节或 IV 非 16 字节抛 `INVALID_KEY`。旧版对错误长度密钥静默产出**自身都无法解回**的乱码密文（属修 bug 性质收紧）；合法长度但错误的密钥解密仍返回乱码不抛错（CBC 无认证，与旧版一致）。
 - **SM4 同步收紧**：密钥 / IV 的 base64 解码失败或字节长度非 16 抛 `INVALID_KEY`（旧版同样静默产出乱码密文）；密文本身的解析失败仍抛 `ENCRYPT_FAILED` / `DECRYPT_FAILED`。另 `create64Key` 随机源由 `Math.random` 改为优先 CSPRNG（`crypto.getRandomValues`，拒绝采样无偏；环境不支持时回退 `Math.random`）。
@@ -367,7 +386,7 @@ try {
 ## 常见问题
 
 **Q：`import { isEmpty } from 'spark-utils'` 报「没有导出的成员」？**
-确认升级到 2.0 版本；`keys` / `values` / `entries` / moment 桥等 41 项已删除（见删除清单）。
+确认升级到 2.0 版本；`keys` / `values` / `entries` / moment 桥等 43 项已删除（见删除清单）。
 
 **Q：Node 下 `log` / `table` 不输出了？**
 2.0 已随 log 模块整体移除（见行为变更表），该问题不复存在；`showLog` 仅继续门控 browser 子入口 storage 的写入日志。

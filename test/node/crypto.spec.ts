@@ -17,8 +17,6 @@ import {
   aesEncrypt,
   aesDecrypt,
   md5Sign,
-  rsaEncrypt,
-  rsaDecrypt,
   rsaSign,
   rsaVerify,
   sm4Encrypt,
@@ -214,15 +212,9 @@ describe('sm3Sign', () => {
   })
 })
 
-describe('rsa', () => {
+describe('rsa（jsrsasign 11：仅签名/验签，加解密原语已被上游因 Marvin Attack 移除）', () => {
   const pub = rsaPubKey(RSA_PUB_PEM)
   const prv = rsaPrvKey(RSA_PRV_PEM)
-
-  it('加解密往返（RSAOAEP 默认算法）', () => {
-    const enc = rsaEncrypt('rsa-roundtrip', pub)
-    expect(typeof enc).toBe('string')
-    expect(rsaDecrypt(enc, prv)).toBe('rsa-roundtrip')
-  })
 
   it('签名返回 base64，长度与 1024 位密钥一致（128 字节 => 172 字符）', () => {
     const sig = rsaSign('sign-me', prv)
@@ -234,15 +226,6 @@ describe('rsa', () => {
     const sig = rsaSign('sign-me', prv)
     expect(rsaVerify('sign-me', sig, pub)).toBe(true)
     expect(rsaVerify('sign-meX', sig, pub)).toBe(false)
-  })
-
-  it('坏公钥加密抛 CryptoError(ENCRYPT_FAILED)，不再返回 false', () => {
-    expectCryptoError(() => rsaEncrypt('x', Buffer.from('not-pem').toString('base64')), 'ENCRYPT_FAILED')
-  })
-
-  it('坏私钥解密抛 CryptoError(DECRYPT_FAILED)', () => {
-    const enc = rsaEncrypt('data', pub)
-    expectCryptoError(() => rsaDecrypt(enc, Buffer.from('not-pem').toString('base64')), 'DECRYPT_FAILED')
   })
 
   it('坏公钥验签抛 CryptoError(VERIFY_FAILED)（旧版此场景也返回 false）', () => {

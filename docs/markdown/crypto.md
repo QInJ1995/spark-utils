@@ -1,6 +1,6 @@
 # 加密
 
-AES / MD5 / RSA / 国密系列，收敛在 `spark-utils/crypto` 子入口（12 个具名导出）。`crypto-js` 与 `jsrsasign` 仅在此入口可达，不拖累主包体积。
+AES / MD5 / RSA 签名验签 / 国密系列，收敛在 `spark-utils/crypto` 子入口（10 个方法 + `CryptoError`）。`crypto-js` 与 `jsrsasign` 仅在此入口可达，不拖累主包体积。
 
 ```ts
 import { aesEncrypt, aesDecrypt } from 'spark-utils/crypto'
@@ -41,19 +41,17 @@ md5Sign('你好，坤坤')  // 'b3e4a01478a0855984731f6bf4a4a11b'
 
 ## RSA
 
-### rsaEncrypt / rsaDecrypt
+### rsaEncrypt / rsaDecrypt（已移除）
 
-`rsaEncrypt(data, pubKey)` 公钥加密、`rsaDecrypt(data, priKey)` 私钥解密（密钥为 base64 编码的 PEM）。
+2.0 不再提供 RSA 加解密：依赖 jsrsasign 升至 11.x 后，其因 Marvin Attack（CVE-2024-21484，RSA 解密时序侧信道，纯 JS 无法常数时间实现）彻底移除了该原语。请改用平台原生 WebCrypto（Node ≥18 与现代浏览器写法一致，注意为异步）：
 
 ```ts
-import { rsaEncrypt, rsaDecrypt } from 'spark-utils/crypto'
+const subtle = globalThis.crypto.subtle
 
-const pubKey =
-  'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0K...'  // base64(PEM)
-const priKey = 'LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tC...'
-
-const cipher = rsaEncrypt('Hello World', pubKey)
-rsaDecrypt(cipher, priKey)  // 'Hello World'
+// 旧密钥形制为 base64(PEM 文本)：剥掉 PEM 头尾行后，剩余 base64 即 DER（公钥 SPKI / 私钥 PKCS8）
+const pub = await subtle.importKey('spki', derBytes, { name: 'RSA-OAEP' }, false, ['encrypt'])
+const cipher = await subtle.encrypt({ name: 'RSA-OAEP' }, pub, new TextEncoder().encode('Hello World'))
+// 解密方向：importKey('pkcs8', ...) + subtle.decrypt
 ```
 
 ### rsaSign / rsaVerify

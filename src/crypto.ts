@@ -10,7 +10,9 @@
  *
  * 依赖说明：
  * - aes/md5 统一使用 crypto-js（旧 md5 取 jsrsasign 内置 CryptoJS，输出不变）；
- * - rsa 使用 jsrsasign（密钥传参为「PEM 文本的 base64」，与旧版一致）；
+ * - rsa 签名/验签使用 jsrsasign（密钥传参为「PEM 文本的 base64」，与旧版一致；
+ *   依赖已升至 11.x——其因 Marvin Attack CVE-2024-21484 移除了 RSA 加解密
+ *   原语，故 rsaEncrypt / rsaDecrypt 不再提供，迁移路径见 MIGRATION.md）；
  * - SM 系列使用 src/sm-vendor（vendored 副本，随本入口打包、不 external），
  *   已打同构守卫补丁（sm-vendor/README.md），纯 Node import 无需注入 window。
  *
@@ -21,8 +23,6 @@ export {
   aesEncrypt,
   aesDecrypt,
   md5Sign,
-  rsaEncrypt,
-  rsaDecrypt,
   rsaSign,
   rsaVerify,
   sm4Encrypt,

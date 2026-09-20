@@ -30,7 +30,7 @@ $ yarn add spark-utils
 | --- | --- | --- | --- |
 | `spark-utils` | 主包：类型判定 / 数组 / 对象 / 函数 / 日期 / 数值 / 字符串 / http / other（168 个具名导出） | 轻量（minify+gzip 约 17KB 不含 dayjs）；dayjs 为 external 依赖；无浏览器全局触碰 | 安全（推荐） |
 | `spark-utils/browser` | 浏览器专属 28 个方法：cookie / storage / dom / ua / url / crossDomain / clipboard | 轻量；懒求值，Node 下 import 零副作用 | 安全（调用返回空值/false） |
-| `spark-utils/crypto` | 12 个加解密方法：AES / MD5 / RSA / SM 系列 / create64Key | 较重（crypto-js + jsrsasign 仅此入口可达） | 可用 |
+| `spark-utils/crypto` | 10 个加解密方法：AES / MD5 / RSA 签名验签 / SM 系列 / create64Key | 较重（crypto-js + jsrsasign 仅此入口可达） | 可用 |
 | `spark-utils/pinyin` | `pinyin` 对象（getFullChars / getCamelChars） | 拼音字典独立分包，不拖累主包 | 可用 |
 | `spark-utils/umd` | `dist/spark-utils.min.js`（UMD 产物） | 单文件，dayjs 已打入，供 `<script>` 直引 | - |
 

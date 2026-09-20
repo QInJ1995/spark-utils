@@ -9,7 +9,7 @@
  */
 export { aesEncrypt, aesDecrypt } from './aes'
 export { md5Sign } from './md5'
-export { rsaEncrypt, rsaDecrypt, rsaSign, rsaVerify } from './rsa'
+export { rsaSign, rsaVerify } from './rsa'
 export { sm4Encrypt, sm4Decrypt, sm3Sign, sm2Encrypt } from './sm'
 export { create64Key } from './create64Key'
 export { CryptoError } from './error'

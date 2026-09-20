@@ -8,9 +8,9 @@
 
 /** 错误码：按密码学操作阶段划分 */
 export type CryptoErrorCode =
-  /** 加密失败（aesEncrypt / rsaEncrypt / sm4Encrypt / sm2Encrypt） */
+  /** 加密失败（aesEncrypt / sm4Encrypt / sm2Encrypt） */
   | 'ENCRYPT_FAILED'
-  /** 解密失败（aesDecrypt / rsaDecrypt / sm4Decrypt） */
+  /** 解密失败（aesDecrypt / sm4Decrypt） */
   | 'DECRYPT_FAILED'
   /** 签名/摘要失败（md5Sign / rsaSign / sm3Sign） */
   | 'SIGN_FAILED'

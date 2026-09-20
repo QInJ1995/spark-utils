@@ -99,6 +99,23 @@ const http = createHttp({
 
 ## 错误处理
 
-- 非 2xx 响应抛 `Error`（`[spark-utils][http]: 请求失败（状态码）url`）；
-- 超时经 `AbortController` 中止并抛 `Error`（`请求超时（n ms）url`）；
+- 非 2xx 响应与超时抛类型化 `HttpError`（主入口具名导出），可按 `kind` / `status` / `url` / `timeout` 编程区分：
+  - 非 2xx：`kind: 'http'`，`e.status` 为响应状态码，message 为 `[spark-utils][http]: 请求失败（状态码）url`；
+  - 超时（`AbortController` 中止）：`kind: 'timeout'`，`e.timeout` 为设定的毫秒数，message 为 `请求超时（n ms）url`；
+- 外部 `signal` 主动取消与网络错误仍抛原生错误（与超时的 `HttpError` 有意区分）；
 - 响应体按 `content-type` 自动反序列化：含 `json` 时 `response.json()`，否则 `response.text()`。
+
+```ts
+import { createHttp, HttpError } from 'spark-utils'
+
+try {
+  const http = createHttp({ timeout: 5000 })
+  await http.get('/api/user')
+} catch (e) {
+  if (e instanceof HttpError && e.kind === 'timeout') {
+    console.log(`请求 ${e.url} 超时（${e.timeout}ms）`)
+  } else if (e instanceof HttpError) {
+    console.log(`请求失败（${e.status}）：${e.url}`)
+  }
+}
+```

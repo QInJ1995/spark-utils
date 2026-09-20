@@ -13,7 +13,7 @@ import { getDocument } from '../internal/env'
 /**
  * 获取元素样式（旧 src/dom/getStyle.js）
  * @param el 元素节点
- * @param attr 样式属性名（如 'padding' / 'padding-top'）
+ * @param attr 样式属性名（'padding-top' / 'paddingTop' 两种写法均可）
  * @returns 样式值；无 document/defaultView 时返回空串
  */
 export function getStyle(el: Element, attr: string): string {
@@ -22,8 +22,11 @@ export function getStyle(el: Element, attr: string): string {
   if (!view) {
     return ''
   }
-  // 旧版为 computed[attr] 索引访问，getPropertyValue 对标准属性等价
-  return view.getComputedStyle(el, null).getPropertyValue(attr)
+  // 旧版为 computed[attr] 索引访问，驼峰（paddingTop）与连字符（padding-top）写法
+  // 均可命中；getPropertyValue 仅认连字符写法，故先做驼峰归一再查询（已含连字符
+  // 或非标准名则原样透传，与旧版索引访问一致）
+  const kebab = attr.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())
+  return view.getComputedStyle(el, null).getPropertyValue(kebab)
 }
 
 /** 解析样式值为数字（'10px' -> 10；空/非数值返回 0，忠实旧版 || 0 兜底） */

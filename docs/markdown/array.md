@@ -193,15 +193,16 @@ toArray(25)     // [25]
 
 ### orderBy / sortBy
 
-多字段排序；`sortBy` 为单字段简写。
+多字段排序；`sortBy` 为 `orderBy` 的别名（同签名）。
 
-`orderBy(array, fieldRules, orderRules)` / `sortBy(array, field, order?)`
+`orderBy(arr, fieldConfs?, context?)`——`fieldConfs` 支持「取值函数 / 属性名字符串 / `[field, order]` 元组 / `{ field, order }` 对象」，单条或数组皆可，`order` 缺省 `'asc'`；第三参 `context` 是回调的 this 绑定（**不是**排序方向）。
 
 ```ts
 import { orderBy, sortBy } from 'spark-utils'
 
-orderBy(list, ['age', 'score'], ['asc', 'desc'])
-sortBy([{ a: 3 }, { a: 1 }], 'a')  // [{ a: 1 }, { a: 3 }]
+orderBy(list, [['age', 'asc'], ['score', 'desc']])
+orderBy(list, ['age', ['score', 'desc']])  // 混合写法
+sortBy([{ a: 3 }, { a: 1 }], 'a')          // [{ a: 1 }, { a: 3 }]
 ```
 
 ### shuffle / sample

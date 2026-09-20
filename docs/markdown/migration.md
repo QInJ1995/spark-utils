@@ -58,6 +58,7 @@ dayjs('2023-1-1').toDate()
 
 | 已删除 | 说明 / 替代 |
 | --- | --- |
+| `rsaEncrypt` / `rsaDecrypt` | jsrsasign 11 因 Marvin Attack（CVE-2024-21484）移除了 RSA 加解密原语，随之删除（`rsaSign` / `rsaVerify` 保留）；改用平台原生 `crypto.subtle`（异步，见[MIGRATION.md crypto 节](https://github.com/QInJ1995/spark-utils/blob/refactor/2.0-ts/MIGRATION.md)） |
 | `commafy` | 并入 `moneyFormat`（千分位逻辑一致） |
 | `function.bind` | 原生 `Function.prototype.bind` / 箭头函数 |
 | `array.invoke` | `map` + 调用 |
@@ -115,13 +116,14 @@ findLastIndexOf([11, 22, 33, 22], 22)             // 3
 | `copyText` | 同步返回 `boolean` | `async`，返回 `Promise<boolean>` |
 | `crossDomain` | import 即挂全局 + `eval` 执行 | `setupCrossDomain` 显式注册 + 双白名单，无 `eval` |
 | `https.init` 等 | axios 封装 | `createHttp`（原生 fetch，钩子 `beforeRequest` / `afterResponse`） |
-| crypto 系列错误 | 静默返回 `false` 等 | 抛 `CryptoError` |
+| crypto 系列错误 | 静默返回 `false` 等 | 抛 `CryptoError`；`rsaEncrypt` / `rsaDecrypt` 因上游安全原因**移除**（方法数 12 → 10） |
+| 非 2xx / 超时（http） | 抛裸 `Error` | 抛 `HttpError`（`kind` / `status` / `url` / `timeout` 可编程读取） |
 | `getStorage`（创建失败） | 继续 `getAll()` 抛 `TypeError` | 返回 `null` |
 | `clientBrowser` / `clientSystem` / `clientScreenSize` | 加载期求值的常量 | 惰性**函数**，调用时求值 |
 
 ## 全局配置
 
-`setup` / `setupDefaults` / `mixin`（1.x 全局配置与扩展）正在随 M7 里程碑重新设计中，暂不在 2.0 导出面内；`axiosConfig` 配置槽更名为 `httpConfig`。依赖全局配置的代码请关注 M7 落地说明。
+`setup` / `setupDefaults` 已随 2.0 落地为具名导出（浅合并生成深度冻结的新配置、即时生效；旧 `axiosConfig` 键更名为 `httpConfig`，用法见[快速开始](./start.md)）；1.x 的 `mixin` 已移除——用具名导入或自建聚合对象替代。
 
 ## Node 版本
 

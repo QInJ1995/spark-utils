@@ -207,8 +207,6 @@
     "aesEncrypt",
     "create64Key",
     "md5Sign",
-    "rsaDecrypt",
-    "rsaEncrypt",
     "rsaSign",
     "rsaVerify",
     "sm2Encrypt",

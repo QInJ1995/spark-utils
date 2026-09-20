@@ -139,6 +139,23 @@ describe('dom 元素信息', () => {
     )
     expect(getStyle(el, 'padding')).toBe('4px')
   })
+
+  it('getStyle 驼峰属性名归一为连字符（忠实旧版索引访问两种写法均可）', () => {
+    const el = document.createElement('div')
+    const queried: string[] = []
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(
+      () =>
+        ({
+          getPropertyValue: (prop: string) => {
+            queried.push(prop)
+            return prop === 'padding-top' ? '8px' : ''
+          },
+        }) as unknown as CSSStyleDeclaration,
+    )
+    expect(getStyle(el, 'paddingTop')).toBe('8px')
+    expect(getStyle(el, 'padding-top')).toBe('8px')
+    expect(queried).toEqual(['padding-top', 'padding-top'])
+  })
 })
 
 describe('clipboard copyText', () => {
