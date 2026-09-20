@@ -2,8 +2,12 @@
  * 行为快照生成器：调用旧版（v1.1.10）SparkUtils，把每个保留方法的样例输入/输出
  * 规范化后写入 test/fixtures/，作为 2.0 TS 重写的行为基准。
  *
- * 运行方式（旧代码为 webpack 风格无扩展名导入，需走 vite 解析管线）：
+ * ⚠️ 管线已冻结（M7）：本脚本按相对路径加载 1.x 源码树 src/index.js，
+ * 2.0 重写已将其删除（同址替换为 .ts）。test/fixtures/*.json 是最终冻结基准，
+ * 由测试持续对照；test/fixtures-cases/ 保留为样例矩阵与怪癖说明的存档。
+ * 如需重新生成（一般不需要）：在 v1.1.10 tag 的 worktree 中运行
  *   npx vite-node scripts/gen-fixtures.mjs
+ * 再把产物拷回本分支（新旧行为差异须并入 overrides.json）。
  */
 import { mkdirSync, writeFileSync, readdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'

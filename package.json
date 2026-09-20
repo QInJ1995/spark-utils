@@ -38,12 +38,11 @@
     "dist"
   ],
   "scripts": {
-    "typecheck": "tsc -b && tsc -p tsconfig.test.json",
+    "typecheck": "tsc -b && tsc -p tsconfig.test.json && tsc -p tsconfig.test.dom.json && tsc -p tsconfig.sm-vendor.json",
     "build": "npm run typecheck && rollup -c && rollup -c rollup.umd.config.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "gen:fixtures": "vite-node scripts/gen-fixtures.mjs",
     "lint": "eslint .",
     "depcruise": "depcruise src --config .dependency-cruiser.cjs",
     "docs:dev": "cd docs && vitepress dev",
@@ -59,6 +58,14 @@
   ],
   "author": "QINJIN",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QInJ1995/spark-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/QInJ1995/spark-utils/issues"
+  },
+  "homepage": "https://github.com/QInJ1995/spark-utils#readme",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",

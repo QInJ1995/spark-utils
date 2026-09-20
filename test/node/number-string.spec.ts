@@ -20,6 +20,7 @@ import {
   floor,
   moneyFormat,
   multiply,
+  random,
   round,
   toFixed,
   toInteger,
@@ -181,5 +182,54 @@ describe('pinyin 子入口（src/pinyin.ts re-export）', () => {
 
   it('getCamelChars 输出首字母缩写', () => {
     expect(pinyin.getCamelChars('我喜欢你')).toBe('WXHN')
+  })
+})
+
+describe('pinyin 多音字路径（init({ checkPolyphone: true })）', () => {
+  it('多音字首字母展开为组合数组，单音字与非汉字原样参与拼接', () => {
+    pinyin.init({ checkPolyphone: true })
+    try {
+      expect(pinyin.getCamelChars('重')).toEqual(['Z', 'C'])
+      expect(pinyin.getCamelChars('长')).toEqual(['Z', 'C'])
+      expect(pinyin.getCamelChars('我')).toEqual(['W'])
+      expect(pinyin.getCamelChars('我重')).toEqual(['WZ', 'WC'])
+      expect(pinyin.getCamelChars('a重b')).toEqual(['aZb', 'aCb'])
+      // getFullChars 不受多音开关影响
+      expect(pinyin.getFullChars('重')).toBe('Zhong')
+    } finally {
+      pinyin.init({ checkPolyphone: false })
+    }
+  })
+
+  it('关闭开关后恢复单值返回', () => {
+    expect(pinyin.getCamelChars('重')).toBe('Z')
+  })
+})
+
+describe('number.random（结果不确定不进 fixtures，直陈语义）', () => {
+  it('minVal >= maxVal 时原样返回 minVal', () => {
+    expect(random(5, 5)).toBe(5)
+    expect(random(9, 3)).toBe(9)
+  })
+
+  it('结果落在 [minVal>>0, maxVal || 9] 内且为整数', () => {
+    for (let i = 0; i < 200; i++) {
+      const v = random(1, 3)
+      expect(Number.isInteger(v)).toBe(true)
+      expect(v).toBeGreaterThanOrEqual(1)
+      expect(v).toBeLessThanOrEqual(3)
+    }
+    // maxVal 缺省按 9
+    for (let i = 0; i < 200; i++) {
+      const v = random(-2)
+      expect(v).toBeGreaterThanOrEqual(-2)
+      expect(v).toBeLessThanOrEqual(9)
+    }
+    // minVal 先 >>0 截断：1.9 → base 1
+    for (let i = 0; i < 200; i++) {
+      const v = random(1.9)
+      expect(v).toBeGreaterThanOrEqual(1)
+      expect(v).toBeLessThanOrEqual(9)
+    }
   })
 })

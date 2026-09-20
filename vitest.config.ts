@@ -33,7 +33,16 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**'],
-      exclude: ['src/sm-vendor/**', 'src/types/**'],
+      // sm-vendor 为收编第三方源码；types/ 与 idCardResult.ts 为纯类型文件（无运行时）
+      exclude: ['src/sm-vendor/**', 'src/types/**', '**/idCardResult.ts'],
+      // 覆盖率守门（CI 经 npm run coverage 执行）：当前水位约 90/83/94，
+      // 阈值按重构计划目标（主包 ≥85/80）留缓冲设定，跌破即失败
+      thresholds: {
+        statements: 88,
+        branches: 80,
+        functions: 90,
+        lines: 88,
+      },
     },
   },
 })
