@@ -34,6 +34,19 @@ function invokeImpl(fn: unknown, args: unknown[]): unknown {
   return impl(...args.map((a) => revive(a)))
 }
 
+/**
+ * V8 各版本对「非函数调用」的 TypeError 措辞不同：
+ * node 18 为 `x is not a function`，node 22+ 为 `string "x" is not a function`。
+ * 抛错记录在对照前把两侧 message 归一为同一形态（快照基线在新措辞的 node 上生成）。
+ */
+function canonicalThrow(record: unknown): unknown {
+  if (record && typeof record === 'object' && (record as { __type?: string }).__type === 'Throw') {
+    const rec = record as { name: string; message: string }
+    return { ...rec, message: rec.message.replace(/^(?:[a-z]+ )?"(.+)" is not a function$/, '$1 is not a function') }
+  }
+  return record
+}
+
 const portedModules = Object.keys(PORTED).filter((m) => existsSync(resolve(ROOT, `test/fixtures/${m}`)))
 const suiteCases: { module: string; method: string; cases: { args: unknown[]; output: unknown; note?: string }[] }[] = []
 
@@ -78,7 +91,7 @@ describe('行为快照对照（旧版 v1.1.10 基线）', () => {
             // 抛错记录与生成器约定同形（顶层 __type:'Throw'），不得再过 normalize（会被当普通对象二次包裹）
             actual = { __type: 'Throw', name: (error as Error)?.name ?? 'Error', message: String((error as Error)?.message ?? error) }
           }
-          expect(actual).toEqual(caseItem.output)
+          expect(canonicalThrow(actual)).toEqual(canonicalThrow(caseItem.output))
         })
       })
     })

@@ -268,13 +268,22 @@ describe('create64Key', () => {
     expect(create64Key(64)).not.toBe(create64Key(64))
   })
 
-  it('2.0：随机源优先 CSPRNG（getRandomValues 被调用）', () => {
+  // node 18 无全局 WebCrypto（globalThis.crypto 19+ 才转正）：该环境走 Math.random 回退
+  const hasGlobalWebCrypto = typeof globalThis.crypto?.getRandomValues === 'function'
+  ;(hasGlobalWebCrypto ? it : it.skip)('2.0：随机源优先 CSPRNG（getRandomValues 被调用）', () => {
     const spy = vi.spyOn(globalThis.crypto, 'getRandomValues')
     create64Key(64)
     // 拒绝采样存在重抽可能，仅断言确实走了 CSPRNG 路径
     expect(spy).toHaveBeenCalled()
     spy.mockRestore()
   })
+  if (!hasGlobalWebCrypto) {
+    it('无全局 WebCrypto（node 18）：回退 Math.random 仍产出合法键', () => {
+      const key = create64Key(64)
+      expect(key).toMatch(/^[a-zA-Z0-9]{64}$/)
+      expect(create64Key(64)).not.toBe(key)
+    })
+  }
 })
 
 describe('sm2Encrypt', () => {
