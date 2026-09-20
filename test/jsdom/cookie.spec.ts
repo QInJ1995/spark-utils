@@ -68,6 +68,8 @@ describe('cookie 删除与过期', () => {
       ['30m', 30 * 60 * 1000, 60 * 1000],
       ['10s', 10 * 1000, 60 * 1000],
       ['2y', 2 * 365 * 86400000, 2 * 86400000],
+      ['2d', 2 * 86400000, 60 * 1000],
+      ['1M', 30 * 86400000, 2.5 * 86400000], // 自然月 28-31 天
     ]
     for (const [unit, expectedMs, tolerance] of cases) {
       const writeSpy = vi.spyOn(document, 'cookie', 'set')
@@ -91,9 +93,62 @@ describe('cookie 删除与过期', () => {
     writeSpy.mockRestore()
   })
 
+  it("'M' 跨月溢出回落上一月末（1-31 + 1M → 2 月最后一天，批次⑦补测）", () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2024, 0, 31, 12, 0, 0))
+    try {
+      const writeSpy = vi.spyOn(document, 'cookie', 'set')
+      cookie('cu_feb', 'v', { expires: '1M' })
+      const expiresAttr = /expires=([^;]+)/.exec(writeSpy.mock.calls[0]?.[0] ?? '')?.[1] ?? ''
+      // 2024-01-31 加一月溢出为 03-02，旧 getWhatMonth 语义回落 02-29（闰年）
+      expect(Date.parse(expiresAttr)).toBe(new Date(2024, 1, 29, 12, 0, 0).getTime())
+      writeSpy.mockRestore()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('数字时间戳 expires 经 new Date 强转 UTC 串写入', () => {
+    const writeSpy = vi.spyOn(document, 'cookie', 'set')
+    const ts = Date.now() + 3600 * 1000
+    cookie('cu_tsfmt', 'v', { expires: ts })
+    const written = writeSpy.mock.calls[0]?.[0] ?? ''
+    expect(written).toContain(`expires=${new Date(ts).toUTCString()}`)
+    writeSpy.mockRestore()
+  })
+
   it('过去的时间戳直接过期', () => {
     cookie('cu_ts', 'v', { expires: 1000000000000 })
     expect(cookie('cu_ts')).toBeUndefined()
+  })
+})
+
+describe('cookie 多参形态（批次⑦补测：数组批量 / 单对象 / 无名项跳过）', () => {
+  it('数组入参逐项写入', () => {
+    expect(cookie([{ name: 'cu_b1', value: '1' }, { name: 'cu_b2', value: '2' }])).toBe(true)
+    expect(cookie('cu_b1')).toBe('1')
+    expect(cookie('cu_b2')).toBe('2')
+  })
+
+  it('单对象入参写入', () => {
+    expect(cookie({ name: 'cu_obj1', value: '3' })).toBe(true)
+    expect(cookie('cu_obj1')).toBe('3')
+  })
+
+  it('无名项跳过，有名项正常写入', () => {
+    expect(cookie([{ name: '', value: 'x' }, { name: 'cu_ok', value: 'y' }])).toBe(true)
+    expect(document.cookie).toContain('cu_ok=y')
+    expect(document.cookie).not.toContain('=x')
+  })
+})
+
+describe('cookie 静态方法族（get / set / remove）', () => {
+  it('cookie.set 返回自身可链式；cookie.get 读取；cookie.remove 删除', () => {
+    expect(cookie.set('cu_static', 'sv')).toBe(cookie)
+    expect(cookie.get('cu_static')).toBe('sv')
+    expect(cookie.get('cu_missing')).toBeUndefined()
+    cookie.remove('cu_static')
+    expect(cookie.get('cu_static')).toBeUndefined()
   })
 })
 
@@ -109,6 +164,13 @@ describe('cookie 兼容别名（旧 src/cookie/*.js 签名）', () => {
 
   it('getCookie 未命中返回 null', () => {
     expect(getCookie('cu_missing')).toBeNull()
+  })
+
+  it('setCookie 第四参 path 写入 path 属性', () => {
+    const writeSpy = vi.spyOn(document, 'cookie', 'set')
+    expect(setCookie('cu_path', 'pv', 0, '/sub')).toBe(true)
+    expect(writeSpy.mock.calls[0]?.[0] ?? '').toContain('path=/sub')
+    writeSpy.mockRestore()
   })
 
   it('getToken 默认读取 XSRF-TOKEN，未命中返回空串', () => {

@@ -6,7 +6,8 @@
     "emitDeclarationOnly": false,
     "composite": false,
     "incremental": false,
-    "rootDir": "."
+    "rootDir": ".",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
   "include": ["test/node", "test/contracts"]
 }

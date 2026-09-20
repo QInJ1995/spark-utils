@@ -96,6 +96,94 @@ describe('ua 惰性探测', () => {
   })
 })
 
+describe('ua 分支矩阵（批次⑦补测）', () => {
+  const EDGE_UA =
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edge/120.0.0.0'
+  const SAFARI_UA =
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
+  const OPERA_OLD_UA = 'Opera/9.80 (Windows NT 6.1) Presto/2.12 Version/12.16'
+  const OPERA_NEW_UA =
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 OPR/106.0.0.0'
+
+  it('Edge UA：getBrowserInfo 命中 edge 分支；browse().edge 为真', () => {
+    stubNavigator({ userAgent: EDGE_UA, platform: 'Win32' })
+    expect(getBrowserInfo()).toEqual({ browser: 'edge', version: '120' })
+    expect(browse().edge).toBe(true)
+  })
+
+  it('Safari UA：getBrowserInfo 命中 safari 分支（Chrome 排除）', () => {
+    stubNavigator({ userAgent: SAFARI_UA, platform: 'MacIntel' })
+    expect(getBrowserInfo()).toEqual({ browser: 'safari', version: '17' })
+    expect(isSafari()).toBe(true)
+  })
+
+  it('Opera：旧式 Opera/9 命中；新式 OPR/ 因守卫找的是 opera 子串而漏判为 chrome（忠实旧版）', () => {
+    stubNavigator({ userAgent: OPERA_OLD_UA, platform: 'Win32' })
+    // 版本号捕获到小数点前一位即止（\d+ 不含点）
+    expect(getBrowserInfo()).toEqual({ browser: 'opera', version: '9' })
+    stubNavigator({ userAgent: OPERA_NEW_UA, platform: 'Win32' })
+    expect(getBrowserInfo()).toEqual({ browser: 'chrome', version: '120' })
+  })
+
+  it('Windows 版本标签全家族均归一为 win（NT 映射 / NT 未知回落 / 9x→ME / 98 / CE / Ph→Phone）', () => {
+    const winUAs = [
+      'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1)', // NT 6.1 → '7'（映射表命中）
+      'Mozilla/5.0 (Windows NT 11.0)', // 映射表未收录 → 'NT' 回落
+      'Mozilla/4.0 (compatible; MSIE 4.01; Windows 9x 4.90)', // 9x → ME
+      'Mozilla/4.0 (compatible; MSIE 4.01; Windows 98)', // 普通两位标签原样
+      'Mozilla/4.0 (compatible; MSIE 4.01; Windows CE)', // CE → winMobile 分支
+      'Mozilla/4.0 (compatible; MSIE 7.0; Windows Phone OS 7.0; IEMobile/7.0) Nokia; E71', // Ph + winPhoneRE
+    ]
+    for (const ua of winUAs) {
+      stubNavigator({ userAgent: ua, platform: 'Win32' })
+      expect(clientSystem(), ua).toBe('win')
+    }
+  })
+
+  it('Mac 平台 + Mobile：iOS 版本号分支（含无版本号回落 ios=2）返回值仍为 mac（mac 键在前）', () => {
+    stubNavigator({ userAgent: IPHONE_UA, platform: 'MacIntel' })
+    expect(clientSystem()).toBe('mac')
+    // 有 Mobile 无 iOS 版本模式：iosMatch 为 null → system.ios = 2
+    stubNavigator({ userAgent: 'Mozilla/5.0 (Macintosh) Version/16.4 Mobile/15E148', platform: 'MacIntel' })
+    expect(clientSystem()).toBe('mac')
+  })
+
+  it('Android / nokiaN / Wii / PlayStation / 全不命中 UNKNOWN（平台探测全假时按 UA 取首个真值键）', () => {
+    stubNavigator({ userAgent: 'Mozilla/5.0 (Linux; Android 4.4.2) Chrome/33.0.0.0 Mobile Safari/537.36', platform: '' })
+    expect(clientSystem()).toBe('android')
+    expect(browse().isMobile).toBe(true) // mobileRE 命中 Android
+    stubNavigator({ userAgent: 'nokiaN-gadget/1.0', platform: '' })
+    expect(clientSystem()).toBe('nokiaN')
+    stubNavigator({ userAgent: 'Opera/9.80 (Nintendo Wii; U; ; 2047; en)', platform: '' })
+    expect(clientSystem()).toBe('wii')
+    stubNavigator({ userAgent: 'Mozilla/5.0 (PLAYSTATION 3; 2.00)', platform: '' })
+    expect(clientSystem()).toBe('ps')
+    stubNavigator({ userAgent: 'curl/8.0', platform: '' })
+    expect(clientSystem()).toBe('UNKNOWN')
+  })
+
+  it('localStorage 试写抛错时 isLocalStorage 探测为 false', () => {
+    // jsdom 的 window.localStorage 每次访问返回新包装对象，spyOn 装不到 browse()
+    // 实际读到的实例上——用 stubGlobal 整体替换（jsdom 下 window 即 globalThis）
+    const throwingStorage = {
+      setItem(): void {
+        throw new Error('SecurityError')
+      },
+      removeItem(): void {},
+      getItem(): string | null {
+        return null
+      },
+    }
+    vi.stubGlobal('localStorage', throwingStorage)
+    try {
+      expect(browse().isLocalStorage).toBe(false)
+      expect(browse().isSessionStorage).toBe(true) // sessionStorage 未受影响
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+})
+
 describe('dom 元素信息', () => {
   function makeRect(width: number, height: number): DOMRect {
     return {

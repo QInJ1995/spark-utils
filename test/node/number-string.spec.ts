@@ -29,6 +29,7 @@ import {
 import {
   camelCase,
   escape,
+  format,
   kebabCase,
   toString as toValueString,
   unescape,
@@ -123,6 +124,39 @@ describe('string.camelCase / kebabCase', () => {
     expect(kebabCase('projectName')).toBe('project-name')
     expect(kebabCase('FirstName')).toBe('first-name')
     expect(kebabCase('XMLHttpRequest')).toBe('xml-http-request')
+  })
+
+  it('kebabCase 大小写断点矩阵（批次⑦补测）', () => {
+    expect(kebabCase('aBc')).toBe('a-bc') // 小→大断点
+    expect(kebabCase('aBCd')).toBe('a-b-cd') // 连续大写尾部落同段
+    expect(kebabCase('ABC')).toBe('abc') // 全大写整体小写不拆
+    expect(kebabCase('ABc')).toBe('abc') // 大→小不起断点
+    expect(kebabCase('a-B-c')).toBe('a-b-c') // 既有短横线归一
+    expect(kebabCase('123')).toBe('123')
+    expect(kebabCase('')).toBe('')
+  })
+
+  it('camelCase 大小写断点矩阵（含 PROJECT-Name 连续大写怪癖）', () => {
+    expect(camelCase('a-b-c')).toBe('aBC')
+    expect(camelCase('aBC')).toBe('aBc') // 已驼峰输入基本保持（c 落小写段）
+    expect(camelCase('aBCD')).toBe('aBcd')
+    expect(camelCase('xABCDy')).toBe('xAbcDy') // 连续大写中间拆段，尾段仅首字母大写
+    expect(camelCase('AB')).toBe('ab') // 全大写整体小写
+    expect(camelCase('a--b')).toBe('aB') // 连续短横线只出一个断点
+    // 旧版怪癖：'PROJECT-Name' 的断点在 projec|T 处，T 保留大写后接 Name
+    expect(camelCase('PROJECT-Name')).toBe('projecTName')
+  })
+})
+
+describe('string.format（脱敏规则分发）', () => {
+  it('value 为 null / undefined 直接返回空串（批次⑦补测）', () => {
+    expect(format('name', null)).toBe('')
+    expect(format('name', undefined)).toBe('')
+  })
+
+  it('name / mobile 规则脱敏', () => {
+    expect(format('name', '张三')).toBe('张*')
+    expect(format('mobile', '13812345678')).toBe('138****5678')
   })
 })
 

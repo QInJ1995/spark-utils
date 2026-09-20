@@ -73,6 +73,21 @@ describe('StateFlow', () => {
     expect(flow.get('rebuilt')).toBe('ok')
   })
 
+  it('destroy 深层下降路径：三段 set 后按点路径删除末级（批次⑦补测）', () => {
+    const flow = new StateFlow()
+    flow.set('a.b.c', 1)
+    flow.set('a.b.d', 2)
+    flow.set('a.e', 3)
+    flow.destroy('a.b.c')
+    expect(flow.get('a.b.c')).toBeUndefined()
+    expect(flow.get('a.b.d')).toBe(2) // 兄弟键不受影响
+    expect(flow.get('a.e')).toBe(3)
+    // 中途假值的下降守卫：set 原始值后按深层路径 destroy，无事发生不抛错
+    flow.set('dead', null)
+    expect(() => flow.destroy('dead.x.y')).not.toThrow()
+    expect(flow.get('dead')).toBeNull()
+  })
+
   it('2.0 修复：深层路径中途为假值不再抛 TypeError', () => {
     const flow = new StateFlow()
     flow.set('a', null)

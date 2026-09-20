@@ -16,7 +16,7 @@ import { aesEncrypt, aesDecrypt } from 'spark-utils/crypto'
 
 ### aesEncrypt / aesDecrypt
 
-`aesEncrypt(data, keyStr, ivStr?)` 加密、`aesDecrypt(data, keyStr, ivStr?)` 解密（Base64 密文形态）。
+`aesEncrypt(data, keyStr, ivStr)` 加密、`aesDecrypt(data, keyStr, ivStr)` 解密（Base64 密文形态）。`keyStr` / `ivStr` 均必填（UTF-8 字节长度须为 16，不合法抛 `CryptoError('INVALID_KEY')`）。
 
 ```ts
 import { aesEncrypt, aesDecrypt } from 'spark-utils/crypto'
@@ -69,7 +69,7 @@ rsaVerify('Hello World', sign, pubKey)  // true
 
 ### sm4Encrypt / sm4Decrypt
 
-`sm4Encrypt(data, key, ivStr?)` 加密、`sm4Decrypt(data, key, ivStr?)` 解密。
+`sm4Encrypt(data, key, ivStr)` 加密、`sm4Decrypt(data, key, ivStr)` 解密。`key` / `ivStr` 均必填（base64 解码后字节长度须为 16，不合法抛 `CryptoError('INVALID_KEY')`）。
 
 ```ts
 import { sm4Encrypt, sm4Decrypt } from 'spark-utils/crypto'
@@ -109,7 +109,7 @@ const cipher = sm2Encrypt('Hello World', pubKey)
 
 随机生成 64 字符密钥串。
 
-`create64Key(length?: number, isBase64?: boolean): string`
+`create64Key(length: number, flag?: boolean): string`（`length <= 0` 返回空串；`flag` 为真时对结果做 `encodeURIComponent` + `btoa` 编码返回）
 
 ```ts
 import { create64Key } from 'spark-utils/crypto'
@@ -120,14 +120,27 @@ create64Key(16, true)   // 16 位并以 base64 输出
 
 ## 错误处理（CryptoError）
 
-加密 / 解密 / 签名失败时统一抛出类型化 `CryptoError`（含失败原因，不再静默返回 `false` 等假值），调用方按需捕获：
+加密 / 解密 / 签名失败时统一抛出类型化 `CryptoError`（不再静默返回 `false` 等假值），原始异常保留在 `cause` 上，调用方按需捕获：
 
 ```ts
-import { aesDecrypt } from 'spark-utils/crypto'
+import { aesDecrypt, CryptoError } from 'spark-utils/crypto'
 
 try {
   aesDecrypt(cipher, 'wrong-key', 'opqrstuvwxyz')
 } catch (error) {
-  console.error('解密失败：', (error as Error).message)
+  if (error instanceof CryptoError && error.code === 'INVALID_KEY') {
+    console.error('密钥不合法：', error.message)
+  }
 }
 ```
+
+错误码一览（`error.code`）：
+
+| code | 触发方法 | 含义 |
+| --- | --- | --- |
+| `ENCRYPT_FAILED` | `aesEncrypt` / `sm4Encrypt` / `sm2Encrypt` | 加密失败 |
+| `DECRYPT_FAILED` | `aesDecrypt` / `sm4Decrypt` | 解密失败 |
+| `SIGN_FAILED` | `rsaSign` / `sm3Sign` | 签名 / 摘要失败 |
+| `VERIFY_FAILED` | `rsaVerify` | 验签处理异常（验签不通过仍返回 `false`，不抛错） |
+| `MD5_FAILED` | `md5Sign` | MD5 计算失败（兜底错误码） |
+| `INVALID_KEY` | `aesEncrypt` / `aesDecrypt` / `sm4Encrypt` / `sm4Decrypt` | 密钥 / 初始向量长度或编码不合法 |

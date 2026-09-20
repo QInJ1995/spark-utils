@@ -132,7 +132,7 @@ dateDiff('2017-11-20', '2017-12-21', { detailed: true })
 | `getCurDateMonth()` | `YYYY-MM` |
 | `getCurDateTime()` | `YYYY-MM-DD HH:mm:ss` |
 | `getCurDateFullTime()` | `YYYY-MM-DD HH:mm:ss.SSS` |
-| `getCurQuarter()` | `YYYY年X季度` |
+| `getCurQuarter()` | `YYYY年XX季度`（季度两位补零，如 `2024年01季度`） |
 | `getCurIssue()` | `YYYYMM`（当前期号） |
 | `getCurDateYear()` | `YYYY` |
 

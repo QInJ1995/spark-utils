@@ -80,6 +80,23 @@ describe('date.getCur* 系列（固定 2024-03-15T02:00:00Z）', () => {
     const quarter = Math.ceil((d.getMonth() + 1) / 3)
     expect(getCurQuarter()).toBe(`${d.getFullYear()}年${pad2(quarter)}季度`)
   })
+
+  it('getCurQuarter 四个季度分支全覆盖（含边界月）', () => {
+    const cases: Array<[string, string]> = [
+      ['2024-01-15T00:00:00', '2024年01季度'], // 1 月（季度首）
+      ['2024-03-31T23:59:59', '2024年01季度'], // 3 月（季度尾）
+      ['2024-04-01T00:00:00', '2024年02季度'],
+      ['2024-06-30T12:00:00', '2024年02季度'],
+      ['2024-07-15T00:00:00', '2024年03季度'],
+      ['2024-09-30T12:00:00', '2024年03季度'],
+      ['2024-10-01T00:00:00', '2024年04季度'],
+      ['2024-12-31T23:59:59', '2024年04季度'],
+    ]
+    for (const [iso, expected] of cases) {
+      vi.setSystemTime(new Date(iso))
+      expect(getCurQuarter(), iso).toBe(expected)
+    }
+  })
 })
 
 describe('date.dateDiff（合并 API）', () => {

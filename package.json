@@ -53,8 +53,14 @@
   "keywords": [
     "spark-utils",
     "utils",
+    "utility",
+    "toolkit",
     "typescript",
-    "isomorphic"
+    "isomorphic",
+    "tree-shaking",
+    "dayjs",
+    "lodash-alternative",
+    "xe-utils"
   ],
   "author": "QINJIN",
   "license": "ISC",

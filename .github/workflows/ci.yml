@@ -5,6 +5,11 @@ on:
     branches: [main, refactor/2.0-ts]
   pull_request:
 
+# 同分支新推送取消进行中的旧跑（矩阵 3 节点 × 8 步，省额度）
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -29,3 +34,4 @@ jobs:
       - run: npm run coverage
       - run: npm run build
       - run: npm run size
+      - run: npm run docs:build

@@ -2,8 +2,13 @@
  * array 模块 2.0 修复回归（fixtures 只锁旧版能跑通的基线，旧版自身崩溃的
  * bug 场景在此补正向断言；对应 overrides.json 登记的有意变更同此原则）
  */
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { eachTree } from '../../src/array/eachTree'
+import { includeArrays } from '../../src/array/includeArrays'
+import { mean } from '../../src/array/mean'
+import { sample } from '../../src/array/sample'
+import { shuffle } from '../../src/array/shuffle'
+import { some } from '../../src/array/some'
 import { every } from '../../src/array/every'
 import { filterTree } from '../../src/array/filterTree'
 import { find } from '../../src/array/find'
@@ -123,5 +128,66 @@ describe('树族泛型（批次⑥：回调与结果的节点类型推断）', (
 
     const flattened = toTreeArray<TreeNode>(tree)
     expect(flattened.map((n) => n.id)).toEqual([1, 2, 3, 4, 5])
+  })
+})
+
+describe('includeArrays / shuffle / sample / some / mean（批次⑦补测）', () => {
+  it('includeArrays：双数组无序包含；非双数组退化为通用包含', () => {
+    expect(includeArrays([11, 22, 33], [11, 33])).toBe(true)
+    expect(includeArrays([11, 22, 33], [33, 11])).toBe(true) // 顺序无关
+    expect(includeArrays([11, 22], [33])).toBe(false)
+    expect(includeArrays([11, 22], [])).toBe(true) // 空集恒包含
+    // 退化分支：字符串子串 / 对象自有值 / 假值
+    expect(includeArrays('spark-utils', 'park')).toBe(true)
+    expect(includeArrays('spark-utils', 'nope')).toBe(false)
+    expect(includeArrays({ a: 1, b: 2 }, 2)).toBe(true)
+    expect(includeArrays({ a: 1, b: 2 }, 3)).toBe(false)
+    expect(includeArrays(null, [1])).toBe(false)
+    expect(includeArrays([1], null)).toBe(false)
+  })
+
+  it('shuffle：Fisher-Yates 洗牌返回新数组（确定性随机下锁定序列）', () => {
+    const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0)
+    try {
+      expect(shuffle([1, 2, 3])).toEqual([1, 3, 2]) // random=0 时每轮取剩余区间首位
+      expect(shuffle({ a: 1, b: 2 })).toEqual([1, 2]) // 旧版 values 语义：对象取自有值
+      expect(shuffle('ab')).toEqual(['a', 'b']) // 字符串按字符
+    } finally {
+      randomSpy.mockRestore()
+    }
+    const source = [1, 2, 3, 4, 5]
+    const shuffled = shuffle(source)
+    expect(shuffled).not.toBe(source) // 新数组
+    expect(source).toEqual([1, 2, 3, 4, 5]) // 不改入参
+    expect([...shuffled].sort((a, b) => a - b)).toEqual(source) // 重排不重不漏
+    expect(shuffle(null)).toEqual([])
+  })
+
+  it('sample：缺省个数取单个元素；个数小于长度截断；0 得空数组', () => {
+    const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0)
+    try {
+      expect(sample([1, 2, 3])).toBe(1) // 缺省 number：洗牌取第一个
+      expect(sample([1, 2, 3], 2)).toEqual([1, 3]) // 截断到 2
+      expect(sample([1, 2, 3], 5)).toEqual([1, 3, 2]) // 超长返回完整洗牌
+      expect(sample([1, 2, 3], 0)).toEqual([]) // `count || 0`
+    } finally {
+      randomSpy.mockRestore()
+    }
+  })
+
+  it('some：数组剥离原生 some 后走索引兜底；对象全不命中返回 false', () => {
+    const bare = ['a', 'b']
+    Object.setPrototypeOf(bare, Object.prototype)
+    expect((bare as { some?: unknown }).some).toBeUndefined()
+    expect(some(bare, (v) => v === 'b')).toBe(true)
+    expect(some(bare, (v) => v === 'z')).toBe(false)
+    expect(some({ a: 1, b: 2 }, (v) => v > 2)).toBe(false)
+  })
+
+  it('mean：对象/字符串/空入参的 getSize 分母语义', () => {
+    expect(mean({ a: 4, b: 6 })).toBe(5) // 对象按 each 计数
+    // 字符串入参类型上不收（公开签名只收集合），旧版 getSize 运行时兼容路径以结构断言锁行为
+    expect(mean('12' as unknown as readonly unknown[])).toBe(1.5) // 字符串按字符长度
+    expect(mean(null)).toBe(0) // 空入参 0/0 归 0（fixture 锁定怪癖的同族分支）
   })
 })

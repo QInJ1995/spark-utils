@@ -32,6 +32,16 @@ import {
   unescapeMap,
   formatEscaper,
 } from '../../src/internal/string'
+import {
+  browse,
+  clientBrowser,
+  clientScreenSize,
+  clientSystem,
+  getBrowserInfo,
+  isChrome,
+  isFireFox,
+  isSafari,
+} from '../../src/browser/ua'
 
 describe('internal/datetime', () => {
   it('helperNewDate 解析 ISO 日期串（UTC 零点），缺省取当前时间', () => {
@@ -102,5 +112,32 @@ describe('internal/string', () => {
     expect(escape(123)).toBe('123')
     expect(escape(null)).toBe('')
     expect(unescape(undefined)).toBe('')
+  })
+})
+
+describe('browser/ua 纯 Node 回退（批次⑦补测：惰性 env 探测的无窗口分支）', () => {
+  it('browse 返回 { isNode: true } 基础标记，浏览器专属键全缺省', () => {
+    const info = browse()
+    expect(info.isNode).toBe(true)
+    expect(info.isMobile).toBe(false)
+    expect(info.isPC).toBe(false)
+    expect(info.isDoc).toBe(false)
+    expect('isLocalStorage' in info).toBe(false)
+  })
+
+  it('getBrowserInfo / clientBrowser 未命中任何 UA 规则 → UNKNOWN', () => {
+    expect(getBrowserInfo()).toEqual({ browser: 'UNKNOWN', version: '' })
+    expect(clientBrowser()).toBe('UNKNOWN')
+  })
+
+  it('clientSystem / clientScreenSize 无窗口回退 UNKNOWN 与空串', () => {
+    expect(clientSystem()).toBe('UNKNOWN')
+    expect(clientScreenSize()).toBe('')
+  })
+
+  it('isChrome / isFireFox / isSafari 空串 UA 恒 false', () => {
+    expect(isChrome()).toBe(false)
+    expect(isFireFox()).toBe(false)
+    expect(isSafari()).toBe(false)
   })
 })

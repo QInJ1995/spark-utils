@@ -27,7 +27,7 @@ export type TreeIterate<T = unknown, R = unknown> = (
 
 /**
  * handle 形态（参照 src/array/eachTree.js / src/array/mapTree.js 的 eachTreeItem/mapTreeItem）：
- * (parent, obj, iterate, context, path, node, parseChildren, opts)
+ * (parent, obj, iterate, context, path, nodes, parseChildren, opts)
  */
 export type TreeHandle<R = unknown> = (
   parent: unknown,
