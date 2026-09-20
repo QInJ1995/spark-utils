@@ -1,709 +1,141 @@
-# 字符串处理
+# 字符串
+
+字符串转换、模板、脱敏与校验。全部从主入口具名导入。
+
+::: tip 2.0 变更
+原生镜像 `trim` / `trimLeft` / `trimRight` / `repeat` / `padStart` / `padEnd` / `startsWith` / `endsWith` 已删除，请使用 `String.prototype` 同名方法；拼音转换（`getFullChars` / `getCamelChars` 等）拆分至 [`spark-utils/pinyin`](./pinyin) 子入口。
+:::
 
 ## toString
 
-转字符串
+任意值转字符串（`null` / `undefined` 返回 `''`）。
 
-### 参数
+`toString(value)`
 
-`random(any)`
+```ts
+import { toString } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| any | any | 否 | 任意类型 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { toString } from 'spark-utils';
-
-toString(null) // ''
-toString(undefined) // ''
-toString(0) // '0'
-toString(1e-5) // '0.00001'
-                
+toString(0)     // '0'
+toString(null)  // ''
+toString({})    // '[object Object]'
 ```
 
-## trim
+## escape / unescape
 
-去除字符串两端的空格
+转义 / 反转义 HTML 实体（`& < > " ' \`）。
 
-### 参数
+```ts
+import { escape, unescape } from 'spark-utils'
 
-`trim(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { trim } from 'spark-utils';
-
-trim('  hello world  ') // 'hello world'
-trim('hello world') // 'hello world'
-
+escape('<a href="a">链接</a>')  // '&lt;a href=&quot;a&quot;&gt;链接&lt;/a&gt;'
+unescape('&lt;span&gt;')        // '<span>'
 ```
 
-## trimLeft
+## camelCase / kebabCase
 
-去除字符串左边的空格
+字符串转驼峰 / 短横线。
 
-### 参数
+```ts
+import { camelCase, kebabCase } from 'spark-utils'
 
-`trimLeft(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { trimLeft } from 'spark-utils';
-
-trimLeft('  hello world  ') // 'hello world  '
-trimLeft('hello world') // 'hello world'
-
-```
-
-## trimRight
-
-去除字符串右边的空格
-
-### 参数
-
-`trimRight(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { trimRight } from 'spark-utils';
-
-trimRight('  hello world  ') // '  hello world'
-trimRight('hello world') // 'hello world'
-
-```
-
-## escape
-
-转义HTML字符串，替换&, <, >, ", ', `字符
-
-### 参数
-
-`escape(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { escape } from 'spark-utils';
-
-escape('<div>hello world</div>') // '&lt;div&gt;hello world&lt;/div&gt;'
-
-```
-
-## unescape
-
-反转义HTML字符串，还原&, <, >, ", ', `字符
-
-### 参数
-
-`unescape(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { unescape } from 'spark-utils';
-
-unescape('&lt;div&gt;hello world&lt;/div&gt;') // '<div>hello world</div>'
-
-```
-
-## camelCase
-
-将带驼峰字符串转成字符串
-
-### 参数
-
-`camelCase(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { camelCase } from 'spark-utils';
-
-camelCase('hello-world') // 'helloWorld'
-
-```
-
-## kebabCase
-
-将字符串转成驼峰字符串
-
-### 参数
-
-`kebabCase(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { kebabCase } from 'spark-utils';
-
-kebabCase('helloWorld') // 'hello-world'
-
-```
-
-## repeat
-
-将字符串重复 n 次
-
-### 参数
-
-`repeat(string, n)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-| n | number | 是 | 重复次数 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { repeat } from 'spark-utils';
-
-repeat('hello', 3) // 'hellohellohello'
-
-```
-
-## padStart
-
-头部补全字符串
-
-### 参数
-
-`padStart(string, targetLength, padString)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-| targetLength | number | 是 | 目标长度 |
-| padString | string | 否 | 补全字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { padStart } from 'spark-utils';
-
-padStart('hello', 10, ' ') // '    hello'
-
-```
-
-## padEnd
-
-尾部补全字符串
-
-### 参数
-
-`padEnd(string, targetLength, padString)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-| targetLength | number | 是 | 目标长度 |
-| padString | string | 否 | 补全字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { padEnd } from 'spark-utils';
-
-padEnd('hello', 10, ' ') // 'hello    '
-
-```
-
-## startsWith
-
-判断字符串是否在源字符串的头部
-
-### 参数
-
-`startsWith(string, searchString, [position])`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 源字符串 |
-| searchString | string | 是 | 搜索字符串 |
-| position | number | 否 | 搜索位置 |
-
-### 返回值
-
-`boolean`
-
-### 示例
-
-```js
-
-import { startsWith } from 'spark-utils';
-
-startsWith('hello world', 'hello') // true
-
-```
-
-## endsWith
-
-判断字符串是否在源字符串的尾部
-
-### 参数
-
-`endsWith(string, searchString, [position])`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 源字符串 |
-| searchString | string | 是 | 搜索字符串 |
-| position | number | 否 | 搜索位置 |
-
-### 返回值
-
-`boolean`
-
-### 示例
-
-```js
-
-import { endsWith } from 'spark-utils';
-
-endsWith('hello world', 'world') // true
-
+camelCase('project-name')  // 'projectName'
+kebabCase('projectName')   // 'project-name'
 ```
 
 ## template
 
-解析动态字符串模板
+以 `args` 的属性值替换字符串中的 `{{key}}` 占位符（支持点路径，可自定义定界正则）。
 
-### 参数
+`template(str, args, options?: TemplateOptions)`
 
-`template(string, data)`
+```ts
+import { template } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-| data | object | 是 | 数据 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { template } from 'spark-utils';
-
-template('hello {{name}}', {name: 'world'}) // 'hello world'
-
-```
-
-## sortWithCharacter
-
-对数组进行排序(默认为升序,结果数组中按照数字(包含字符串形式),中文,英文进行排列)
-
-### 参数
-
-`sortWithCharacter(array, [options])`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| array | array | 是 | 数组 |
-| options | object | 否 | 配置项 |
-
-### 配置项
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| rule | number | 是 | 排序方式,可选值: `1`(升序),`0`(降序) |
-| locale | string | 是 | zh/en |
-
-### 返回值
-
-`array`
-
-### 示例
-
-```js
-
-import { sortWithCharacter } from 'spark-utils';
-
-sortWithCharacter(['我', '在', '不4', '不3']) // ['不3', '不4', '我', '在']
-sortWithCharacter(['我', '在', '4不', '不3']) // ["4不", "不3", "我", "在"]
-sortWithCharacter(['我', '在', '不'], {rule: 0}) // ["在", "我", "不"]
-sortWithCharacter(['我', '在', '不'], {rule: 0}) // ["在", "我", "不"]
-sortWithCharacter(['wo','我',0,'1',11,'11']) // [0, "1", 11, "11", "我", "wo"]
-
-```
-
-## getFullChars
-
-提取拼音, 返回首字母大写形式
-
-### 参数
-
-`getFullChars(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { pinyin } from 'spark-utils';
-
-pinyin.getFullChars('坤坤') // 'KunKun'
-
-```
-
-## getCamelChars
-
-提取首字母，返回大写形式
-
-### 参数
-
-`getCamelChars(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { pinyin } from 'spark-utils';
-
-pinyin.getCamelChars('坤坤') // 'KK'
-
-```
-
-## _getFullChar
-
-提取拼音
-
-### 参数
-
-`_getFullChar(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { pinyin } from 'spark-utils';
-
-pinyin._getFullChar('坤坤') // 'kunkun'
-
-```
-
-## _capitalize
-
-首字母大写
-
-### 参数
-
-`_capitalize(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { pinyin } from 'spark-utils';
-
-pinyin._capitalize('kunkun') // 'Kunkun'
-
-```
-
-## _getChar
-
-传入汉字字符串得到第一个汉字的首字母
-
-### 参数
-
-`_getChar(string)`
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| string | string | 是 | 汉字字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { pinyin } from 'spark-utils';
-
-pinyin._getChar('坤坤') // 'K'
-
+template('{{name}} 今年 {{age}} 岁', { name: 'spark', age: 2 })
+// 'spark 今年 2 岁'
+template('{{user.name}}', { user: { name: 'spark' } })  // 'spark'
 ```
 
 ## format
 
-格式化处理
+按规则类型脱敏（内置规则：`name` / `idcard` / `date` / `email` / `zipcode` / `telphone` / `mobile`）。
 
-### 参数
+`format(type: string, value: unknown): string`
 
-`format(type,value)`
+```ts
+import { format } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| type | string | 是 | 类型: name,idcard,date,email,zipcode,telphone,mobile,ip |
-| value | string | 是 | 值 |
-
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { format } from 'spark-utils';
-
-format('mobile','18888888888') // 188****8888
-format('idcard','44010119900101011') // 44010119900101011
-format('date','2020-01-01') // 2020-01-01
-format('email','1888888888@qq.com') // 188****88883344
-format('name','阿坤') // 阿**
-
+format('mobile', '13812345678')      // '138****5678'
+format('name', '张三丰')             // '张**'
+format('email', 'test@example.com')  // '****@example.com'
 ```
 
 ## formatWithReq
 
-该方法会将原始数据中，srcReq替换为descReq返回脱敏数据
+按自定义正则规则脱敏（替换串可引用捕获组 `$1` / `$2`…）。
 
-### 参数
+`formatWithReq(value: string, reqRule: ReqRule)`
 
-`formatWithReq(str, options)`
+```ts
+import { formatWithReq } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| str | string | 是 | 原始数据 |
-| options | object | 是 | 替换规则对象 |
-
-### options
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| srcReq | string | 是 | 原始数据中需要替换的字符串 |
-| descReq | string | 是 | 替换后的字符串 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { formatWithReq } from 'spark-utils';
-
-formatWithReq('Hello World!', {srcReq: /Hello/, descReq: "你好"}) // 你好 World!
-
+formatWithReq('13812345678', {
+  srcReq: /(\d{3})\d*(\d{4})/,  // 保留前 3 后 4
+  descReq: '$1****$2',
+})  // '138****5678'
 ```
 
 ## formatWithIndex
 
-该方法会把指定下标位置替换为*号返回脱敏后数据
+按下标区间打星（下标 1 基；`start` / `stop` 为 `null` 表示从头 / 到尾）。
 
-### 参数
+`formatWithIndex(value: string, indexRule: IndexRule[])`
 
-`formatWithIndex(str, options)`
+```ts
+import { formatWithIndex } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| str | string | 是 | 原始数据 |
-| options | Array | 是 | 替换规则对象数组 |
-
-### option
-
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| start | number | 是 | 需要替换的开始位置下标 |
-| stop | number | 是 | 需要替换的结束位置下标 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { formatWithIndex } from 'spark-utils';
-
-formatWithIndex('Hello World!', [{start: 0, stop: 5}]) // **** World!
-
+formatWithIndex('622202020011223344', [
+  { start: 1, stop: 6 },        // 第 1-6 位打星
+  { start: 15, stop: null },    // 第 15 位到末尾打星
+])  // '******02001122****'
 ```
 
 ## checkPass
 
-判断密码等级
+判断密码强度等级（0-4），要求不含中文和空格、长度 8-20。
 
-### 参数
+`checkPass(value: string | undefined): number`
 
-`checkPass(str)`
+```ts
+import { checkPass } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| str | string | 是 | 密码 |
+checkPass('123456')        // 0（纯数字太弱）
+checkPass('abc12345')      // 2
+checkPass('Abc@12345')     // 4（大小写 + 数字 + 特殊字符）
+```
 
-### 返回值
+## sortWithCharacter
 
-`string`
+按拼音 / 字母对字符串数组原地排序（`localeCompare`，缺省 `locale: 'zh'` 升序）。
 
-### 示例
+`sortWithCharacter(array, option?: SortWithCharacterOption)`
 
-```js
+```ts
+import { sortWithCharacter } from 'spark-utils'
 
-import { checkPass } from 'spark-utils';
-
-// 密码等级,分为四种
-// 4种字符类型：0-9，a-z，A-Z，特殊字符(不包含空格)
-// 难度等级1:6位纯数字
-// 难度等级2:4选2，8-20位
-// 难度等级3:4选3，8-20位
-// 难度等级4:4选4，8-20位
-checkPass('123456') // 1
-
+sortWithCharacter(['香蕉', '苹果', '梨'])
+// ['梨', '苹果', '香蕉']（按拼音 li / pingguo / xiangjiao）
 ```
 
 ## uuid
 
-生成一定长度的随机字符串
+生成随机 uuid（缺省 36 位 RFC4122 v4 形式；传 `len` 生成紧凑串）。
 
-### 参数
+`uuid(len?, radix?)`
 
-`uuid(len, base)`
+```ts
+import { uuid } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| len | number/boolean | 否 | 长度: 生成的随机字符串的长度,其值可以是数字或者undefined(false),为undefined(false)的时候生成的是GUID |
-| base | number | 否 | 进制: 从这个'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'字符串中在前多少位进行随机选择 |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { uuid } from 'spark-utils';
-
-uuid(10, 64) // GlEQbH7jlh
-uuid(undefined, 64) // E231D14A-14CD-44B8-B075-6F1A3E039A12
-
+uuid()       // '5e9eb1a0-5c1f-4b8e-9d3a-1f2a3b4c5d6e'
+uuid(10)     // 'aB3xK9pQ2z'（紧凑形式）
 ```

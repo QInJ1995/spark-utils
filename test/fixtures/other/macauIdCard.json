@@ -1,0 +1,58 @@
+{
+  "module": "other",
+  "method": "macauIdCard",
+  "cases": [
+    {
+      "args": [
+        "12345678",
+        []
+      ],
+      "output": true,
+      "note": "合法：1 开头 7 数字 + 校验位"
+    },
+    {
+      "args": [
+        "56871234",
+        []
+      ],
+      "output": true,
+      "note": "合法：5 开头"
+    },
+    {
+      "args": [
+        "7123456A",
+        []
+      ],
+      "output": true,
+      "note": "合法：校验位可为字母"
+    },
+    {
+      "args": [
+        "23456789",
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "前缀 2 非法：errors push \"澳门身份证验证失败!\"，返回 undefined（非 false）"
+    },
+    {
+      "args": [
+        "12345",
+        []
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "长度不足：同样返回 undefined"
+    },
+    {
+      "args": [
+        "|1234567",
+        []
+      ],
+      "output": true,
+      "note": "怪癖：正则字符组 [1|5|7] 含裸竖线，| 开头也算合法，返回 true"
+    }
+  ]
+}

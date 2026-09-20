@@ -1,0 +1,89 @@
+{
+  "module": "array",
+  "method": "countBy",
+  "cases": [
+    {
+      "args": [
+        [
+          6.1,
+          4.2,
+          6.3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return Math.floor(v) }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "4": 1,
+          "6": 2
+        }
+      },
+      "note": "按函数结果计数"
+    },
+    {
+      "args": [
+        [
+          "a",
+          "bb",
+          "ccc"
+        ],
+        "length"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "1": 1,
+          "2": 1,
+          "3": 1
+        }
+      },
+      "note": "按长度计数"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "t": "a"
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "t": "a"
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "t": "b"
+            }
+          }
+        ],
+        "t"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 2,
+          "b": 1
+        }
+      },
+      "note": "对象数组按属性计数"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "空输入返回 {}"
+    }
+  ]
+}

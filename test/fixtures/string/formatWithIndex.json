@@ -1,0 +1,93 @@
+{
+  "module": "string",
+  "method": "formatWithIndex",
+  "cases": [
+    {
+      "args": [
+        "13812345678",
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "start": 4,
+              "stop": 7
+            }
+          }
+        ]
+      ],
+      "output": "138****5678",
+      "note": "start/stop 为 1 基索引闭区间：打码第 4-7 位"
+    },
+    {
+      "args": [
+        "王小明",
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "start": 2,
+              "stop": null
+            }
+          }
+        ]
+      ],
+      "output": "王**",
+      "note": "stop 为 null 时打码到末尾"
+    },
+    {
+      "args": [
+        "11010519491231002X",
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "start": 1,
+              "stop": 2
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "start": 17,
+              "stop": 18
+            }
+          }
+        ]
+      ],
+      "output": "**01051949123100**",
+      "note": "多规则叠加：首 2 位与末 2 位"
+    },
+    {
+      "args": [
+        "abc",
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "start": 5,
+              "stop": 6
+            }
+          }
+        ]
+      ],
+      "output": "abc",
+      "note": "长度不足 start 时跳过该规则"
+    },
+    {
+      "args": [
+        null,
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "start": 1,
+              "stop": 2
+            }
+          }
+        ]
+      ],
+      "output": "",
+      "note": "null 返回空串"
+    }
+  ]
+}

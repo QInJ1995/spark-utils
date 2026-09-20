@@ -1,25 +1,72 @@
 <!--
  * @Author: QINJIN
- * @Date: 2024-04-27 17:12:55
- * @LastEditors: QINJIN
- * @LastEditTime: 2024-11-06 14:53:22
- * @FilePath: /spark-utils/page/index.html
- * @Description: 
- * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
+ * @Description: spark-utils 2.0 UMD 产物人工点验页（本地打开即可，无需构建）
+ * 用法：先 npm run build，再浏览器打开本文件（file:// 协议可用，
+ *       或 npx serve page 起本地服务后访问）。
+ * 断言方式：页面加载即跑一批 1.x 风格平铺调用（SparkUtils.xxx），
+ *           每项显示 期望值 / 实际值 / 是否一致，全绿即 UMD 兼容 1.x 用法。
+ * Copyright (c) 2026 by QINJIN, All Rights Reserved.
 -->
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>功能测试</title>
-	</head>
+<!DOCTYPE html>
+<html lang="zh-CN">
 
-	<body>
-		<button id="btn">点击</button>
-		<div style="width: 300px; height: 400px">
-			<iframe src="http://localhost:8080/" frameborder="0"></iframe>
-		</div>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spark-utils 2.0 UMD 点验</title>
+    <style>
+        body { font: 14px/1.7 -apple-system, "PingFang SC", sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; }
+        h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 28px; }
+        .case { display: flex; gap: 12px; padding: 6px 10px; border-bottom: 1px solid #eee; align-items: baseline; }
+        .case .name { min-width: 220px; color: #333; }
+        .case .expect, .case .actual { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #666; }
+        .case .mark { margin-left: auto; font-weight: 600; }
+        .ok .mark { color: #16a34a; } .bad { background: #fef2f2; } .bad .mark { color: #dc2626; }
+        #summary { position: sticky; top: 0; background: #fff; padding: 8px 0; border-bottom: 2px solid #333; font-weight: 600; }
+    </style>
+</head>
+
+<body>
+    <h1>spark-utils 2.0 UMD 点验</h1>
+    <p>全局对象 <code>SparkUtils</code> 平铺调用（与 1.x <code>&lt;script&gt;</code> 用法一致）；密文与跨域等子入口能力不在此页范围。</p>
+    <div id="summary">运行中…</div>
+    <div id="cases"></div>
+
+    <script src="../dist/spark-utils.min.js"></script>
+    <script>
+        /** @type {Array<{ name: string, run: () => { expect: unknown, actual: unknown } }>} */
+        const CASES = [
+            { name: 'range(1, 5)（含头不含尾）', run: () => ({ expect: '1,2,3,4', actual: SparkUtils.range(1, 5).join() }) },
+            { name: "moneyFormat(1234567.891, 2)", run: () => ({ expect: '1,234,567.89', actual: SparkUtils.moneyFormat(1234567.891, 2) }) },
+            { name: "moneyFormat(0, 2)（1.x bug 已修）", run: () => ({ expect: '0.00', actual: SparkUtils.moneyFormat(0, 2) }) },
+            { name: "dateDiff('2024-01-01','2024-03-10','d')", run: () => ({ expect: 69, actual: SparkUtils.dateDiff('2024-01-01', '2024-03-10', 'd') }) },
+            { name: "dateDiff(start,end,{unit:'m'})（2.0 合并 API）", run: () => ({ expect: 90, actual: SparkUtils.dateDiff(new Date('2024-03-05T00:00:00'), new Date('2024-03-05T01:30:00'), { unit: 'm' }) }) },
+            { name: 'isEqual({a:1},{a:1})', run: () => ({ expect: true, actual: SparkUtils.isEqual({ a: 1 }, { a: 1 }) }) },
+            { name: 'uniq([1,2,2,3])', run: () => ({ expect: '1,2,3', actual: SparkUtils.uniq([1, 2, 2, 3]).join() }) },
+            { name: "template('{{n}} 岁', { n: 18 })", run: () => ({ expect: '18 岁', actual: SparkUtils.template('{{n}} 岁', { n: 18 }) }) },
+            { name: 'toDateString(new Date(2024,2,5,8,30))', run: () => ({ expect: '2024-03-05 08:30:00', actual: SparkUtils.toDateString(new Date(2024, 2, 5, 8, 30)) }) },
+            { name: 'random(1, 10) 落界', run: () => ({ expect: true, actual: SparkUtils.random(1, 10) >= 1 && SparkUtils.random(1, 10) <= 10 }) },
+            { name: 'debounce 300ms（点按钮验证）', run: () => ({ expect: 'function', actual: typeof SparkUtils.debounce(() => { }, 300) }) },
+            { name: 'setup 存在（2.0 公共化）', run: () => ({ expect: 'function', actual: typeof SparkUtils.setup }) },
+        ]
+
+        const wrap = document.getElementById('cases')
+        const summary = document.getElementById('summary')
+        let pass = 0
+        for (const c of CASES) {
+            let expect, actual, ok
+            try { ({ expect, actual } = c.run()); ok = String(expect) === String(actual) }
+            catch (e) { actual = '抛错: ' + e.message; ok = false }
+            if (ok) pass++
+            const div = document.createElement('div')
+            div.className = 'case ' + (ok ? 'ok' : 'bad')
+            div.innerHTML = `<span class="name">${c.name}</span><span class="expect">期望 ${String(expect)}</span><span class="actual">实际 ${String(actual)}</span><span class="mark">${ok ? '✓' : '✗'}</span>`
+            wrap.appendChild(div)
+        }
+        summary.textContent = pass === CASES.length ? `${pass}/${CASES.length} 全部通过` : `${pass}/${CASES.length} 通过——存在失败项`
+        document.title = pass === CASES.length ? document.title : '❌ ' + document.title
+    </script>
+</body>
+
 </html>

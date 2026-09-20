@@ -1,0 +1,103 @@
+{
+  "module": "basic",
+  "method": "isEqual",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": true,
+      "note": "数组深比较 true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "b": 1
+              }
+            }
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "b": 1
+              }
+            }
+          }
+        }
+      ],
+      "output": true,
+      "note": "嵌套对象深比较 true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        }
+      ],
+      "output": false,
+      "note": "键数不同 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "NaN"
+        },
+        {
+          "__type": "NaN"
+        }
+      ],
+      "output": false,
+      "note": "怪癖：NaN 走 === 比较，false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": true,
+      "note": "Date 转数值比较，true"
+    },
+    {
+      "args": [
+        1,
+        "1"
+      ],
+      "output": false,
+      "note": "跨类型严格比较 false"
+    }
+  ]
+}

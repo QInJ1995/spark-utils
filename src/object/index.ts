@@ -1,39 +1,16 @@
-/*
- * @Author: QINJIN
- * @Date: 2024-04-15 15:55:53
- * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-18 11:11:49
- * @FilePath: /spark-utils/src/object/index.js
- * @Description: 对象方法聚合 
- * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
+/**
+ * object 模块出口——仅具名导出（2.0 起不再提供 default 聚合对象）
  */
-
-import has from './has';
-import get from './get'
-import set from './set'
-import clear from './clear'
-import assign from './assign'
-import merge from './merge'
-import clone  from './clone.js'
-import destructuring from './destructuring'
-import objectEach from './objectEach'
-import lastObjectEach from './lastObjectEach'
-import objectMap from './objectMap'
-import pick from './pick'
-import omit from './omit'
-
-export default {
-  has,
-  get,
-  set,
-  clear,
-  assign,
-  merge,
-  clone,
-  destructuring,
-  objectEach,
-  lastObjectEach,
-  objectMap,
-  pick,
-  omit,
-}
+export { has } from './has'
+export { get } from './get'
+export { set } from './set'
+export { clear } from './clear'
+export { assign } from './assign'
+export { merge } from './merge'
+export { clone } from './clone'
+export { destructuring } from './destructuring'
+export { objectEach } from './objectEach'
+export { lastObjectEach } from './lastObjectEach'
+export { objectMap, type ObjectMapIterator } from './objectMap'
+export { pick, type PickOmitCallback } from './pick'
+export { omit } from './omit'

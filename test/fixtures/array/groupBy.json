@@ -1,0 +1,142 @@
+{
+  "module": "array",
+  "method": "groupBy",
+  "cases": [
+    {
+      "args": [
+        [
+          "one",
+          "two",
+          "three"
+        ],
+        "length"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "3": [
+            "one",
+            "two"
+          ],
+          "5": [
+            "three"
+          ]
+        }
+      },
+      "note": "属性名分组"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "t": "a"
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "t": "b"
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "t": "a"
+            }
+          }
+        ],
+        "t"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": [
+            {
+              "__type": "Object",
+              "value": {
+                "t": "a"
+              }
+            },
+            {
+              "__type": "Object",
+              "value": {
+                "t": "a"
+              }
+            }
+          ],
+          "b": [
+            {
+              "__type": "Object",
+              "value": {
+                "t": "b"
+              }
+            }
+          ]
+        }
+      },
+      "note": "对象数组按属性分组"
+    },
+    {
+      "args": [
+        [
+          6.1,
+          4.2,
+          6.3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return Math.floor(v) }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "4": [
+            4.2
+          ],
+          "6": [
+            6.1,
+            6.3
+          ]
+        }
+      },
+      "note": "函数返回值分组"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          1
+        ]
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "undefined": [
+            1,
+            2,
+            1
+          ]
+        }
+      },
+      "note": "无 iterate 时 property(undefined) 使全部归入 \"undefined\" 键（怪癖）"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "null 返回 {}"
+    }
+  ]
+}

@@ -1,32 +1,7 @@
-import staticDayTime from '../constant/static/staticDayTime'
-import staticWeekTime from '../constant/static/staticWeekTime'
-import staticParseInt from '../constant/static/staticParseInt'
-import helperGetDateTime from '../helpers/helperGetDateTime'
-import toStringDate from './toStringDate'
-import isValidDate from '../basic/isValidDate'
-
 /**
-  * 返回前几周或后几周的星期几
-  *
-  * @param {Date} date 日期
-  * @param {Number} week 周(默认当前周)、前几周、后几周
-  * @param {Number} day 星期天(默认0)、星期一(1)、星期二(2)、星期三(3)、星期四(4)、星期五(5)、星期六(6)
-  * @return {Date}
-  */
-function getWhatWeek (date, week, day) {
-  let time, whatDayTime, currentDay, customDay
-  date = toStringDate(date)
-  if (isValidDate(date)) {
-    customDay = staticParseInt(/^[0-7]$/.test(day) ? day : date.getDay())
-    currentDay = date.getDay()
-    time = helperGetDateTime(date)
-    whatDayTime = time + ((customDay === 0 ? 7 : customDay) - (currentDay === 0 ? 7 : currentDay)) * staticDayTime
-    if (week && !isNaN(week)) {
-      whatDayTime += week * staticWeekTime
-    }
-    return new Date(whatDayTime)
-  }
-  return date
-}
-
-export default getWhatWeek
+ * 返回前几周或后几周的星期几（旧 src/date/getWhatWeek.js）
+ *
+ * 实现于 M4 canonical 下沉至 internal/datetime（getMonthWeek 依赖链），
+ * 本文件为域出口 re-export。行为基准见 test/fixtures/date/getWhatWeek.json。
+ */
+export { getWhatWeek } from '../internal/datetime'

@@ -1,0 +1,56 @@
+{
+  "module": "array",
+  "method": "findKey",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v === 2 }"
+        }
+      ],
+      "output": "b",
+      "note": "返回命中键名"
+    },
+    {
+      "args": [
+        [
+          10,
+          20,
+          30
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v >= 20 }"
+        }
+      ],
+      "output": "1",
+      "note": "数组入参也走 for-in，返回字符串索引 \"1\"（怪癖）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v === 9 }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "未命中返回 undefined"
+    }
+  ]
+}

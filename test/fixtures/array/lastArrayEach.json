@@ -1,0 +1,51 @@
+{
+  "module": "array",
+  "method": "lastArrayEach",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v, i) { return v + i }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "倒序遍历，返回 undefined"
+    },
+    {
+      "args": [
+        [],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空数组"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "Throw",
+        "name": "TypeError",
+        "message": "Cannot read properties of null (reading 'length')"
+      },
+      "note": "null 直接读 length 抛错（无空值保护）"
+    }
+  ]
+}

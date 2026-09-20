@@ -1,0 +1,558 @@
+{
+  "array.arrayEach": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.lastArrayEach": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.findIndexOf": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.findLastIndexOf": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.find": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.findKey": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.remove": {
+    "status": "ok",
+    "cases": 5
+  },
+  "array.orderBy": {
+    "status": "ok",
+    "cases": 6
+  },
+  "array.some": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.every": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.filter": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.map": {
+    "status": "ok",
+    "cases": 5
+  },
+  "array.sum": {
+    "status": "ok",
+    "cases": 5
+  },
+  "array.mean": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.toArray": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.reduce": {
+    "status": "ok",
+    "cases": 5
+  },
+  "array.zip": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.unzip": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.zipObject": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.uniq": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.union": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.flatten": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.chunk": {
+    "status": "ok",
+    "cases": 6
+  },
+  "array.pluck": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.groupBy": {
+    "status": "ok",
+    "cases": 5
+  },
+  "array.countBy": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.toArrayTree": {
+    "status": "ok",
+    "cases": 5
+  },
+  "array.toTreeArray": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.findTree": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.eachTree": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.mapTree": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.filterTree": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.searchTree": {
+    "status": "ok",
+    "cases": 3
+  },
+  "array.arrayDistinct": {
+    "status": "ok",
+    "cases": 4
+  },
+  "array.sortBy": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isNaN": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isFinite": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isUndefined": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isArray": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isFloat": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.isInteger": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.isFunction": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isBoolean": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isString": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isNumber": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isRegExp": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isObject": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.isPlainObject": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isDate": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isValidDate": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isError": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isTypeError": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isEmpty": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.isNull": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isSymbol": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isArguments": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isElement": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isDocument": {
+    "status": "ok",
+    "cases": 3
+  },
+  "basic.isWindow": {
+    "status": "ok",
+    "cases": 3
+  },
+  "basic.isFormData": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isMap": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isWeakMap": {
+    "status": "ok",
+    "cases": 3
+  },
+  "basic.isSet": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.isWeakSet": {
+    "status": "ok",
+    "cases": 3
+  },
+  "basic.isLeapYear": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.isMatch": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isEqual": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.isEqualWith": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.isDateSame": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.getType": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.getSize": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.toStringJSON": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.toJSONString": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.first": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.last": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.each": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.lastEach": {
+    "status": "ok",
+    "cases": 4
+  },
+  "basic.range": {
+    "status": "ok",
+    "cases": 6
+  },
+  "basic.isPromise": {
+    "status": "ok",
+    "cases": 5
+  },
+  "basic.evalReplacer": {
+    "status": "ok",
+    "cases": 6
+  },
+  "date.isTime": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.isDateTime": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.dateToString": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.StringToDate": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.dateDiff": {
+    "status": "ok",
+    "cases": 6
+  },
+  "date.getDateDiff": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.toStringDate": {
+    "status": "ok",
+    "cases": 6
+  },
+  "date.toDateString": {
+    "status": "ok",
+    "cases": 6
+  },
+  "date.getWhatYear": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.getWhatMonth": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.getWhatWeek": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.getWhatDay": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.getDayOfYear": {
+    "status": "ok",
+    "cases": 4
+  },
+  "date.getYearDay": {
+    "status": "ok",
+    "cases": 5
+  },
+  "date.getYearWeek": {
+    "status": "ok",
+    "cases": 4
+  },
+  "date.getMonthWeek": {
+    "status": "ok",
+    "cases": 4
+  },
+  "date.getDayOfMonth": {
+    "status": "ok",
+    "cases": 5
+  },
+  "function.noop": {
+    "status": "ok",
+    "cases": 2
+  },
+  "number.min": {
+    "status": "ok",
+    "cases": 6
+  },
+  "number.max": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.round": {
+    "status": "ok",
+    "cases": 6
+  },
+  "number.ceil": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.floor": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.toNumber": {
+    "status": "ok",
+    "cases": 6
+  },
+  "number.toNumberString": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.toInteger": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.add": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.subtract": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.multiply": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.divide": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.cnMoneyFormat": {
+    "status": "ok",
+    "cases": 5
+  },
+  "number.moneyFormat": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.has": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.get": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.set": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.clear": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.assign": {
+    "status": "ok",
+    "cases": 5
+  },
+  "object.merge": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.clone": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.destructuring": {
+    "status": "ok",
+    "cases": 5
+  },
+  "object.objectEach": {
+    "status": "ok",
+    "cases": 4
+  },
+  "object.lastObjectEach": {
+    "status": "ok",
+    "cases": 3
+  },
+  "object.objectMap": {
+    "status": "ok",
+    "cases": 6
+  },
+  "object.pick": {
+    "status": "ok",
+    "cases": 5
+  },
+  "object.omit": {
+    "status": "ok",
+    "cases": 5
+  },
+  "other.validate2ndIdCard": {
+    "status": "ok",
+    "cases": 4
+  },
+  "other.hkIdVerify": {
+    "status": "ok",
+    "cases": 6
+  },
+  "other.macauIdCard": {
+    "status": "ok",
+    "cases": 6
+  },
+  "string.toString": {
+    "status": "ok",
+    "cases": 6
+  },
+  "string.escape": {
+    "status": "ok",
+    "cases": 4
+  },
+  "string.unescape": {
+    "status": "ok",
+    "cases": 4
+  },
+  "string.camelCase": {
+    "status": "ok",
+    "cases": 5
+  },
+  "string.kebabCase": {
+    "status": "ok",
+    "cases": 5
+  },
+  "string.template": {
+    "status": "ok",
+    "cases": 6
+  },
+  "string.sortWithCharacter": {
+    "status": "ok",
+    "cases": 5
+  },
+  "string.format": {
+    "status": "ok",
+    "cases": 6
+  },
+  "string.formatWithReq": {
+    "status": "ok",
+    "cases": 3
+  },
+  "string.formatWithIndex": {
+    "status": "ok",
+    "cases": 5
+  },
+  "string.checkPass": {
+    "status": "ok",
+    "cases": 6
+  }
+}

@@ -1,63 +1,23 @@
-/*
- * @Author: QINJIN
- * @Date: 2024-02-26 20:01:50
- * @LastEditors: QINJIN
- * @LastEditTime: 2024-11-06 10:33:07
- * @FilePath: /spark-utils/src/index.js
- * @Description: index.js
- * Copyright (c) 2024 by QINJIN, All Rights Reserved.
+/**
+ * spark-utils 主入口（同构：Node 与浏览器通用）
+ *
+ * - 浏览器专属方法：`import { ... } from 'spark-utils/browser'`
+ * - 加密方法：`import { ... } from 'spark-utils/crypto'`
  */
 
-// basic
-import basicMethods from "./basic";
-// array
-import arrayMethods from "./array";
-// date
-import dateMethods from "./date";
-// number
-import numberMethods from "./number";
-// function
-import functionMethods from "./function";
-// object
-import objectMethods from "./object";
-// string
-import stringMethods from "./string";
-// browse
-import browserMethod from "./browser";
-// global
-import globalMethod from "./global";
-// storage
-import storageMethod from "./storage";
-// cookie
-import cookieMethod from "./cookie";
-// dom
-import domMethod from "./dom";
-// crypto
-import cryptoMethod from "./crypto";
-// https
-import httpsMethod from "./https";
-// log
-import logMethod from "./log";
-// other
-import otherMethods from "./other";
+export const VERSION = '2.0.0'
 
-const SparkUtils = {
-  ...basicMethods,
-  ...arrayMethods,
-  ...dateMethods,
-  ...numberMethods,
-  ...functionMethods,
-  ...objectMethods,
-  ...stringMethods,
-  ...browserMethod,
-  ...globalMethod,
-  ...storageMethod,
-  ...cookieMethod,
-  ...domMethod,
-  ...cryptoMethod,
-  ...httpsMethod,
-  ...logMethod,
-  ...otherMethods,
-};
+export { setup, setupDefaults } from './config'
+export type { SparkUtilsSetup } from './config'
 
-export default SparkUtils;
+export * from './basic/index'
+export * from './array/index'
+export * from './number/index'
+export * from './string/index'
+export * from './object/index'
+export * from './function/index'
+export * from './http/index'
+export * from './other/index'
+export * from './date/index'
+
+export { default } from './default'

@@ -1,0 +1,90 @@
+{
+  "module": "basic",
+  "method": "isEqualWith",
+  "cases": [
+    {
+      "args": [
+        [
+          10,
+          20
+        ],
+        [
+          11,
+          21
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v1, v2) { if (typeof v1 === 'number' && typeof v2 === 'number') { return Math.abs(v1 - v2) < 2 } }"
+        }
+      ],
+      "output": true,
+      "note": "数值容差比较，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "a": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v1, v2, key) { if (key === 'a') { return true } }"
+        }
+      ],
+      "output": true,
+      "note": "指定键自定义判定救回不等值，true"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2,
+          3
+        ],
+        {
+          "__type": "Function",
+          "src": "function () { return false }"
+        }
+      ],
+      "output": false,
+      "note": "怪癖：自定义函数在顶层（key 为 undefined）返回 false 会短路深比较，false"
+    },
+    {
+      "args": [
+        1,
+        2,
+        {
+          "__type": "Function",
+          "src": "function () { return true }"
+        }
+      ],
+      "output": true,
+      "note": "原始值经包装比较器，true"
+    },
+    {
+      "args": [
+        null,
+        null,
+        {
+          "__type": "Function",
+          "src": "function () { return false }"
+        }
+      ],
+      "output": true,
+      "note": "怪癖：=== 相等先行返回，自定义函数被跳过，true"
+    }
+  ]
+}

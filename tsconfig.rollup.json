@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.src.json",
+  "compilerOptions": {
+    "lib": ["ES2020", "ES2021", "DOM", "DOM.Iterable"],
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "composite": false,
+    "incremental": false
+  },
+  "include": [
+    "src/index.ts",
+    "src/basic",
+    "src/array",
+    "src/number",
+    "src/string",
+    "src/object",
+    "src/function",
+    "src/http",
+    "src/other",
+    "src/date",
+    "src/pinyin.ts",
+    "src/browser.ts",
+    "src/browser",
+    "src/crypto.ts",
+    "src/crypto",
+    "src/internal",
+    "src/types"
+  ],
+  "exclude": ["src/sm-vendor"]
+}

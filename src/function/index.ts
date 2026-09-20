@@ -1,31 +1,14 @@
-/*
- * @Author: QINJIN
- * @Date: 2024-04-15 15:52:38
- * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-28 16:41:23
- * @FilePath: /spark-utils/src/function/index.js
- * @Description: 封装方法聚合
- * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
+/**
+ * function 模块出口——仅具名导出（2.0 起不再提供 default 聚合对象）
+ *
+ * 旧版 bind 已在 2.0 删除（ES2015+ 原生 Function.prototype.bind / 箭头函数覆盖），
+ * 不再移植；其余方法语义见各自文件头注释。
  */
-
-import noop from './noop'
-import delay from './delay'
-import bind from './bind'
-import once from './once'
-import after from './after'
-import before from './before'
-import throttle  from './throttle.js'
-import debounce  from './debounce.js'
-import loop from './loop'
-
-export default {
-  noop,
-  delay,
-  bind,
-  once,
-  after,
-  before,
-  throttle,
-  debounce,
-  loop,
-}
+export { noop } from './noop'
+export { delay } from './delay'
+export { once } from './once'
+export { after } from './after'
+export { before } from './before'
+export { throttle, type ThrottleOptions } from './throttle'
+export { debounce, type DebounceOptions, type CancelableFunction } from './debounce'
+export { loop } from './loop'

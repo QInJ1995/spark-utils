@@ -1,193 +1,99 @@
 # 其他方法
 
+状态流、Promise 结果处理与证件校验。全部从主入口具名导入。
+
+::: tip 2.0 变更
+`onMountDialog`（Vue2 专属命令式弹窗挂载）已删除，不再随库分发。
+:::
+
 ## StateFlow
 
-状态流
+数据状态流：以实例为容器的键值状态管理，支持点路径读写嵌套。
 
-### 示例
+```ts
+import { StateFlow } from 'spark-utils'
 
-```js
+const flow = new StateFlow('user', { name: 'spark' })
 
-import { StateFlow } from 'spark-utils';
-
-// 初始化并注册
-const myStateFlow = new StateFlow('$father', {
-    fn1: () => {},
-    fn2: () => {}
-}),
-
-// 注入方法或数据
-// 方式1: 通过对象注入
-myStateFlow.set('$child', {
-    fn3: () => {},
-    test: 'test'
-})
-// 方式2：通过.式注入
-myStateFlow.set('$child.fn3', () => {})
-myStateFlow.set('$child.test', 'test')
-
-// 触发注入方法
-myStateFlow.action('$child.fn3')
-myStateFlow.action('$father.fn1')
-
-// 获取注入对象
-myStateFlow.get('$child.test')
-
-// 销毁
-myStateFlow.destroy() // 销毁所有注入
-myStateFlow.destroy('$child') // 销毁指定注入
-
-```
-
-## onMountDialog
-
-对话框挂载
-
-`onMountDialog(options)`
-
-### 参数
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| options | object | 是 | - | -|
-
-### options
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| targetEl | String | 否 | 挂载的元素 | document.body |
-| dialog | Function | 是 | 弹窗组件 | - |
-| propsData | Object | 否 | 传入的弹窗组件的参数 | - |
-| ok | Function | 否 | 确认回调 | - |
-| close | Function | 否 | 关闭回调 | - |
-| callback | Function | 否 | 其他回调 | - |
-
-### 示例
-
-```js
-
-import { onMountDialog } from 'spark-utils';
-
-// 目前只支持 vue 弹窗组件挂载 
-onMountDialog({
-    targetEl: el, // 默认 document.body
-    dialog: () => import('dialog.vue'), // 弹窗组件
-    propsData: {} // 传入的弹窗组件的参数
-    ok: () => {}, // 确认回调
-    close: () => {}, // 关闭回调
-    callback: () => {}, // 其他回调
-})
-
+flow.set('user.age', 2)
+flow.get('user')        // { name: 'spark', age: 2 }
+flow.get('user.name')   // 'spark'
+flow.set('theme', 'dark')
+flow.destroy()          // 无参清空全部；有参删单键 / 点路径末级键
 ```
 
 ## promiseResultHandle
 
-处理异步操作结果
+处理 Promise 结果：按 `resultKey` 深取结果数据，`verifyConfig` 校验失败统一 reject。
 
-`promiseResultHandle(options)`
+`promiseResultHandle(options?): Promise<unknown>`
 
-### 参数
+| 选项 | 说明 | 默认 |
+| --- | --- | --- |
+| `promise` | 待处理的 Promise | - |
+| `resultKey` | 结果数据 key（支持点路径深取） | 全局配置的 `'data'` |
+| `verifyConfig` | 校验配置（键值对，逐键与结果全等比对） | 全局配置 |
+| `resolveFn` / `rejectFn` | 校验通过 / 失败回调 | - |
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| options | object | 是 | - | -|
+```ts
+import { promiseResultHandle } from 'spark-utils'
 
-### options
-
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| promise | Promise | 是 | promise对象 | - |
-| resultKey | String | 否 | 结果数据key | setupDefaults.promiseResultConfig.resultKey |
-| verifyConfig | Object | 否 | 验证配置 | setupDefaults.promiseResultConfig.verifyConfig |
-
-### 示例
-
-```js
-
-import { promiseResultHandle } from 'spark-utils';
-
-const promise = Promise.resolve({ data: { resultData: [] }, serviceSuccess: true, code: 200 })
-promiseResultHandle({ 
-    promise, // promise对象
-    resultKey: 'data.resultData', // 结果数据key
-    verifyConfig: { code: 200, serviceSuccess: true }, // 验证配置
-    }).then(res => {
-    console.log("🚀 ~ promiseResultHandle ~ res:", res)
+const data = await promiseResultHandle({
+  promise: fetch('/api/users').then(res => res.json()),
+  resultKey: 'data.list',
+  resolveFn: () => console.log('校验通过'),
 })
-    
 ```
 
-## validate2ndIdCard
+## 证件校验
 
-验证二代身份证是否合法
+二代身份证、香港身份证、澳门身份证校验。
 
-`validate2ndIdCard(idCard, [errors])`
+::: tip 2.0 变更（重要）
+三个方法的出参统一为 `{ valid, code?, msg? }` 判别对象（无副作用）：
 
-### 参数
+- 旧版返回形状各异（`validate2ndIdCard` 恒返回 `undefined`、`hkIdVerify` / `macauIdCard` 返回 `true`/`undefined`），且失败仅向 `errors` 数组参数做副作用收集——该出参参数已删除；
+- `code` 为机器可读的失败分支码：`LENGTH`（长度）/ `PATTERN`（正则）/ `CHECKSUM`（校验位），`msg` 为失败原因文案。
+:::
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| idCard | String | 是 | 身份证号码 | - |
-| errors | Array | 是 | 错误信息 | - |
+### validate2ndIdCard
 
-### 示例
+二代身份证校验（18 位，含校验位）。
 
-```js
+`validate2ndIdCard(id: string): IDCardResult`
 
-import { validate2ndIdCard } from 'spark-utils';
+```ts
+import { validate2ndIdCard } from 'spark-utils'
 
-let errors = []
-validate2ndIdCard('51102419990909', errors)
-console.log("🚀 ~ errors:", errors) //  ['身份证长度不合法']
+validate2ndIdCard('11010519491231002X')
+// { valid: true }
 
+validate2ndIdCard('123')
+// { valid: false, code: 'LENGTH', msg: '...' }
 ```
 
-## hkIdVerify
+### hkIdVerify
 
-验证香港身份证是否合法
+香港身份证校验。
 
-`hkIdVerify(idCard, [errors])`
+`hkIdVerify(id: string): IDCardResult`
 
-### 参数
+```ts
+import { hkIdVerify } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| idCard | String | 是 | 身份证号码 | - |
-| errors | Array | 是 | 错误信息 | - |
-
-### 示例
-
-```js
-
-import { hkIdVerify } from 'spark-utils';
-
-let errors = []
-hkIdVerify('HKSAR1234567890', errors)
-console.log("🚀 ~ errors:", errors) //  ['身份证验证失败!不满足正则表达式验证规则(^([A-Z]{1,2})([0-9]{6})([A0-9])$)']
-
+hkIdVerify('A123456(A)')
+// { valid: false, code: 'CHECKSUM', msg: '...' }（示例值，以实际校验为准）
 ```
 
-## macauIdCard
+### macauIdCard
 
-验证澳门身份证是否合法
+澳门身份证校验。
 
-`macauIdCard(idCard, [errors])`
+`macauIdCard(id: string): IDCardResult`
 
-### 参数
+```ts
+import { macauIdCard } from 'spark-utils'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| idCard | String | 是 | 身份证号码 | - |
-| errors | Array | 是 | 错误信息 | - |
-
-### 示例
-
-```js
-
-import { macauIdCard } from 'spark-utils';
-
-let errors = []
-macauIdCard('MO1234567890', errors)
-console.log("🚀 ~ errors:", errors) //  ['澳门身份证验证失败!']
-
+macauIdCard('1234567(8)')
+// { valid, code?, msg? }
 ```

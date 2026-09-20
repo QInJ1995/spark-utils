@@ -1,0 +1,55 @@
+{
+  "module": "array",
+  "method": "mean",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": 2,
+      "note": "基础均值"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "v": 2
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "v": 4
+            }
+          }
+        ],
+        "v"
+      ],
+      "output": 3,
+      "note": "属性名 iterate"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": 0,
+      "note": "空数组 0/0 经 divide 得 0（怪癖）"
+    },
+    {
+      "args": [
+        [
+          1,
+          "a"
+        ]
+      ],
+      "output": 0.5,
+      "note": "非数字项按 0 计入但占分母，结果 0.5（怪癖）"
+    }
+  ]
+}

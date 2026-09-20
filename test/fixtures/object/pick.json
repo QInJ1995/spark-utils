@@ -1,0 +1,100 @@
+{
+  "module": "object",
+  "method": "pick",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        },
+        "a",
+        "c"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "c": 3
+        }
+      },
+      "note": "多键字符串参数 {a:1,c:3}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        [
+          "b"
+        ]
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "b": 2
+        }
+      },
+      "note": "键数组参数 {b:2}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return k !== 'b' }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "c": 3
+        }
+      },
+      "note": "函数筛选 {a:1,c:3}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        "missing"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "无命中键 {}"
+    },
+    {
+      "args": [
+        null,
+        "a"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "空入参 {}"
+    }
+  ]
+}

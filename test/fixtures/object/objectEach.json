@@ -1,0 +1,78 @@
+{
+  "module": "object",
+  "method": "objectEach",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return k + v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "for-in 自有键遍历，返回 undefined"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return this.tag }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "tag": "x"
+          }
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "context 绑定 this（副作用不可见，仅锁定返回值 undefined）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空对象返回 undefined"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "空值不遍历不抛错，返回 undefined"
+    }
+  ]
+}

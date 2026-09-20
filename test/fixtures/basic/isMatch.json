@@ -1,0 +1,91 @@
+{
+  "module": "basic",
+  "method": "isMatch",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "name": "spark",
+            "age": 3,
+            "city": "sz"
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "name": "spark",
+            "age": 3
+          }
+        }
+      ],
+      "output": true,
+      "note": "键值都包含于目标，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "name": "spark",
+            "age": 3
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "name": "spark",
+            "age": 4
+          }
+        }
+      ],
+      "output": true,
+      "note": "值不等，false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": true,
+      "note": "怪癖：空匹配源恒 true"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        }
+      ],
+      "output": false,
+      "note": "null 目标退化为 isEqual(null, source)，false"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "output": true,
+      "note": "数组按索引字符串键匹配，true"
+    }
+  ]
+}

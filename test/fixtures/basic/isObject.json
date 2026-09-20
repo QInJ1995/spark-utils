@@ -1,0 +1,57 @@
+{
+  "module": "basic",
+  "method": "isObject",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": true,
+      "note": "怪癖：数组 typeof 也是 object，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": true,
+      "note": "Date 也是 object，true"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": true,
+      "note": "怪癖：typeof null === \"object\"，直接判 true（与 isNull 相反）"
+    },
+    {
+      "args": [
+        "obj"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Function",
+          "src": "function () {}"
+        }
+      ],
+      "output": false,
+      "note": "typeof function 不是 object，false"
+    }
+  ]
+}

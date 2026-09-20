@@ -1,0 +1,57 @@
+{
+  "module": "basic",
+  "method": "isElement",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "nodeName": "DIV",
+            "nodeType": 1
+          }
+        }
+      ],
+      "output": true,
+      "note": "鸭子判定 nodeName 字符串 + nodeType 数字，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "nodeName": "SPAN"
+          }
+        }
+      ],
+      "output": false,
+      "note": "缺 nodeType，false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "nodeType": 1
+          }
+        }
+      ],
+      "output": false,
+      "note": "缺 nodeName，false"
+    },
+    {
+      "args": [
+        "DIV"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

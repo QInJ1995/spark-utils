@@ -1,0 +1,56 @@
+{
+  "module": "date",
+  "method": "dateToString",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        "YYYY-MM-DD"
+      ],
+      "output": "2024-03-05",
+      "note": "moment format：YYYY-MM-DD"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        "YYYY-MM-DD HH:mm:ss"
+      ],
+      "output": "2024-03-05 08:30:00"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        "YYYY年MM月DD日"
+      ],
+      "output": "2024年03月05日",
+      "note": "中文格式"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": "2024-03-05T08:30:00+08:00",
+      "note": "不传 format：moment().format(undefined) 输出本地时区 ISO"
+    },
+    {
+      "args": [
+        "not-a-date",
+        "YYYY-MM-DD"
+      ],
+      "output": "Invalid date",
+      "note": "非法输入返回 \"Invalid date\""
+    }
+  ]
+}

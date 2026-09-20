@@ -1,0 +1,48 @@
+{
+  "module": "string",
+  "method": "toString",
+  "cases": [
+    {
+      "args": [
+        123.456
+      ],
+      "output": "123.456"
+    },
+    {
+      "args": [
+        0
+      ],
+      "output": "0"
+    },
+    {
+      "args": [
+        1e+21
+      ],
+      "output": "1000000000000000000000",
+      "note": "数字走 toNumberString：科学计数展开为全数字字符串"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": "",
+      "note": "null 返回空串"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": "",
+      "note": "undefined 返回空串"
+    },
+    {
+      "args": [
+        true
+      ],
+      "output": "true",
+      "note": "布尔转 \"true\""
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "module": "basic",
+  "method": "isMap",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Map",
+          "value": [
+            [
+              "a",
+              1
+            ]
+          ]
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：Map 被 deepClone 拍平成 {}，当前生成记 false；revive 却能还原 Map，比较器会误报，需先修 deepClone）"
+    },
+    {
+      "args": [
+        {
+          "__type": "WeakMap"
+        }
+      ],
+      "output": false,
+      "note": "近邻类型 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        }
+      ],
+      "output": false,
+      "note": "普通对象 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

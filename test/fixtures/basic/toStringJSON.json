@@ -1,0 +1,76 @@
+{
+  "module": "basic",
+  "method": "toStringJSON",
+  "cases": [
+    {
+      "args": [
+        "{\"a\":1,\"b\":[1,2]}"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1,
+          "b": [
+            1,
+            2
+          ]
+        }
+      },
+      "note": "合法 JSON 字符串转对象"
+    },
+    {
+      "args": [
+        "not json"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "解析失败静默回退 {}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "c": 3
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "c": 3
+        }
+      },
+      "note": "怪癖：普通对象入参原样返回"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "空字符串 {}"
+    },
+    {
+      "args": [
+        "null"
+      ],
+      "output": null,
+      "note": "怪癖：JSON.parse(\"null\") 得 null 原样返回"
+    },
+    {
+      "args": [
+        123
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "非字符串回退 {}"
+    }
+  ]
+}

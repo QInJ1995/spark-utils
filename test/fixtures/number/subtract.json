@@ -1,0 +1,44 @@
+{
+  "module": "number",
+  "method": "subtract",
+  "cases": [
+    {
+      "args": [
+        0.3,
+        0.1
+      ],
+      "output": 0.2,
+      "note": "精度修正：0.2"
+    },
+    {
+      "args": [
+        "10",
+        "3.55"
+      ],
+      "output": 6.45
+    },
+    {
+      "args": [
+        -5,
+        -3
+      ],
+      "output": -2
+    },
+    {
+      "args": [
+        "abc",
+        5
+      ],
+      "output": -5,
+      "note": "非数字按 0 参与：0-5 = -5"
+    },
+    {
+      "args": [
+        1.1,
+        0.1
+      ],
+      "output": 1,
+      "note": "结果 1（parseFloat 去掉尾零）"
+    }
+  ]
+}

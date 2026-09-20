@@ -1,49 +1,66 @@
-import helperDeleteProperty from '../helpers/helperDeleteProperty'
-import isPlainObject from '../basic/isPlainObject'
-import isObject from '../basic/isObject'
-import isArray from '../basic/isArray'
-import isNull from '../basic/isNull'
-import assign from '../object/assign'
-import objectEach from '../object/objectEach'
+/**
+ * 清空对象（移植自旧 src/object/clear.js）
+ *
+ * 忠实旧语义（fixtures/object/clear.json 锁定）：
+ * - defs 判定沿用旧"是否传了第二参且非对象"（isNull(defs) || !isObject(defs)）：
+ *   传标量/null/undefined → 逐键（数组逐索引）填充 defs；传对象 → 删除全部属性；
+ * - 第三参（或 defs 为对象时的第二参）作为继承源：对象走 assign，数组走 push 追加；
+ * - 非普通对象非数组的 truthy 入参不处理；falsy 入参原样返回。
+ * 旧 helperDeleteProperty（delete 失败回写 undefined）在此内联。
+ */
+import { objectEach } from '../internal/iterate'
+import { isArray, isNull, isObject, isPlainObject } from '../internal/type'
+import { assign } from './assign'
 
 /**
-  * 清空对象
-  *
-  * @param {Object} obj 对象
-  * @param {*} defs 默认值,如果不传（清空所有属性）、如果传对象（清空并继承)、如果传值(给所有赋值)
-  * @param {Object/Array} assigns 默认值
-  * @return {Object}
-  */
-function clear (obj, defs, assigns) {
+ * 删除对象属性，删除失败（不可配置属性）时回写 undefined
+ *
+ * @param obj 对象
+ * @param property 属性名
+ */
+function helperDeleteProperty(obj: Record<string, unknown>, property: string): void {
+  try {
+    delete obj[property]
+  } catch {
+    obj[property] = undefined
+  }
+}
+
+/**
+ * 清空对象
+ *
+ * @param obj 对象/数组
+ * @param defsAndAssigns [defs, assigns]：defs 默认值（不传清空所有属性、传对象清空并继承、传标量逐键赋值）；assigns 继承源
+ * @returns 原对象
+ */
+export function clear(obj: unknown, ...defsAndAssigns: unknown[]): unknown {
   if (obj) {
-    let len
-    const isDefs = arguments.length > 1 && (isNull(defs) || !isObject(defs))
+    const defs = defsAndAssigns[0]
+    const assigns = defsAndAssigns[1]
+    // 旧版以 arguments.length > 1 判定"传了 defs"（显式传 undefined 也算）
+    const isDefs = defsAndAssigns.length > 0 && (isNull(defs) || !isObject(defs))
     const extds = isDefs ? assigns : defs
     if (isPlainObject(obj)) {
-      objectEach(obj, isDefs ? function (val, key) {
-        obj[key] = defs
-      } : function (val, key) {
-        helperDeleteProperty(obj, key)
-      })
+      const record = obj
+      objectEach(record, isDefs ? (_val: unknown, key: string) => { record[key] = defs } : (_val: unknown, key: string) => { helperDeleteProperty(record, key) })
       if (extds) {
-        assign(obj, extds)
+        assign(record, extds)
       }
     } else if (isArray(obj)) {
+      const list = obj as unknown[]
       if (isDefs) {
-        len = obj.length
+        let len = list.length
         while (len > 0) {
           len--
-          obj[len] = defs
+          list[len] = defs
         }
       } else {
-        obj.length = 0
+        list.length = 0
       }
       if (extds) {
-        obj.push.apply(obj, extds)
+        list.push(...(extds as unknown[]))
       }
     }
   }
   return obj
 }
-
-export default clear

@@ -1,0 +1,174 @@
+{
+  "module": "array",
+  "method": "orderBy",
+  "cases": [
+    {
+      "args": [
+        [
+          3,
+          1,
+          2
+        ]
+      ],
+      "output": [
+        1,
+        2,
+        3
+      ],
+      "note": "无 fieldConfs 按值升序"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "age": 25
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "age": 10
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "age": 40
+            }
+          }
+        ],
+        "age"
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "age": 10
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "age": 25
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "age": 40
+          }
+        }
+      ],
+      "note": "字符串属性升序"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "age": 25
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "age": 10
+            }
+          }
+        ],
+        [
+          [
+            "age",
+            "desc"
+          ]
+        ]
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "age": 25
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "age": 10
+          }
+        }
+      ],
+      "note": "数组配置 desc"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "age": 25
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "age": 10
+            }
+          }
+        ],
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "field": "age",
+              "order": "desc"
+            }
+          }
+        ]
+      ],
+      "output": [
+        {
+          "__type": "Object",
+          "value": {
+            "age": 25
+          }
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "age": 10
+          }
+        }
+      ],
+      "note": "对象配置 desc"
+    },
+    {
+      "args": [
+        [
+          3,
+          1,
+          2
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return -v }"
+        }
+      ],
+      "output": [
+        3,
+        2,
+        1
+      ],
+      "note": "函数 iterate 按计算值排序（反向）"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": [],
+      "note": "null 返回 []"
+    }
+  ]
+}

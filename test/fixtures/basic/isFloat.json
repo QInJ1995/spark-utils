@@ -1,0 +1,50 @@
+{
+  "module": "basic",
+  "method": "isFloat",
+  "cases": [
+    {
+      "args": [
+        3.14
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        -0.5
+      ],
+      "output": true,
+      "note": "负小数 true"
+    },
+    {
+      "args": [
+        3
+      ],
+      "output": false,
+      "note": "整数 false"
+    },
+    {
+      "args": [
+        "3.5"
+      ],
+      "output": true,
+      "note": "怪癖：数字字符串过全局 isNaN 后按 % 1 判定，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Infinity"
+        }
+      ],
+      "output": true,
+      "note": "怪癖：Infinity 的 % 1 为 NaN 非整数，true"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

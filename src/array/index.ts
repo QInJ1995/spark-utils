@@ -1,105 +1,48 @@
-/*
- * @Author: QINJIN
- * @Date: 2024-04-15 15:50:31
- * @LastEditors: QINJIN
- * @LastEditTime: 2024-04-29 17:25:42
- * @FilePath: /spark-utils/src/array/index.js
- * @Description: 数组方法聚合
- * Copyright (c) 2024 by QINJIN, All Rights Reserved. 
+/**
+ * array —— 数组模块（严格 TS 重写，M2）
+ *
+ * 具名导出（2.0 起不再聚合为 default 对象）；
+ * 顺序沿用旧 src/array/index.js（不含 2.0 已删除的
+ * slice/indexOf/arrayIndexOf/lastIndexOf/arrayLastIndexOf/includes/copyWithin/invoke）。
  */
 
-import arrayEach from './arrayEach'
-import lastArrayEach from './lastArrayEach'
-import slice from './slice'
-import indexOf from './indexOf'
-import arrayIndexOf from './arrayIndexOf'
-import findIndexOf from './findIndexOf'
-import lastIndexOf from './lastIndexOf'
-import arrayLastIndexOf from './arrayLastIndexOf'
-import findLastIndexOf from './findLastIndexOf'
-import includes from './includes'
-import includeArrays from './includeArrays'
-import remove from './remove'
-import orderBy from './orderBy'
-import shuffle from './shuffle'
-import sample from './sample'
-import some from './some'
-import every from './every'
-import filter from './filter'
-import find from './find'
-import findKey from './findKey'
-import map from './map'
-import copyWithin from './copyWithin'
-import sum from './sum'
-import mean from './mean'
-import toArray from './toArray'
-import reduce from './reduce'
-import zip from './zip'
-import unzip from './unzip'
-import zipObject from './zipObject'
-import uniq from './uniq'
-import union from './union'
-import flatten from './flatten'
-import chunk from './chunk'
-import pluck from './pluck'
-import invoke from './invoke'
-import groupBy from './groupBy'
-import countBy from './countBy'
-import toArrayTree  from './toArrayTree'
-import toTreeArray from './toTreeArray'
-import findTree from './findTree'
-import eachTree from './eachTree'
-import mapTree from './mapTree'
-import filterTree from './filterTree'
-import searchTree from './searchTree'
-import arrayDistinct from './arrayDistinct'
-import sortBy from './sortBy'
-
-export default {
-  arrayEach,
-  lastArrayEach,
-  slice,
-  indexOf,
-  arrayIndexOf,
-  findIndexOf,
-  lastIndexOf,
-  arrayLastIndexOf,
-  findLastIndexOf,
-  includes,
-  includeArrays,
-  remove,
-  orderBy,
-  shuffle,
-  sample,
-  some,
-  every,
-  filter,
-  find,
-  findKey,
-  map,
-  copyWithin,
-  sum,
-  mean,
-  toArray,
-  reduce,
-  zip,
-  unzip,
-  zipObject,
-  uniq,
-  union,
-  flatten,
-  chunk,
-  pluck,
-  invoke,
-  groupBy,
-  countBy,
-  toArrayTree,
-  toTreeArray,
-  findTree,
-  eachTree,
-  mapTree,
-  filterTree,
-  searchTree,
-  arrayDistinct,
-  sortBy,
-}
+export { arrayEach } from './arrayEach'
+export { lastArrayEach } from './lastArrayEach'
+export { findIndexOf } from './findIndexOf'
+export { findLastIndexOf } from './findLastIndexOf'
+export { includeArrays } from './includeArrays'
+export { remove } from './remove'
+export { orderBy } from './orderBy'
+export { shuffle } from './shuffle'
+export { sample } from './sample'
+export { some } from './some'
+export { every } from './every'
+export { filter } from './filter'
+export { find } from './find'
+export { findKey } from './findKey'
+export { map } from './map'
+export { sum } from './sum'
+export { mean } from './mean'
+export { toArray } from './toArray'
+export { reduce } from './reduce'
+export { zip } from './zip'
+export { unzip } from './unzip'
+export { zipObject } from './zipObject'
+export { uniq } from './uniq'
+export { union } from './union'
+export { flatten } from './flatten'
+export { chunk } from './chunk'
+export { pluck } from './pluck'
+export { groupBy } from './groupBy'
+export { countBy } from './countBy'
+export { toArrayTree } from './toArrayTree'
+export { toTreeArray } from './toTreeArray'
+export { findTree } from './findTree'
+export { eachTree } from './eachTree'
+export { mapTree } from './mapTree'
+export { filterTree } from './filterTree'
+export { searchTree } from './searchTree'
+export { arrayDistinct } from './arrayDistinct'
+export { sortBy } from './sortBy'
+export type { OrderFieldConf } from './orderBy'
+export type { FindTreeMatch } from './findTree'

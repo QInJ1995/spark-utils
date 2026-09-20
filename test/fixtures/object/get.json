@@ -1,0 +1,89 @@
+{
+  "module": "object",
+  "method": "get",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": {
+              "__type": "Object",
+              "value": {
+                "b": 2
+              }
+            }
+          }
+        },
+        "a.b"
+      ],
+      "output": 2,
+      "note": "点路径取值 2"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "list": [
+              10,
+              20
+            ]
+          }
+        },
+        "list[1]"
+      ],
+      "output": 20,
+      "note": "索引路径取值 20"
+    },
+    {
+      "args": [
+        null,
+        "a",
+        "D"
+      ],
+      "output": "D",
+      "note": "eqNull 入参直接返回默认值 \"D\""
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {}
+        },
+        "x",
+        "D"
+      ],
+      "output": "D",
+      "note": "取不到返回默认值 \"D\""
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": null
+          }
+        },
+        "a",
+        "D"
+      ],
+      "output": null,
+      "note": "怪癖：值为 null 时直接返回 null，不走默认值（仅 undefined 才走）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 0
+          }
+        },
+        "a",
+        "D"
+      ],
+      "output": 0,
+      "note": "怪癖：falsy 但自有属性存在，返回 0 而非默认值"
+    }
+  ]
+}

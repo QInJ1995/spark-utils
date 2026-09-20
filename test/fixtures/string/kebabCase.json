@@ -1,0 +1,39 @@
+{
+  "module": "string",
+  "method": "kebabCase",
+  "cases": [
+    {
+      "args": [
+        "projectName"
+      ],
+      "output": "project-name"
+    },
+    {
+      "args": [
+        "projectNameList"
+      ],
+      "output": "project-name-list",
+      "note": "多个大写断点"
+    },
+    {
+      "args": [
+        "FirstName"
+      ],
+      "output": "first-name"
+    },
+    {
+      "args": [
+        "XMLHttpRequest"
+      ],
+      "output": "xml-http-request",
+      "note": "连续大写怪癖行为记录"
+    },
+    {
+      "args": [
+        123
+      ],
+      "output": "123",
+      "note": "数字输入返回 \"123\""
+    }
+  ]
+}

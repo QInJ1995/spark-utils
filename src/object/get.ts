@@ -1,52 +1,31 @@
-import staticHGKeyRE from '../constant/RegEx/staticHGKeyRE'
-import helperGetHGSKeys from '../helpers/helperGetHGSKeys'
-import hasOwnProp from '../basic/hasOwnProp'
-import isUndefined from '../basic/isUndefined'
-import eqNull from '../basic/eqNull'
+/**
+ * 获取对象的属性的值（移植自旧 src/object/get.js）
+ *
+ * 忠实旧语义（fixtures/object/get.json 锁定）：
+ * - eqNull 入参直接返回默认值；
+ * - 值为 undefined 时返回默认值（null / 0 等 falsy 返回原值）；
+ * - 路径逐段取值由 internal/paths 的 getValueByPath 共享实现（2.0 去重：
+ *   本文件即 canonical，getDeepProps/getValueByPath 已下沉至 internal/paths）。
+ */
+import { getValueByPath } from '../internal/paths'
+import { eqNull, isUndefined } from '../internal/type'
 
 /**
  * 获取对象的属性的值，如果值为 undefined，则返回默认值
- * @param {Object/Array} obj 对象
- * @param {String/Function} property 键、路径
- * @param {Object} defaultValue 默认值
- * @return {Object}
+ *
+ * @param obj 对象/数组
+ * @param property 键、路径（点分字符串或字符串数组）
+ * @param defaultValue 默认值
+ * @returns 取到的值或默认值
  */
-function get (obj, property, defaultValue) {
+export function get(
+  obj: unknown,
+  property: string | readonly string[] | null | undefined,
+  defaultValue?: unknown
+): unknown {
   if (eqNull(obj)) {
     return defaultValue
   }
   const result = getValueByPath(obj, property)
   return isUndefined(result) ? defaultValue : result
 }
-
-function getDeepProps (obj, key) {
-  const matchs = key ? key.match(staticHGKeyRE) : ''
-  return matchs ? (matchs[1] ? (obj[matchs[1]] ? obj[matchs[1]][matchs[2]] : undefined) : obj[matchs[2]]) : obj[key]
-}
-
-function getValueByPath (obj, property) {
-  if (obj) {
-    let rest, props, len
-    let index = 0
-    if (obj[property] || hasOwnProp(obj, property)) {
-      return obj[property]
-    } else {
-      props = helperGetHGSKeys(property)
-      len = props.length
-      if (len) {
-        for (rest = obj; index < len; index++) {
-          rest = getDeepProps(rest, props[index])
-          if (eqNull(rest)) {
-            if (index === len - 1) {
-              return rest
-            }
-            return
-          }
-        }
-      }
-      return rest
-    }
-  }
-}
-
-export default get

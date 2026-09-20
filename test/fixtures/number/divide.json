@@ -1,0 +1,46 @@
+{
+  "module": "number",
+  "method": "divide",
+  "cases": [
+    {
+      "args": [
+        6,
+        3
+      ],
+      "output": 2
+    },
+    {
+      "args": [
+        0.6,
+        0.2
+      ],
+      "output": 3,
+      "note": "精度修正：3"
+    },
+    {
+      "args": [
+        10,
+        4
+      ],
+      "output": 2.5
+    },
+    {
+      "args": [
+        1,
+        0
+      ],
+      "output": {
+        "__type": "NaN"
+      },
+      "note": "除以 0：内部 parseInt(Infinity) 为 NaN，返回 NaN（非 Infinity）"
+    },
+    {
+      "args": [
+        1,
+        3
+      ],
+      "output": 0.3333333333333333,
+      "note": "除不尽：0.3333333333333333 原样返回"
+    }
+  ]
+}

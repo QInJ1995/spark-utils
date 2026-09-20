@@ -1,47 +1,12 @@
-import helperStringRepeat from '../helpers/helperStringRepeat'
-import helperNumberOffsetPoint from '../helpers/helperNumberOffsetPoint'
-
 /**
- * 数值转字符串，科学计数转字符串
- * @param { Number } num 数值
+ * 数值转字符串，科学计数法展开为十进制字面量（移植自旧 src/number/toNumberString.js）
  *
- * @return {Number}
+ * 2.0 去重：实现收敛到 internal/number.ts 的 canonical toNumberString
+ * （helperNumberAdd/Divide 与 string/toValueString 均依赖同一实现），
+ * 此处具名 re-export 保持本域公共 API 出口不变。
+ *
+ * 行为（含怪癖）与旧版一致，见 test/fixtures/number/toNumberString.json：
+ * - 1e+21 → "1000000000000000000000"、1.2e-7 → "0.00000012"、-0.0000015 → "-0.0000015"；
+ * - 非数字字符串原样返回（"abc" → "abc"，仅做 '' + num 取串）。
  */
-function toNumberString(num) {
-  const rest = '' + num
-  const scienceMatchs = rest.match(/^([-+]?)((\d+)|((\d+)?[.](\d+)?))e([-+]{1})([0-9]+)$/)
-  if (scienceMatchs) {
-    const isNegative = num < 0
-    const absFlag = isNegative ? '-' : ''
-    const intNumStr = scienceMatchs[3] || ''
-    const dIntNumStr = scienceMatchs[5] || ''
-    const dFloatNumStr = scienceMatchs[6] || ''
-    const sciencFlag = scienceMatchs[7]
-    const scienceNumStr = scienceMatchs[8]
-    const floatOffsetIndex = scienceNumStr - dFloatNumStr.length
-    const intOffsetIndex = scienceNumStr - intNumStr.length
-    const dIntOffsetIndex = scienceNumStr - dIntNumStr.length
-    if (sciencFlag === '+') {
-      if (intNumStr) {
-        return absFlag + intNumStr + helperStringRepeat('0', scienceNumStr)
-      }
-      if (floatOffsetIndex > 0) {
-        return absFlag + dIntNumStr + dFloatNumStr + helperStringRepeat('0', floatOffsetIndex)
-      }
-      return absFlag + dIntNumStr + helperNumberOffsetPoint(dFloatNumStr, scienceNumStr)
-    }
-    if (intNumStr) {
-      if (intOffsetIndex > 0) {
-        return absFlag + '0.' + helperStringRepeat('0', Math.abs(intOffsetIndex)) + intNumStr
-      }
-      return absFlag + helperNumberOffsetPoint(intNumStr, intOffsetIndex)
-    }
-    if (dIntOffsetIndex > 0) {
-      return absFlag + '0.' + helperStringRepeat('0', Math.abs(dIntOffsetIndex)) + dIntNumStr + dFloatNumStr
-    }
-    return absFlag + helperNumberOffsetPoint(dIntNumStr, dIntOffsetIndex) + dFloatNumStr
-  }
-  return rest
-}
-
-export default toNumberString
+export { toNumberString } from '../internal/number'

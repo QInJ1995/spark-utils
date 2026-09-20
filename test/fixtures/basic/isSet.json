@@ -1,0 +1,42 @@
+{
+  "module": "basic",
+  "method": "isSet",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Set",
+          "value": [
+            1,
+            2
+          ]
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：同 isMap，当前生成记 false）"
+    },
+    {
+      "args": [
+        {
+          "__type": "WeakSet"
+        }
+      ],
+      "output": false,
+      "note": "WeakSet 不是 Set，false"
+    },
+    {
+      "args": [
+        []
+      ],
+      "output": false,
+      "note": "数组 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

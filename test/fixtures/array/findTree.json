@@ -1,0 +1,199 @@
+{
+  "module": "array",
+  "method": "findTree",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2,
+                    "children": [
+                      {
+                        "__type": "Object",
+                        "value": {
+                          "id": 3
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "id": 4
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.id === 3 }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "index": 0,
+          "item": {
+            "__type": "Object",
+            "value": {
+              "id": 3
+            }
+          },
+          "path": [
+            "0",
+            "children",
+            "0",
+            "children",
+            "0"
+          ],
+          "items": [
+            {
+              "__type": "Circular"
+            }
+          ],
+          "parent": {
+            "__type": "Object",
+            "value": {
+              "id": 2,
+              "children": [
+                {
+                  "__type": "Circular"
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "__type": "Object",
+              "value": {
+                "id": 1,
+                "children": [
+                  {
+                    "__type": "Circular"
+                  }
+                ]
+              }
+            },
+            {
+              "__type": "Circular"
+            },
+            {
+              "__type": "Circular"
+            }
+          ]
+        }
+      },
+      "note": "返回 { index, item, path, items, parent, nodes }，path 含 children 段"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.id === 9 }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "未命中返回 undefined"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "nodes": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.id === 2 }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "children": "nodes"
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "index": 0,
+          "item": {
+            "__type": "Object",
+            "value": {
+              "id": 2
+            }
+          },
+          "path": [
+            "0",
+            "nodes",
+            "0"
+          ],
+          "items": [
+            {
+              "__type": "Circular"
+            }
+          ],
+          "parent": {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "nodes": [
+                {
+                  "__type": "Circular"
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "__type": "Circular"
+            },
+            {
+              "__type": "Circular"
+            }
+          ]
+        }
+      },
+      "note": "options.children 自定义子级键"
+    }
+  ]
+}

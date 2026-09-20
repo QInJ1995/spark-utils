@@ -1,0 +1,39 @@
+{
+  "module": "string",
+  "method": "camelCase",
+  "cases": [
+    {
+      "args": [
+        "project-name"
+      ],
+      "output": "projectName"
+    },
+    {
+      "args": [
+        "project-name-list"
+      ],
+      "output": "projectNameList"
+    },
+    {
+      "args": [
+        "ProjectName"
+      ],
+      "output": "projectName",
+      "note": "首字母大写转小写驼峰"
+    },
+    {
+      "args": [
+        "PROJECTName"
+      ],
+      "output": "projectName",
+      "note": "连续大写怪癖行为记录"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": "",
+      "note": "空串原样返回"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "module": "basic",
+  "method": "isBoolean",
+  "cases": [
+    {
+      "args": [
+        true
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        false
+      ],
+      "output": true,
+      "note": "false 值也是 boolean 类型，true"
+    },
+    {
+      "args": [
+        0
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        "true"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

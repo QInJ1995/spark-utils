@@ -1,0 +1,47 @@
+{
+  "module": "number",
+  "method": "toNumber",
+  "cases": [
+    {
+      "args": [
+        "12.5abc"
+      ],
+      "output": 12.5,
+      "note": "parseFloat 截断前缀：12.5"
+    },
+    {
+      "args": [
+        "  42"
+      ],
+      "output": 42,
+      "note": "忽略前导空白"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": 0
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": 0,
+      "note": "解析失败返回 0"
+    },
+    {
+      "args": [
+        true
+      ],
+      "output": 0,
+      "note": "parseFloat(true) 为 NaN，返回 0"
+    },
+    {
+      "args": [
+        "0x1F"
+      ],
+      "output": 0,
+      "note": "parseFloat 遇 x 停止，返回 0（对照 toInteger 返回 31）"
+    }
+  ]
+}

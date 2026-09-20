@@ -1,31 +1,11 @@
 /**
- * 数组遍历方法
- * 兼容不支持 forEach 的环境，提供统一的数组遍历接口
+ * 数组迭代（移植自旧 src/array/arrayEach.js，实现收敛至 internal 层）
  *
- * @param list - 要遍历的数组（可能为 null 或 undefined）
- * @param iterate - 回调函数，接收三个参数：(item, index, list)
- *                  item: 当前元素值
- *                  index: 当前元素索引
- *                  list: 原始数组
- * @param context - 可选的上下文对象，作为回调函数的this指向
+ * - 有 forEach 走原生 forEach（context 作为 thisArg 传入）；
+ * - 无 forEach 的类数组（如字符串）走索引循环，context 用 .call 绑定；
+ * - 回调返回值不参与控制流；falsy 入参静默跳过。
+ *
+ * 与旧版的差异（M3 登记 override）：旧版恒返回 undefined，
+ * 新版返回是否执行了迭代的 boolean。
  */
-function arrayEach<T>(
-	list: T[] | null | undefined,
-	iterate: (item: T, index: number, list: T[]) => void,
-	context?: any
-) {
-	// 检查数组是否存在
-	if (list) {
-		// 如果浏览器支持原生 forEach 方法，则直接使用
-		if (list.forEach) {
-			list.forEach(iterate, context);
-		} else {
-			// 否则使用 for 循环实现兼容性的遍历
-			for (let index = 0, len = list.length; index < len; index++) {
-				iterate.call(context, list[index], index, list);
-			}
-		}
-	}
-}
-
-export default arrayEach;
+export { arrayEach } from '../internal/iterate'

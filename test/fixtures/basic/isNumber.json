@@ -1,0 +1,45 @@
+{
+  "module": "basic",
+  "method": "isNumber",
+  "cases": [
+    {
+      "args": [
+        123
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        {
+          "__type": "NaN"
+        }
+      ],
+      "output": true,
+      "note": "怪癖：NaN 的 typeof 是 number，true"
+    },
+    {
+      "args": [
+        {
+          "__type": "Infinity"
+        }
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        "123"
+      ],
+      "output": false,
+      "note": "数字字符串 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

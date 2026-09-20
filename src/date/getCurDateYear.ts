@@ -1,9 +1,13 @@
 /**
- * 获取当前年份YYYY。
- * @method getCurDateYear
+ * 获取当前年份 YYYY（移植自旧 src/date/getCurDateYear.js）
  */
-export default function getCurDateYear() {
-  const d = new Date();
-  return d.getFullYear() + '';
+
+/**
+ * 获取当前年份 YYYY
+ *
+ * @returns 当前年份串（本地时区）
+ */
+export function getCurDateYear(): string {
+  const d = new Date()
+  return d.getFullYear() + ''
 }
-export { getCurDateYear, };

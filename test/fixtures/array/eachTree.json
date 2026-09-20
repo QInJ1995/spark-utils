@@ -1,0 +1,81 @@
+{
+  "module": "array",
+  "method": "eachTree",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "children": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item, index, items, path, parent, nodes) { return path.join('/') }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "典型遍历，返回 undefined（iterate 副作用不可快照，锁定不抛错与签名）"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "id": 1,
+              "nodes": [
+                {
+                  "__type": "Object",
+                  "value": {
+                    "id": 2
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        {
+          "__type": "Function",
+          "src": "function (item) { return item.id }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "children": "nodes"
+          }
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "自定义 children 键"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (item) { return true }"
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "null 入参不抛错，返回 undefined"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "module": "object",
+  "method": "objectMap",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return v * 2 }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 2,
+          "b": 4
+        }
+      },
+      "note": "值映射 {a:2,b:4}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v) { return this.base + v }"
+        },
+        {
+          "__type": "Object",
+          "value": {
+            "base": 10
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 11
+        }
+      },
+      "note": "context 绑定 {a:11}"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "n": "x"
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "n": "y"
+            }
+          }
+        ],
+        "n"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "0": "x",
+          "1": "y"
+        }
+      },
+      "note": "属性名 iterate：数组按索引成键 {0:\"x\",1:\"y\"}"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        "miss"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": {
+            "__type": "undefined"
+          },
+          "b": {
+            "__type": "undefined"
+          }
+        }
+      },
+      "note": "怪癖：属性名不存在时键保留、值为 undefined"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1
+          }
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "怪癖：不传 iterate 原样返回入参对象 {a:1}"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return v }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {}
+      },
+      "note": "空入参返回 {}"
+    }
+  ]
+}

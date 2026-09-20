@@ -1,0 +1,90 @@
+{
+  "module": "array",
+  "method": "remove",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4
+        ],
+        {
+          "__type": "Function",
+          "src": "function (v) { return v > 2 }"
+        }
+      ],
+      "output": [
+        4,
+        3
+      ],
+      "note": "返回被移除元素组成的数组，倒序收集得 [4,3]（怪癖）"
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "output": [],
+      "note": "无 iterate 走 clear，返回空数组"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        },
+        {
+          "__type": "Function",
+          "src": "function (v, k) { return k !== 'a' }"
+        }
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "b": 2,
+          "c": 3
+        }
+      },
+      "note": "对象返回被移除键值对象"
+    },
+    {
+      "args": [
+        {
+          "__type": "Object",
+          "value": {
+            "a": 1,
+            "b": 2
+          }
+        },
+        "a"
+      ],
+      "output": {
+        "__type": "Object",
+        "value": {
+          "a": 1
+        }
+      },
+      "note": "字符串属性名按对象键名匹配"
+    },
+    {
+      "args": [
+        null,
+        {
+          "__type": "Function",
+          "src": "function (v) { return true }"
+        }
+      ],
+      "output": null,
+      "note": "null 原样返回"
+    }
+  ]
+}

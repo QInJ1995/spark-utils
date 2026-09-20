@@ -1,0 +1,64 @@
+{
+  "module": "date",
+  "method": "toDateString",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        }
+      ],
+      "output": "2024-03-05 08:30:00",
+      "note": "默认格式 yyyy-MM-dd HH:mm:ss"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        "MM/dd/yyyy"
+      ],
+      "output": "03/05/2024"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T12:30:00.000Z"
+        },
+        "yyyy-MM-dd hh:mm A"
+      ],
+      "output": "2024-03-05 08:30 PM",
+      "note": "12 小时制 + 上午/下午（08:30 PM）"
+    },
+    {
+      "args": [
+        {
+          "__type": "Date",
+          "value": "2024-03-05T00:30:00.000Z"
+        },
+        "yyyy-w-Q-E"
+      ],
+      "output": "2024-10-1-2",
+      "note": "年内周数 w / 季度 Q / 星期 E"
+    },
+    {
+      "args": [
+        "not a date"
+      ],
+      "output": "Invalid Date",
+      "note": "非法输入返回 \"Invalid Date\""
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": "",
+      "note": "空入参返回空串"
+    }
+  ]
+}

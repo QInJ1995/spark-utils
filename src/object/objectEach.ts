@@ -1,31 +1,7 @@
-import hasOwnProp from '../basic/hasOwnProp';
-
 /**
- * 对象遍历方法
- * 遍历对象的自有属性（不包括原型链上的属性）
+ * 对象迭代（旧 src/object/objectEach.js，2.0 直接复用 internal 层实现）
  *
- * @param obj - 要遍历的对象
- * @param iterate - 回调函数，接收三个参数：(value, key, obj)
- *                  value: 当前属性的值
- *                  key: 当前属性的键名
- *                  obj: 原始对象
- * @param context - 可选的上下文对象，作为回调函数的this指向
+ * 语义与旧版一致：for-in + hasOwnProp 只遍历自有键，context 用 .call 绑定，
+ * 回调返回值不参与控制流，falsy 入参静默跳过，返回 undefined。
  */
-function objectEach<T extends Record<string, any>>(
-	obj: T | null | undefined,
-	iterate: (value: T[keyof T], key: keyof T, obj: T) => void,
-	context?: any
-) {
-	// 检查对象是否存在
-	if (obj) {
-		// 遍历对象的所有可枚举属性
-		for (const key in obj) {
-			// 只处理对象自身的属性，排除原型链上的属性
-			if (hasOwnProp(obj, key)) {
-				iterate.call(context, obj[key as keyof T], key as keyof T, obj);
-			}
-		}
-	}
-}
-
-export default objectEach;
+export { objectEach } from '../internal/iterate'

@@ -1,0 +1,70 @@
+{
+  "module": "array",
+  "method": "pluck",
+  "cases": [
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "a": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {
+              "a": 2
+            }
+          }
+        ],
+        "a"
+      ],
+      "output": [
+        1,
+        2
+      ],
+      "note": "抽取属性值数组"
+    },
+    {
+      "args": [
+        [
+          {
+            "__type": "Object",
+            "value": {
+              "a": 1
+            }
+          },
+          {
+            "__type": "Object",
+            "value": {}
+          }
+        ],
+        "a"
+      ],
+      "output": [
+        1,
+        {
+          "__type": "undefined"
+        }
+      ],
+      "note": "缺失属性为 undefined"
+    },
+    {
+      "args": [
+        [],
+        "a"
+      ],
+      "output": [],
+      "note": "空数组返回 []"
+    },
+    {
+      "args": [
+        null,
+        "a"
+      ],
+      "output": [],
+      "note": "null 返回 []"
+    }
+  ]
+}

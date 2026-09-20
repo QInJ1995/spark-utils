@@ -1,0 +1,60 @@
+{
+  "module": "string",
+  "method": "formatWithReq",
+  "cases": [
+    {
+      "args": [
+        "13812345678",
+        {
+          "__type": "Object",
+          "value": {
+            "srcReq": {
+              "__type": "RegExp",
+              "source": "^(1[3|4|5|7|8][0-9])\\d{1,4}(\\d*)$",
+              "flags": ""
+            },
+            "descReq": "$1****$2"
+          }
+        }
+      ],
+      "output": "138****5678",
+      "note": "正则捕获组替换：138****5678（RegExp 入参，见文件头注意）"
+    },
+    {
+      "args": [
+        "user@example.com",
+        {
+          "__type": "Object",
+          "value": {
+            "srcReq": {
+              "__type": "RegExp",
+              "source": "^(\\w+([-+.]\\w+)*)@(\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)$",
+              "flags": ""
+            },
+            "descReq": "****@$3"
+          }
+        }
+      ],
+      "output": "****@example.com",
+      "note": "邮箱打码（RegExp 入参，见文件头注意）"
+    },
+    {
+      "args": [
+        "no-match-text",
+        {
+          "__type": "Object",
+          "value": {
+            "srcReq": {
+              "__type": "RegExp",
+              "source": "^\\d+$",
+              "flags": ""
+            },
+            "descReq": "***"
+          }
+        }
+      ],
+      "output": "no-match-text",
+      "note": "不匹配时原样返回（RegExp 入参，见文件头注意）"
+    }
+  ]
+}

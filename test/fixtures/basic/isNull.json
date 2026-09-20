@@ -1,0 +1,43 @@
+{
+  "module": "basic",
+  "method": "isNull",
+  "cases": [
+    {
+      "args": [
+        null
+      ],
+      "output": true,
+      "note": "true"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": false,
+      "note": "undefined 不算 null，false"
+    },
+    {
+      "args": [
+        0
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        ""
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        false
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

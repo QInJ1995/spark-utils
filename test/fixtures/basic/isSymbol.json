@@ -1,0 +1,39 @@
+{
+  "module": "basic",
+  "method": "isSymbol",
+  "cases": [
+    {
+      "args": [
+        {
+          "__type": "Symbol",
+          "description": "flag"
+        }
+      ],
+      "output": true,
+      "note": "true（⚠️ 工具链限制：normalize 把 Symbol 记为 Unknown、revive 还原成普通对象，生成会得 false 且比较器两侧不对称，需先修 serialize）"
+    },
+    {
+      "args": [
+        "flag"
+      ],
+      "output": false,
+      "note": "字符串 false"
+    },
+    {
+      "args": [
+        null
+      ],
+      "output": false,
+      "note": "false"
+    },
+    {
+      "args": [
+        {
+          "__type": "undefined"
+        }
+      ],
+      "output": false,
+      "note": "false"
+    }
+  ]
+}

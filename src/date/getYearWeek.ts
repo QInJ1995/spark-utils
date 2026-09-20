@@ -1,22 +1,7 @@
-import staticDayTime from '../constant/static/staticDayTime'
-import toStringDate from './toStringDate'
-import isValidDate from '../basic/isValidDate'
-
 /**
-  * 返回某个年份的第几周
-  *
-  * @param {Date} date 日期或数字
-  * @return {Number}
-  */
-function getYearWeek (date) {
-  date = toStringDate(date)
-  if (isValidDate(date)) {
-    date.setHours(0, 0, 0, 0)
-    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7)
-    const week = new Date(date.getFullYear(), 0, 4)
-    return Math.round(((date.getTime() - week.getTime()) / staticDayTime + (week.getDay() + 6) % 7 - 3) / 7) + 1
-  }
-  return NaN
-}
-
-export default getYearWeek
+ * 返回某个年份的第几周（旧 src/date/getYearWeek.js，ISO 周算法）
+ *
+ * 实现于 M4 canonical 下沉至 internal/datetime（toDateString 的 w token 依赖），
+ * 本文件为域出口 re-export。行为基准见 test/fixtures/date/getYearWeek.json。
+ */
+export { getYearWeek } from '../internal/datetime'

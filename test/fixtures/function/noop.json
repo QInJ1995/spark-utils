@@ -1,0 +1,29 @@
+{
+  "module": "function",
+  "method": "noop",
+  "cases": [
+    {
+      "args": [],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "无参调用返回 undefined"
+    },
+    {
+      "args": [
+        1,
+        "a",
+        {
+          "__type": "Object",
+          "value": {
+            "x": 1
+          }
+        }
+      ],
+      "output": {
+        "__type": "undefined"
+      },
+      "note": "任意参数均原样忽略，返回 undefined"
+    }
+  ]
+}

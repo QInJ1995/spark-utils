@@ -1,87 +1,45 @@
-# DOM元素信息
+# DOM
+
+DOM 元素信息读取，从 `spark-utils/browser` 子入口导入。
+
+::: tip 2.0 变更
+`getStyle` 删除 IE 的 `currentStyle` 分支，统一走 `getComputedStyle`。
+:::
 
 ## getStyle
 
-获取元素样式：obj dom节点；attr属性为样式的名称，例如 padding margin等
+获取元素的计算样式值。
 
-### 参数
+`getStyle(el: Element, attr: string): string`
 
-`getStyle(dom, attr)`
+```ts
+import { getStyle } from 'spark-utils/browser'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| dom | DOM元素 | 是 | 元素节点 | - |
-| attr | string | 是 | 属性名称 | - |
-
-### 返回值
-
-`string`
-
-### 示例
-
-```js
-
-import { getStyle } from 'spark-utils';
-
-const dom = document.getElementById('dom');
-
-console.log(getStyle(dom, 'padding'));
-
+getStyle(document.body, 'padding-top')  // '0px'
+getStyle(el, 'width')                   // '100px'
 ```
 
 ## getWidth
 
-获取元素的宽度
+获取元素宽度（`getBoundingClientRect`）。
 
-### 参数
+`getWidth(el: Element): number`
 
-`getWidth(dom)`
+```ts
+import { getWidth } from 'spark-utils/browser'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| dom | DOM元素 | 是 | 元素节点 | - |
-
-### 返回值
-
-`number`
-
-### 示例
-
-```js
-
-import { getWidth } from 'spark-utils';
-
-const dom = document.getElementById('dom');
-
-console.log(getWidth(dom));
-
+getWidth(el)  // 100
 ```
-    
+
 ## getHeight
 
-获取元素的高度
+获取元素高度；第二参传 `true` 时扣除上下内边距与边框（内容高度）。
 
-### 参数
+`getHeight(el: Element, innerHeight?)`
 
-`getHeight(dom, [isInnerHeight])`
+```ts
+import { getHeight } from 'spark-utils/browser'
 
-| 参数名 | 类型 | 必填 | 说明 | 默认值 |
-| --- | --- | --- | --- | --- |
-| dom | DOM元素 | 是 | 元素节点 | - |
-| isInnerHeight | boolean | 否 | 是否获取内部高度 | false |
-
-### 返回值
-
-`number`
-
-### 示例
-
-```js
-
-import { getHeight } from 'spark-utils';
-
-const dom = document.getElementById('dom');
-
-console.log(getHeight(dom));
-
+getHeight(el)         // 盒子高度
+getHeight(el, true)   // 内容高度（扣除 padding-top/bottom 与 border-top/bottom）
 ```

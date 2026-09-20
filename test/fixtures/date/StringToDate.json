@@ -1,0 +1,49 @@
+{
+  "module": "date",
+  "method": "StringToDate",
+  "cases": [
+    {
+      "args": [
+        "2024-03-05"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-03-04T16:00:00.000Z"
+      }
+    },
+    {
+      "args": [
+        "2024-03-05 08:30:00"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-03-05T00:30:00.000Z"
+      },
+      "note": "日期时间串（内部 - 替换为 / 后 new Date）"
+    },
+    {
+      "args": [
+        "2024/03/05"
+      ],
+      "output": {
+        "__type": "Date",
+        "value": "2024-03-04T16:00:00.000Z"
+      },
+      "note": "斜杠分隔同样支持"
+    },
+    {
+      "args": [
+        "2024-13-01"
+      ],
+      "output": false,
+      "note": "月份非法（isDateString 校验 Date 回读）返回 false"
+    },
+    {
+      "args": [
+        "abc"
+      ],
+      "output": false,
+      "note": "非日期串返回 false（不抛错）"
+    }
+  ]
+}

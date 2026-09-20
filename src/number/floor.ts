@@ -1,12 +1,11 @@
-import helperCreateMathNumber from '../helpers/helperCreateMathNumber'
-
 /**
- * 将数值向下舍入
+ * 将数值向下舍入（移植自旧 src/number/floor.js，即 helperCreateMathNumber('floor')）
  *
- * @param {string|number} num 数值
- * @param {number} digits 小数保留位数
- * @return {number}
+ * 行为（含怪癖）与旧版一致，见 test/fixtures/number/floor.json：
+ * - floor(4.7) → 4、floor(-4.2) → -5、floor(-0.5) → -1（负数向 -Infinity 方向）；
+ * - floor(123.456, 2) → 123.45、整数原样返回。
  */
-const floor = helperCreateMathNumber('floor')
+import { helperCreateMathNumber } from './helperCreateMathNumber'
 
-export default floor
+/** 将数值向下舍入，digits 为保留小数位数（`>> 0` 取整，缺省 0） */
+export const floor = helperCreateMathNumber('floor')
