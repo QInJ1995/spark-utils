@@ -17,7 +17,7 @@ import { getDocument } from '../internal/env'
  * @returns 样式值；无 document/defaultView 时返回空串
  */
 export function getStyle(el: Element, attr: string): string {
-  const doc = getDocument() as Document | undefined
+  const doc = getDocument<Document>()
   const view = doc?.defaultView
   if (!view) {
     return ''

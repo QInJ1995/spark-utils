@@ -1,5 +1,5 @@
 import { arrayEach } from '../internal/iterate'
-import { createTreeFunc, type TreeIterate, type TreeOptions } from '../internal/tree'
+import { createTreeFunc, type TreeInput, type TreeIterate, type TreeOptions } from '../internal/tree'
 
 /**
  * 树搜索实现（旧 searchTreeItem）：带祖先命中状态的前序深度优先。
@@ -30,7 +30,7 @@ function searchTreeItem(
     const paths = path.concat(['' + index])
     const childNodes = nodes.concat([item])
     const itemRecord = item as Record<string, unknown>
-    const isAllow = parentAllow || iterate.call(context, item, index, obj, paths, parent, childNodes)
+    const isAllow = parentAllow || iterate.call(context, item, index, obj as unknown[], paths, parent, childNodes)
     const children = parseChildren ? itemRecord[parseChildren] : undefined
     const hasChild = parseChildren && children
     if (isAllow || hasChild) {
@@ -62,19 +62,7 @@ function searchTreeItem(
   return rests
 }
 
-/**
- * 从树结构中根据回调查找数据（移植自旧 src/array/searchTree.js）
- *
- * 保留命中节点及其祖先/后代路径，未命中分支被剪掉；
- * 默认节点为浅拷贝并补子级键（空数组），original 选项保留原节点引用。
- *
- * @param obj 对象/数组
- * @param iterate(item, index, items, path, parent, nodes) 回调
- * @param options {children: 'children', mapChildren: 'children', data: 'data', original: false}
- * @param context 上下文
- * @returns 搜索结果树数组
- */
-export const searchTree = createTreeFunc(function searchTreeHandle(
+const searchTreeImpl = createTreeFunc(function searchTreeHandle(
   parent: unknown,
   obj: unknown,
   iterate: TreeIterate,
@@ -86,3 +74,25 @@ export const searchTree = createTreeFunc(function searchTreeHandle(
 ): unknown[] {
   return searchTreeItem(0, parent, obj, iterate, context, path, nodes, parseChildren, opts)
 })
+
+/**
+ * 从树结构中根据回调查找数据（移植自旧 src/array/searchTree.js）
+ *
+ * 保留命中节点及其祖先/后代路径，未命中分支被剪掉；
+ * 默认节点为浅拷贝并补子级键（空数组），original 选项保留原节点引用。
+ * 节点类型 T 从 obj 入参推断（浅拷贝节点补子级键后仍以 T 计）。
+ *
+ * @param obj 对象/数组
+ * @param iterate(item, index, items, path, parent, nodes) 回调（truthy 判定）
+ * @param options {children: 'children', mapChildren: 'children', data: 'data', original: false}
+ * @param context 上下文
+ * @returns 搜索结果树数组
+ */
+export function searchTree<T = unknown>(
+  obj: TreeInput<T>,
+  iterate: TreeIterate<T, boolean>,
+  options?: TreeOptions | null,
+  context?: unknown
+): T[] {
+  return searchTreeImpl(obj, iterate, options, context) as T[]
+}

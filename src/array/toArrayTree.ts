@@ -46,16 +46,17 @@ function strictTree(array: unknown, optChildren: string): void {
  *   reverse 再反转；
  * - 依 parentKey 挂接子级：treeMap[id] 即该节点的 children 数组（原地写入），
  *   parentId 不在 id 列表的孤儿节点作为根返回；
- * - strict 模式追加 strictTree 清理空 children 键（原地变异）。
+ * - strict 模式追加 strictTree 清理空 children 键（原地变异）；
+ * - 节点类型 T 由调用方标注（结果节点在原字段外补子级键）。
  *
  * @param array 数组
  * @param options 树配置
  * @returns 树结构数组
  */
-export function toArrayTree(
-  array: ReadonlyArray<unknown> | null | undefined,
+export function toArrayTree<T = unknown>(
+  array: ReadonlyArray<T> | null | undefined,
   options?: ToArrayTreeOptions | null
-): unknown[] {
+): T[] {
   const opts = Object.assign({}, getSetup().treeOptions, options) as Record<string, unknown>
   const optStrict = opts.strict
   const optKey = opts.key as string
@@ -118,5 +119,6 @@ export function toArrayTree(
     strictTree(list, optChildren)
   }
 
-  return result
+  // 函数体以 unknown 形态组装（节点补子级键的动态性不进类型），仅在此处收口到 T
+  return result as T[]
 }

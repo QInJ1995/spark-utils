@@ -14,11 +14,18 @@
  * - 默认配置槽：baseURL / timeout / headers 三层（请求级 > 实例级 > setup().httpConfig），
  *   setup 槽即旧 setupDefaults.axiosConfig（10000ms 超时、默认表单 Content-Type），
  *   每次请求时读取，setup() 后立即生效；
+ * - 请求体 Content-Type 与 body 形态联动：对象体自动置 JSON 头；字符串体原样发送，
+ *   且在调用方未显式指定时剥掉继承的内置默认表单头（交给 fetch 原生默认 text/plain），
+ *   与对象体的自动 JSON 头对称；
+ * - url 为空的请求在发出前 reject（submit 沿用旧版专用文案，便捷方法为通用文案）；
+ * - beforeRequest 返回对象时与当前 init 浅合并（部分字段即可，完整对象等价整体替换）；
  * - 超时经 AbortController 中止；外部 signal 与超时联动（任一触发即中止请求）；
  * - 非 2xx 响应与超时抛类型化 HttpError（kind/status/url/timeout 字段，
- *   message 文案与 2.0 初版的裸 Error 逐字一致）。
+ *   message 文案与 2.0 初版的裸 Error 逐字一致）；超时改写仅在错误确为
+ *   本实例超时中止的 AbortError 时发生，afterResponse 抛错 / 响应体解析
+ *   失败 / 非 2xx 错误即便与计时器竞态也按原样透传（不被误报为超时）。
  */
-import { getSetup } from '../internal/config'
+import { getSetup, setupDefaults } from '../internal/config'
 import { isString } from '../internal/type'
 import { HttpError } from './error'
 import type {
@@ -56,6 +63,14 @@ function hasExplicitContentType(headers: Record<string, string> | undefined): bo
   return Object.keys(headers).some((key) => key.toLowerCase() === 'content-type')
 }
 
+/** 内置默认表单 Content-Type（setupDefaults.httpConfig.headers 的出厂值，字符串体剥离时的比对基准） */
+const DEFAULT_FORM_CONTENT_TYPE = setupDefaults.httpConfig.headers['Content-Type'] as string
+
+/** fetch 被中止时抛出的错误形态（DOMException name 为 AbortError；Node 18+ undici 同形） */
+function isAbortError(error: unknown): boolean {
+  return error instanceof Error && error.name === 'AbortError'
+}
+
 /**
  * 创建请求实例
  *
@@ -72,6 +87,10 @@ export function createHttp(config: HttpConfig = {}): HttpInstance {
     data: unknown,
     requestConfig: HttpRequestConfig | undefined,
   ): Promise<T> {
+    // 空 url 守卫与 submit 对齐（submit 另有旧版专用文案的守卫，先于此触发）
+    if (!url) {
+      throw new Error('[spark-utils][http]: 请传入url参数!')
+    }
     const setupHttpConfig = getSetup().httpConfig
     const timeout = requestConfig?.timeout ?? config.timeout ?? setupHttpConfig.timeout
     const headers: Record<string, string> = {
@@ -81,11 +100,21 @@ export function createHttp(config: HttpConfig = {}): HttpInstance {
     }
     const fullURL = buildURL(config.baseURL ?? setupHttpConfig.baseURL, url, requestConfig?.params)
 
-    // 请求体：GET/HEAD 不携带；字符串原样；其余 JSON 序列化并自动置 JSON 头
+    // 请求体：GET/HEAD 不携带；字符串原样（并剥离内置默认表单头，见下）；其余 JSON 序列化并自动置 JSON 头
     const init: HttpRequestInit = { method, url: fullURL, headers, timeout }
     if (data !== undefined && method !== 'GET' && method !== 'HEAD') {
       if (isString(data)) {
         init.body = data
+        // 字符串体不猜 Content-Type：调用方未显式指定时剥掉继承的内置默认表单头，
+        // 交给 fetch 原生默认（text/plain;charset=UTF-8），与对象体的自动 JSON 头对称；
+        // setup 槽被用户覆盖过的其他值视作显式配置，保留
+        if (!hasExplicitContentType(config.headers) && !hasExplicitContentType(requestConfig?.headers)) {
+          for (const key of Object.keys(headers)) {
+            if (key.toLowerCase() === 'content-type' && headers[key] === DEFAULT_FORM_CONTENT_TYPE) {
+              delete headers[key]
+            }
+          }
+        }
       } else {
         init.body = JSON.stringify(data)
         if (!hasExplicitContentType(config.headers) && !hasExplicitContentType(requestConfig?.headers)) {
@@ -97,13 +126,13 @@ export function createHttp(config: HttpConfig = {}): HttpInstance {
       init.signal = requestConfig.signal
     }
 
-    // beforeRequest 钩子：返回新 init 则替换
+    // beforeRequest 钩子：返回对象则与当前 init 浅合并（部分字段即可，完整对象等价整体替换）
     let finalInit = init
     const beforeRequest = config.beforeRequest
     if (beforeRequest) {
       const returned = await beforeRequest(init)
       if (typeof returned === 'object' && returned !== null) {
-        finalInit = returned
+        finalInit = { ...init, ...returned }
       }
     }
 
@@ -166,7 +195,10 @@ export function createHttp(config: HttpConfig = {}): HttpInstance {
       }
       return bodyData as T
     } catch (error) {
-      if (timedOut) {
+      // 仅当错误确由本实例的超时中止引起（AbortError）才改写为超时 HttpError：
+      // afterResponse 抛错 / 响应体解析失败 / 非 2xx 的 HttpError 即便与计时器
+      // 竞态同时发生，也按原样透传（不被误报为超时、不吞状态码）
+      if (timedOut && isAbortError(error)) {
         throw new HttpError('timeout', `[spark-utils][http]: 请求超时（${finalInit.timeout}ms）${finalInit.url}`, {
           url: finalInit.url,
           timeout: finalInit.timeout,

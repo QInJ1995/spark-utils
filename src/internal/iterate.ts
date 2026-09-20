@@ -1,18 +1,6 @@
 import { hasOwnProp, isArray } from './type'
 
 /**
- * 迭代回调通用类型（数组形态；对象迭代时 key 为属性名字符串）。
- * 返回值为 boolean | void 仅为容纳旧用例中"回调有返回值"的写法，
- * 旧实现的迭代器不消费回调返回值（不会因返回 false 中断）。
- */
-export type IterateCallback<T, K extends string | number = string | number> = (
-  this: unknown,
-  item: T,
-  key: K,
-  obj: T[]
-) => boolean | void
-
-/**
  * 数组迭代（移植自 src/array/arrayEach.js）
  *
  * - 有 forEach 走原生 forEach（context 作为 thisArg 传入）；
@@ -106,11 +94,10 @@ export function lastObjectEach<T extends object>(
 ): void {
   if (obj) {
     const keyList = Object.keys(obj)
+    // Object.keys 快照元素恒为 string，as 断言仅为通过 noUncheckedIndexedAccess（与 arrayEach 的 obj[index] as T 同一惯用法）
     for (let len = keyList.length - 1; len >= 0; len--) {
-      const key = keyList[len]
-      if (key !== undefined) {
-        iterate.call(context, obj[key as keyof T], key, obj)
-      }
+      const key = keyList[len] as string
+      iterate.call(context, obj[key as keyof T], key, obj)
     }
   }
 }

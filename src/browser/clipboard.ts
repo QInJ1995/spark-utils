@@ -51,7 +51,7 @@ function copyTextLegacy(doc: Document, content: unknown): boolean {
  */
 export async function copyText(content: unknown): Promise<boolean> {
   const win = getWindow() as Window | undefined
-  const doc = getDocument() as Document | undefined
+  const doc = getDocument<Document>()
   if (!win || !doc) {
     return false
   }

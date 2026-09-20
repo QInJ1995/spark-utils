@@ -305,6 +305,14 @@ await http.post('/users', { name: 'spark' })                   // 对象自动 J
 await http.submit({ url: '/login', data: { user, pass } })     // autoQs 已删除
 ```
 
+请求体与错误语义的几处 2.0 细化：
+
+| 场景 | 1.x | 2.0 |
+| --- | --- | --- |
+| 字符串请求体未显式指定 Content-Type | 继承默认表单头 `application/x-www-form-urlencoded` | 剥掉继承的默认表单头，由 fetch 原生置 `text/plain;charset=UTF-8`（显式指定的头不受影响） |
+| 空 url | 仅 `submit` 有守卫 | 五个便捷方法与 `submit` 均在发出前 reject |
+| 超时判定 | —（axios 语义） | 仅错误确为本实例超时中止的 `AbortError` 才报超时；`afterResponse` 抛错 / 非 2xx / 响应体解析失败即便与计时器竞态也原样透传 |
+
 非 2xx 响应与超时抛类型化 `HttpError`（`kind: 'http' | 'timeout'`，附 `status` / `url` / `timeout` 字段；message 文案与裸 `Error` 时期一致）：
 
 ```ts

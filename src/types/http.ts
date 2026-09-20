@@ -55,10 +55,14 @@ export interface HttpConfig {
   headers?: Record<string, string>
   /**
    * 请求前钩子（替代旧 axios 的 interceptors.request）
-   * 返回（或 Promise 解析为）新的 HttpRequestInit 可替换最终请求；返回 void/undefined 则沿用原请求。
+   * 返回（或 Promise 解析为）对象时与当前 init 浅合并——部分字段即可（如仅改 headers），
+   * 完整对象等价整体替换；返回 void/undefined 则沿用原请求。
    */
-  beforeRequest?: (request: HttpRequestInit) => HttpRequestInit | Promise<HttpRequestInit> | void
-  /** 响应后钩子（替代旧 axios 的 interceptors.response）：每个收到完整响应（含 4xx/5xx）后通知一次 */
+  beforeRequest?: (request: HttpRequestInit) => Partial<HttpRequestInit> | Promise<Partial<HttpRequestInit> | void> | void
+  /**
+   * 响应后钩子（替代旧 axios 的 interceptors.response）：每个收到完整响应（含 4xx/5xx）后通知一次。
+   * 钩子抛出的错误原样透传（不会被误判为超时）。
+   */
   afterResponse?: (response: HttpResponse<unknown>) => void | Promise<void>
 }
 
@@ -80,7 +84,10 @@ export interface HttpSubmitOptions extends HttpRequestConfig {
   url: string
   /** 请求方法，默认 POST */
   method?: HttpMethod
-  /** 请求体：对象自动 JSON 序列化并置 JSON 头，字符串原样发送 */
+  /**
+   * 请求体：对象自动 JSON 序列化并在未显式指定 Content-Type 时自动置 JSON 头；
+   * 字符串原样发送，且未显式指定 Content-Type 时剥掉内置默认表单头（由 fetch 置 text/plain）
+   */
   data?: unknown
 }
 

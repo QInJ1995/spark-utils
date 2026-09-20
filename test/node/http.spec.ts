@@ -4,8 +4,9 @@
  * fetch 经 vi.stubGlobal 打桩（原生 Response 构造响应），覆盖：
  * get/post/put/delete/submit 五个便捷方法、baseURL 与查询参数拼接、三层请求头合并
  * （请求级 > 实例级 > setup 默认槽）、对象体的 JSON 序列化与自动 JSON 头（显式头优先）、
- * 文本响应透传、beforeRequest/afterResponse 钩子、非 2xx 抛错、
- * AbortController 超时中止（vi.useFakeTimers）与外部 signal 联动。
+ * 字符串体的表单默认头剥离、文本响应透传、beforeRequest（整体/部分替换）与
+ * afterResponse 钩子、非 2xx 抛错、AbortController 超时中止（vi.useFakeTimers）
+ * 与外部 signal 联动、超时判定收紧（4xx/钩子错误与计时器竞态不误报超时）、空 url 守卫。
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { createHttp, HttpError } from '../../src/http'
@@ -27,6 +28,24 @@ function jsonResponse(body: unknown, init: { status?: number; contentType?: stri
     status: init.status ?? 200,
     headers: { 'content-type': init.contentType ?? 'application/json' },
   })
+}
+
+/** fetch 被中止时的原生错误形态（DOMException name 为 AbortError；Node 18+ undici 同形） */
+function abortError(message = 'The operation was aborted'): Error {
+  const error = new Error(message)
+  error.name = 'AbortError'
+  return error
+}
+
+/** fake timers 下的最小 Response 替身（绕开 undici body 读取的真实定时器依赖） */
+function fakeResponse(init: { status?: number; body?: unknown } = {}): Response {
+  return {
+    ok: (init.status ?? 200) >= 200 && (init.status ?? 200) < 300,
+    status: init.status ?? 200,
+    statusText: '',
+    headers: [['content-type', 'application/json']] as Iterable<readonly [string, string]>,
+    json: () => Promise.resolve(init.body ?? {}),
+  } as unknown as Response
 }
 
 let fetchMock: ReturnType<typeof vi.fn<FetchImpl>>
@@ -154,7 +173,7 @@ describe('createHttp', () => {
     try {
       const hanging: FetchImpl = (_url, init) =>
         new Promise<Response>((_resolve, reject) => {
-          init?.signal?.addEventListener('abort', () => reject(new Error('aborted')))
+          init?.signal?.addEventListener('abort', () => reject(abortError()))
         })
       vi.stubGlobal('fetch', hanging)
       const http = createHttp({ timeout: 100 })
@@ -183,7 +202,7 @@ describe('createHttp', () => {
     try {
       const hanging: FetchImpl = (_url, init) =>
         new Promise<Response>((_resolve, reject) => {
-          init?.signal?.addEventListener('abort', () => reject(new Error('aborted')))
+          init?.signal?.addEventListener('abort', () => reject(abortError()))
         })
       vi.stubGlobal('fetch', hanging)
       const slowHttp = createHttp({ timeout: 80 })
@@ -210,6 +229,86 @@ describe('createHttp', () => {
     )
     const http = createHttp()
     await expect(http.get('/x', undefined, { signal: external.signal })).rejects.toThrow('外部信号已中止')
+  })
+
+  it('外部 signal 中途中止：原生 AbortError 透传，不误报为超时', async () => {
+    const external = new AbortController()
+    const hanging: FetchImpl = (_url, init) =>
+      new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(abortError()))
+      })
+    vi.stubGlobal('fetch', hanging)
+    const http = createHttp({ timeout: 5000 })
+    const caught = http.get('/x', undefined, { signal: external.signal }).catch((error: unknown) => error)
+    await Promise.resolve()
+    external.abort()
+    const error = (await caught) as Error
+    expect(error.name).toBe('AbortError')
+    expect(error).not.toBeInstanceOf(HttpError)
+  })
+
+  it('计时器与 4xx 竞态：超时触发后非 2xx 错误仍按 HttpError(http) 透传（不误报超时、不吞状态码）', async () => {
+    // 真实定时器拉开时序：30ms 超时先置位 timedOut（响应已在手，中止无效），
+    // 50ms 钩子完成后才抛 4xx——错误必须仍是 HttpError('http') 而非超时
+    fetchMock.mockImplementationOnce(() => Promise.resolve(fakeResponse({ status: 404, body: { msg: 'nope' } })))
+    const http = createHttp({
+      timeout: 30,
+      afterResponse: () => new Promise<void>((resolve) => setTimeout(resolve, 50)),
+    })
+    const failure = (await http.get('/missing').catch((error: unknown) => error)) as HttpError
+    expect(failure).toBeInstanceOf(HttpError)
+    expect(failure.kind).toBe('http')
+    expect(failure.status).toBe(404)
+  })
+
+  it('afterResponse 抛错：即便与超时计时器竞态也原样透传（不误报超时）', async () => {
+    // 同上时序：30ms 超时已置位 timedOut，50ms 钩子抛错原样透传
+    fetchMock.mockImplementationOnce(() => Promise.resolve(fakeResponse({ status: 200, body: { ok: 1 } })))
+    const http = createHttp({
+      timeout: 30,
+      afterResponse: () => new Promise((_resolve, reject) => setTimeout(() => reject(new Error('hook boom')), 50)),
+    })
+    const failure = (await http.get('/data').catch((error: unknown) => error)) as Error
+    expect(failure.message).toBe('hook boom')
+    expect(failure).not.toBeInstanceOf(HttpError)
+  })
+
+  it('字符串体：原样发送，未显式指定 Content-Type 时剥离内置默认表单头', async () => {
+    const http = createHttp()
+    await http.post('/xml', '<a>1</a>')
+    const init = fetchMock.mock.calls[0]?.[1] as FetchInitArg
+    expect(init.body).toBe('<a>1</a>')
+    // 交由 fetch 原生默认（text/plain;charset=UTF-8），不携带继承的表单头
+    expect(Object.keys(init.headers ?? {}).some((key) => key.toLowerCase() === 'content-type')).toBe(false)
+  })
+
+  it('字符串体：实例级/请求级显式 Content-Type 优先，不被剥离', async () => {
+    const withHeaders = createHttp({ headers: { 'Content-Type': 'text/xml' } })
+    await withHeaders.post('/xml', '<a/>')
+    expect((fetchMock.mock.calls[0]?.[1] as FetchInitArg).headers?.['Content-Type']).toBe('text/xml')
+
+    const http = createHttp()
+    await http.post('/xml', '<a/>', { headers: { 'content-type': 'text/xml' } })
+    expect((fetchMock.mock.calls[1]?.[1] as FetchInitArg).headers?.['content-type']).toBe('text/xml')
+  })
+
+  it('空 url 守卫：便捷方法发出前 reject（与 submit 对齐）', async () => {
+    const http = createHttp()
+    await expect(http.get('')).rejects.toThrow('[spark-utils][http]: 请传入url参数!')
+    await expect(http.post('', { a: 1 })).rejects.toThrow('[spark-utils][http]: 请传入url参数!')
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('beforeRequest 钩子：返回部分字段与当前 init 浅合并（未覆盖字段沿用）', async () => {
+    const http = createHttp({
+      baseURL: 'https://api.test',
+      beforeRequest: () => ({ headers: { 'X-Only': '1' } }),
+    })
+    await http.get('/users')
+    const init = fetchMock.mock.calls[0]?.[1] as FetchInitArg
+    expect(fetchMock.mock.calls[0]?.[0]).toBe('https://api.test/users')
+    expect(init.method).toBe('GET')
+    expect(init.headers?.['X-Only']).toBe('1')
   })
 
   it('submit：默认 POST + 对象体；method/params 透传；缺 url reject', async () => {

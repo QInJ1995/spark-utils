@@ -138,7 +138,7 @@ function toCookieUTCString(date: string | number | Date): string {
 
 /** 写入一批 cookie（调用方保证 document 存在） */
 function writeCookies(inserts: readonly CookieItem[]): void {
-  const doc = getDocument() as Document | undefined
+  const doc = getDocument<Document>()
   if (!doc) {
     return
   }
@@ -189,7 +189,7 @@ function writeCookies(inserts: readonly CookieItem[]): void {
 
 /** 读取全部 cookie 为对象（调用方保证 document 存在；无 cookie 返回空对象） */
 function readCookies(): Record<string, string> {
-  const doc = getDocument() as Document | undefined
+  const doc = getDocument<Document>()
   const result: Record<string, string> = {}
   if (doc && doc.cookie) {
     for (const val of doc.cookie.split('; ')) {

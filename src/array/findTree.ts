@@ -1,13 +1,13 @@
-import { createTreeFunc, type TreeIterate, type TreeOptions } from '../internal/tree'
+import { createTreeFunc, type TreeInput, type TreeIterate, type TreeOptions } from '../internal/tree'
 
-/** findTree 命中结果（旧实现返回的字面量形态） */
-export interface FindTreeMatch {
+/** findTree 命中结果（旧实现返回的字面量形态；T 为节点类型，根层命中时 parent 为 null） */
+export interface FindTreeMatch<T = unknown> {
   index: number
-  item: unknown
+  item: T
   path: string[]
-  items: unknown
-  parent: unknown
-  nodes: unknown[]
+  items: T[]
+  parent: T | null
+  nodes: T[]
 }
 
 /**
@@ -54,13 +54,24 @@ function findTreeItem(
   return undefined
 }
 
+const findTreeImpl = createTreeFunc(findTreeItem)
+
 /**
  * 从树结构中查找匹配第一条数据的键、值、路径（移植自旧 src/array/findTree.js）
  *
+ * 节点类型 T 从 obj 入参推断，命中结果的 item/items/parent/nodes 均随之类型化。
+ *
  * @param obj 对象/数组
- * @param iterate(item, index, items, path, parent, nodes) 回调
+ * @param iterate(item, index, items, path, parent, nodes) 回调（truthy 判定）
  * @param options {children: 'children'}
  * @param context 上下文
  * @returns 命中返回 { index, item, path, items, parent, nodes }，未命中返回 undefined
  */
-export const findTree = createTreeFunc(findTreeItem)
+export function findTree<T = unknown>(
+  obj: TreeInput<T>,
+  iterate: TreeIterate<T, boolean>,
+  options?: TreeOptions | null,
+  context?: unknown
+): FindTreeMatch<T> | undefined {
+  return findTreeImpl(obj, iterate, options, context) as FindTreeMatch<T> | undefined
+}

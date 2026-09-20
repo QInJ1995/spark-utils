@@ -8,7 +8,7 @@
 - `https.init(options)` 创建全局单例 → `createHttp(config)` 返回独立实例，可创建多个互不影响；
 - 拦截器 `interceptors.request` / `interceptors.response` → 钩子 `beforeRequest` / `afterResponse`；
 - 旧响应拦截器「默认返回 `responseRes.data`」的行为内建：便捷方法直接返回反序列化数据；
-- `submit` 的 `autoQs` 开关删除：对象请求体统一 JSON 序列化，未显式指定 Content-Type 时自动置 `application/json; charset=UTF-8`；
+- `submit` 的 `autoQs` 开关删除：对象请求体统一 JSON 序列化，未显式指定 Content-Type 时自动置 `application/json; charset=UTF-8`；字符串请求体原样发送，未显式指定 Content-Type 时剥掉继承的默认表单头（由 fetch 原生置 `text/plain`），与对象体的自动 JSON 头对称；
 - `https.axios` 透出的 axios 实例不再提供（需要 axios 请自行引入）。
 :::
 
@@ -87,11 +87,11 @@ import { createHttp } from 'spark-utils'
 
 const http = createHttp({
   beforeRequest(init) {
-    // 统一追加令牌；返回对象则替换最终请求
+    // 统一追加令牌；返回对象则与当前 init 浅合并（部分字段即可，完整对象等价整体替换）
     init.headers.Authorization = 'Bearer token'
   },
   afterResponse(res) {
-    // 每个完整响应（含 4xx/5xx）都会经过这里
+    // 每个完整响应（含 4xx/5xx）都会经过这里；钩子抛出的错误原样透传
     console.log(res.status, res.ok)
   },
 })
@@ -99,9 +99,11 @@ const http = createHttp({
 
 ## 错误处理
 
+- url 为空的请求在发出前 reject（`submit` 沿用旧版专用文案，便捷方法为 `[spark-utils][http]: 请传入url参数!`）；
 - 非 2xx 响应与超时抛类型化 `HttpError`（主入口具名导出），可按 `kind` / `status` / `url` / `timeout` 编程区分：
   - 非 2xx：`kind: 'http'`，`e.status` 为响应状态码，message 为 `[spark-utils][http]: 请求失败（状态码）url`；
   - 超时（`AbortController` 中止）：`kind: 'timeout'`，`e.timeout` 为设定的毫秒数，message 为 `请求超时（n ms）url`；
+- 超时判定收紧：仅当错误确为本实例超时中止的 `AbortError` 才报超时；`afterResponse` 抛错、非 2xx 错误、响应体解析失败即便与计时器竞态同时发生，也按原样透传（不误报超时、不吞状态码）；
 - 外部 `signal` 主动取消与网络错误仍抛原生错误（与超时的 `HttpError` 有意区分）；
 - 响应体按 `content-type` 自动反序列化：含 `json` 时 `response.json()`，否则 `response.text()`。
 

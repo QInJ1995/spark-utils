@@ -103,7 +103,7 @@ function isBrowseStorage(storage: Storage | undefined): boolean {
  */
 export function browse(): BrowseInfo {
   const win = getWindow() as Window | undefined
-  const doc = getDocument() as Document | undefined
+  const doc = getDocument<Document>()
   const result: BrowseInfo = { isNode: false, isMobile: false, isPC: false, isDoc: !!doc }
   if (!win) {
     if (typeof process !== 'undefined') {

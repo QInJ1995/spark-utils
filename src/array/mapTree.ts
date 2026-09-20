@@ -1,4 +1,4 @@
-import { createTreeFunc, type TreeIterate, type TreeOptions } from '../internal/tree'
+import { createTreeFunc, type TreeInput, type TreeIterate, type TreeOptions } from '../internal/tree'
 import { map } from './map'
 
 /**
@@ -21,7 +21,10 @@ function mapTreeItem(
   return map(obj as readonly unknown[], function mapTreeItemCallback(item: unknown, index: number): unknown {
     const paths = path.concat(['' + index])
     const childNodes = nodes.concat([item])
-    const rest = iterate.call(context, item, index, obj, paths, parent, childNodes) as Record<string, unknown>
+    const rest = iterate.call(context, item, index, obj as unknown[], paths, parent, childNodes) as Record<
+      string,
+      unknown
+    >
     const children = item ? (item as Record<string, unknown>)[parseChildren] : undefined
     if (rest && item && parseChildren && children) {
       rest[mapChildren] = mapTreeItem(item, children, iterate, context, paths, childNodes, parseChildren, opts)
@@ -30,13 +33,24 @@ function mapTreeItem(
   })
 }
 
+const mapTreeImpl = createTreeFunc(mapTreeItem)
+
 /**
  * 从树结构中指定方法后的返回值组成的新数组（移植自旧 src/array/mapTree.js）
  *
+ * 节点类型 T 从 obj 入参推断，映射结果类型 R 从回调返回值推断。
+ *
  * @param obj 对象/数组
- * @param iterate(item, index, items, path, parent, nodes) 回调
+ * @param iterate(item, index, items, path, parent, nodes) 回调（返回映射后的节点）
  * @param options {children: 'children', mapChildren: 'children'}
  * @param context 上下文
  * @returns 映射后的新树数组
  */
-export const mapTree = createTreeFunc(mapTreeItem)
+export function mapTree<T = unknown, R = unknown>(
+  obj: TreeInput<T>,
+  iterate: TreeIterate<T, R>,
+  options?: TreeOptions | null,
+  context?: unknown
+): R[] {
+  return mapTreeImpl(obj, iterate, options, context) as R[]
+}

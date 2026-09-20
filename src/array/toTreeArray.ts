@@ -41,15 +41,16 @@ function unTreeList(result: unknown[], array: unknown, opts: Record<string, unkn
 /**
  * 将一个树结构转成数组列表（移植自旧 src/array/toTreeArray.js）
  *
- * 选项与 getSetup().treeOptions（旧 setupDefaults.treeOptions）浅合并。
+ * 选项与 getSetup().treeOptions（旧 setupDefaults.treeOptions）浅合并；
+ * 节点类型 T 由调用方标注。
  *
  * @param array 树结构数组
  * @param options 树配置
  * @returns 深度优先展平的数组列表
  */
-export function toTreeArray(
-  array: ReadonlyArray<unknown> | null | undefined,
+export function toTreeArray<T = unknown>(
+  array: ReadonlyArray<T> | null | undefined,
   options?: ToTreeArrayOptions | null
-): unknown[] {
-  return unTreeList([], array, Object.assign({}, getSetup().treeOptions, options) as Record<string, unknown>)
+): T[] {
+  return unTreeList([], array, Object.assign({}, getSetup().treeOptions, options) as Record<string, unknown>) as T[]
 }

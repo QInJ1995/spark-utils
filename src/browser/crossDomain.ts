@@ -209,7 +209,7 @@ export function sendMessage(
   }
   let source: Window | null | undefined
   if (typeof target === 'string') {
-    const doc = getDocument() as Document | undefined
+    const doc = getDocument<Document>()
     const frames = win.top?.frames as unknown as Record<string, Window | undefined> | undefined
     const frame =
       (doc?.getElementById(target) as HTMLIFrameElement | null)?.contentWindow ?? frames?.[target]

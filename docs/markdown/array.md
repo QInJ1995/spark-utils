@@ -231,7 +231,7 @@ mean([1, 2, 3])  // 2
 
 ## 树结构
 
-配置项默认 `{ parentKey: 'parentId', key: 'id', children: 'children' }`，可经各方法 options 覆盖。
+配置项默认 `{ parentKey: 'parentId', key: 'id', children: 'children' }`，可经各方法 options 覆盖。TS 下回调的 `item` / `items` / `parent` / `nodes` 与返回结果均按节点类型自动推断（`mapTree` 的映射结果类型从回调返回值推断）。
 
 ### toArrayTree / toTreeArray
 

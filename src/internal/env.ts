@@ -27,10 +27,14 @@ export function getWindow(): BrowserGlobals['window'] | undefined {
   return isBrowser ? globals.window : undefined
 }
 
-/** 惰性获取 document，非浏览器环境返回 undefined */
-export function getDocument(): BrowserGlobals['document'] | undefined {
+/**
+ * 惰性获取 document，非浏览器环境返回 undefined。
+ * 主包无 DOM lib，document 只能以 unknown 形态持有；泛型参数供浏览器域调用点
+ * 以 getDocument<Document>() 直接拿到目标类型，替代各处散落的 as 断言。
+ */
+export function getDocument<T = unknown>(): T | undefined {
   if (!isBrowser) return undefined
-  return globals.document ?? globals.window?.document
+  return (globals.document ?? globals.window?.document) as T | undefined
 }
 
 /** 惰性获取 location，非浏览器环境返回 undefined */
