@@ -38,49 +38,55 @@ yarn add spark-utils
 主入口全部为**具名导出**：
 
 ```ts
-import { debounce, isEqual, dateDiff, moneyFormat, cnMoneyFormat } from 'spark-utils'
+import {
+  debounce,
+  isEqual,
+  dateDiff,
+  moneyFormat,
+  cnMoneyFormat,
+} from "spark-utils";
 
 // 类型提示直接可用：unit 为 's' | 'n' | 'm' | 'h' | 'd' | 'w' | 'M' | 'y'
-dateDiff('2024-01-01', '2024-02-01', { unit: 'M' })  // 1（自然月差）
+dateDiff("2024-01-01", "2024-02-01", { unit: "M" }); // 1（自然月差）
 
-moneyFormat(1234567.891, 2)   // '1,234,567.89'
-cnMoneyFormat(1234567.89)     // '壹佰贰拾叁万肆仟伍佰陆拾柒元捌角玖分'
-isEqual({ a: [1, { b: 2 }] }, { a: [1, { b: 2 }] })  // true
+moneyFormat(1234567.891, 2); // '1,234,567.89'
+cnMoneyFormat(1234567.89); // '壹佰贰拾叁万肆仟伍佰陆拾柒元捌角玖分'
+isEqual({ a: [1, { b: 2 }] }, { a: [1, { b: 2 }] }); // true
 
 // 防抖：第三参可省，返回值带 cancel()
-const search = debounce((kw: string) => load(kw), 300)
+const search = debounce((kw: string) => load(kw), 300);
 ```
 
 浏览器能力、加密与拼音从对应子入口按需引入：
 
 ```ts
-import { copyText, parseUrl, createWebStorage } from 'spark-utils/browser'
+import { copyText, parseUrl, createWebStorage } from "spark-utils/browser";
 
-const ok = await copyText('你好，spark-utils')   // 异步 Clipboard API，Promise<boolean>
-parseUrl('https://a.com:8080/p?q=1#frag').searchQuery   // { q: '1' }
+const ok = await copyText("你好，spark-utils"); // 异步 Clipboard API，Promise<boolean>
+parseUrl("https://a.com:8080/p?q=1#frag").searchQuery; // { q: '1' }
 ```
 
 ```ts
-import { aesEncrypt, aesDecrypt } from 'spark-utils/crypto'
+import { aesEncrypt, aesDecrypt } from "spark-utils/crypto";
 
-const cipher = aesEncrypt('data', 'abcdefghijkl', 'opqrstuvwxyz')
-aesDecrypt(cipher, 'abcdefghijkl', 'opqrstuvwxyz')   // 'data'（失败抛 CryptoError）
+const cipher = aesEncrypt("data", "abcdefghijkl", "opqrstuvwxyz");
+aesDecrypt(cipher, "abcdefghijkl", "opqrstuvwxyz"); // 'data'（失败抛 CryptoError）
 ```
 
 ```ts
-import { pinyin } from 'spark-utils/pinyin'
+import { pinyin } from "spark-utils/pinyin";
 
-pinyin.getFullChars('我喜欢你')   // 'WoXiHuanNi'
-pinyin.getCamelChars('我喜欢你')  // 'WXHN'
+pinyin.getFullChars("我喜欢你"); // 'WoXiHuanNi'
+pinyin.getCamelChars("我喜欢你"); // 'WXHN'
 ```
 
 全局配置（`setup`）一次设置全局生效，浅合并生成深度冻结的只读配置：
 
 ```ts
-import { setup } from 'spark-utils'
+import { setup } from "spark-utils";
 
 // 后端平铺列表用 pid 作父键时，树形方法无须逐处传参
-setup({ treeOptions: { parentKey: 'pid', key: 'id', children: 'nodes' } })
+setup({ treeOptions: { parentKey: "pid", key: "id", children: "nodes" } });
 ```
 
 也可经 UMD 单文件直引（dayjs 已打入，全局变量 `SparkUtils`）：
@@ -88,19 +94,19 @@ setup({ treeOptions: { parentKey: 'pid', key: 'id', children: 'nodes' } })
 ```html
 <script src="https://unpkg.com/spark-utils/dist/spark-utils.min.js"></script>
 <script>
-  const { debounce, moneyFormat } = SparkUtils
+  const { debounce, moneyFormat } = SparkUtils;
 </script>
 ```
 
 ## 📚 子入口一览
 
-| 入口 | 内容 | 体积特征 | Node 下 import |
-| --- | --- | --- | --- |
-| `spark-utils` | 主包 169 个具名导出：基础 / 数组 / 对象 / 函数 / 日期 / 数值 / 字符串 / http / other | 约 16KB（minify + gzip，不含 dayjs） | 安全（推荐） |
-| `spark-utils/browser` | 浏览器专属 28 个：cookie / storage / dom / ua / url / crossDomain / clipboard | 轻量；懒求值 | 零副作用 |
-| `spark-utils/crypto` | 加解密 11 个：AES / MD5 / RSA 签名验签 / SM2 / SM3 / SM4 / `create64Key` | 较重；crypto-js + jsrsasign 仅此入口可达 | 可用 |
-| `spark-utils/pinyin` | `pinyin` 对象（`init` / `getFullChars` / `getCamelChars`） | 拼音字典独立分包 | 可用 |
-| `spark-utils/umd` | `dist/spark-utils.min.js`（UMD 产物） | 单文件，供 `<script>` 直引 | - |
+| 入口                  | 内容                                                                                 | 体积特征                                 | Node 下 import |
+| --------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------- | -------------- |
+| `spark-utils`         | 主包 169 个具名导出：基础 / 数组 / 对象 / 函数 / 日期 / 数值 / 字符串 / http / other | 约 16KB（minify + gzip，不含 dayjs）     | 安全（推荐）   |
+| `spark-utils/browser` | 浏览器专属 28 个：cookie / storage / dom / ua / url / crossDomain / clipboard        | 轻量；懒求值                             | 零副作用       |
+| `spark-utils/crypto`  | 加解密 11 个：AES / MD5 / RSA 签名验签 / SM2 / SM3 / SM4 /`create64Key`              | 较重；crypto-js + jsrsasign 仅此入口可达 | 可用           |
+| `spark-utils/pinyin`  | `pinyin` 对象（`init` / `getFullChars` / `getCamelChars`）                           | 拼音字典独立分包                         | 可用           |
+| `spark-utils/umd`     | `dist/spark-utils.min.js`（UMD 产物）                                                | 单文件，供`<script>` 直引                | -              |
 
 > jsrsasign 11 起 RSA 加解密原语因 Marvin Attack（CVE-2024-21484）被移除，故 2.0 无 `rsaEncrypt` / `rsaDecrypt`，保留 `rsaSign` / `rsaVerify`。
 
@@ -121,21 +127,21 @@ setup({ treeOptions: { parentKey: 'pid', key: 'id', children: 'nodes' } })
 
 欢迎提交 [Issue](https://github.com/QInJ1995/spark-utils/issues) 与 [Pull Request](https://github.com/QInJ1995/spark-utils/pulls)。提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/)：
 
-| 类型 | 说明 |
-| --- | --- |
-| `feat` | 新功能 |
-| `fix` | 修复 bug |
-| `docs` | 文档变更 |
-| `style` | 代码格式调整（不改变逻辑） |
+| 类型       | 说明                         |
+| ---------- | ---------------------------- |
+| `feat`     | 新功能                       |
+| `fix`      | 修复 bug                     |
+| `docs`     | 文档变更                     |
+| `style`    | 代码格式调整（不改变逻辑）   |
 | `refactor` | 重构（既非新增功能也非修复） |
-| `perf` | 性能优化 |
-| `test` | 测试新增 / 修改 |
-| `chore` | 构建流程或辅助工具变更 |
+| `perf`     | 性能优化                     |
+| `test`     | 测试新增 / 修改              |
+| `chore`    | 构建流程或辅助工具变更       |
 
 ## 📄 License
 
-[ISC](./LICENSE) © QINJIN
+[ISC](./LICENSE) © 秦佬湿
 
 ## 作者
 
-**spark-utils** © QINJIN. Released under the ISC License.
+**spark-utils** © 秦佬湿. Released under the ISC License.
