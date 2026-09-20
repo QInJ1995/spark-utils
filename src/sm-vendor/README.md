@@ -1,7 +1,7 @@
 # sm-vendor（vendored 国密实现）
 
 收编自旧 `src/crypto/sm/crypto/`（1.x 起随包分发的第三方实现，无上游仓库可追踪），
-仅有的两个加工：
+仅有的三个加工：
 
 1. **同构守卫补丁**（仅 `sm2-1.0.js`，共 6 处，前缀 `__su_nav` / `__su_win`）：
    原实现在模块加载期裸访问 `window` / `navigator`（jsbn 分支选择、IIFE 实参、
@@ -9,7 +9,12 @@
    `typeof` 探测垫片替代：navigator 缺省时 `appName: 'Netscape'`（与现代浏览器
    同走 am3 / dbits 28 分支，保证与浏览器端一致的 BigInteger 行为），window
    缺省时回落 `globalThis`。浏览器行为完全不变。
-2. **ext/ 未收编**：旧树 `ext/`（rng.js/jsbn.js 独立副本）无任何引用方
+2. **eval 消除补丁**（仅 `sm2-1.0.js`，2 处调用 + 1 个助手 `__su_path_lookup`）：
+   内嵌 jsrsasign 片段在 `KJUR.crypto.MessageDigest` / `KJUR.crypto.Mac` 的
+   cryptojs provider 分支里以 `eval('CryptoJS.algo.MD5')` 形式的点路径字符串
+   按名取摘要算法。替换为显式路径求值助手（从模块顶层 `import CryptoJS`
+   绑定出发逐段取值），行为等价，消除 rollup 的 use-of-eval 告警与 CSP 隐患。
+3. **ext/ 未收编**：旧树 `ext/`（rng.js/jsbn.js 独立副本）无任何引用方
    （sm2-1.0.js 为自含 bundle，jsbn 已内联），属死代码，未复制。
 
 其余文件与旧树逐字节一致（`diff -r` 校验过，见 M6 集成提交）。

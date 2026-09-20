@@ -4,6 +4,15 @@ import CryptoJS from 'crypto-js';
 // window 挂载点回落 globalThis。
 var __su_nav = typeof navigator !== 'undefined' ? navigator : { appName: 'Netscape' };
 var __su_win = typeof window !== 'undefined' ? window : globalThis;
+// spark-utils eval 消除补丁：jsrsasign 片段以 eval('CryptoJS.algo.MD5') 形式
+// 的点路径字符串按名取摘要算法，替换为显式路径求值（行为等价，并摆脱
+// 直接 eval 对模块作用域的隐式依赖与打包器/CSP 告警）。
+function __su_path_lookup(path) {
+  var seg = path.split('.');
+  var val = seg[0] === 'CryptoJS' ? CryptoJS : undefined;
+  for (var i = 1; val != null && i < seg.length; i++) val = val[seg[i]];
+  return val;
+}
 function SM2Cipher(a) {
   this.ct = 1;
   this.sm3c3 = this.sm3keybase = this.p2 = null;
@@ -2073,7 +2082,7 @@ function SM2Cipher(a) {
       null != a && void 0 === c && (c = KJUR.crypto.Util.DEFAULTPROVIDER[a]);
       if (-1 != ":md5:sha1:sha224:sha256:sha384:sha512:ripemd160:sm3:".indexOf(a) && "cryptojs" == c) {
         try {
-          this.md = eval(KJUR.crypto.Util.CRYPTOJSMESSAGEDIGESTNAME[a]).create()
+          this.md = __su_path_lookup(KJUR.crypto.Util.CRYPTOJSMESSAGEDIGESTNAME[a]).create()
         } catch (d) {
           throw "setAlgAndProvider hash alg set fail alg=" + a + "/" + d;
         }
@@ -2153,7 +2162,7 @@ function SM2Cipher(a) {
       var d = a.substr(4);
       if (-1 != ":md5:sha1:sha224:sha256:sha384:sha512:ripemd160:".indexOf(d) && "cryptojs" == c) {
         try {
-          var e = eval(KJUR.crypto.Util.CRYPTOJSMESSAGEDIGESTNAME[d]);
+          var e = __su_path_lookup(KJUR.crypto.Util.CRYPTOJSMESSAGEDIGESTNAME[d]);
           this.mac = CryptoJS.algo.HMAC.create(e, this.pass)
         } catch (f) {
           throw "setAlgAndProvider hash alg set fail hashAlg=" + d + "/" + f;

@@ -38,6 +38,9 @@ export default {
   plugins: [typescript({ tsconfig: 'tsconfig.rollup.json' })],
   output: [
     { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].js' },
-    { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs' },
+    // exports:'named'：主入口为具名 + default 混合（export * + export { default }），
+    // 显式声明 named 形状（CJS 侧 default 落在 .default 键，具名导出在顶层），
+    // 消除 rollup 混合导出告警并将互操作契约固定进配置。
+    { dir: 'dist', format: 'cjs', preserveModules: true, entryFileNames: '[name].cjs', exports: 'named' },
   ],
 }
