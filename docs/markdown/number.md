@@ -64,7 +64,7 @@ divide(0.6, 0.2)   // 3（精度修正）
 import { round, ceil, floor, toFixed } from 'spark-utils'
 
 round(0.125, 2)   // 0.13
-ceil(0.11, 2)     // 0.12
+ceil(0.111, 2)    // 0.12
 floor(0.19, 1)    // 0.1
 toFixed(0.125, 2) // '0.13'
 ```
@@ -73,7 +73,7 @@ toFixed(0.125, 2) // '0.13'
 
 | 方法 | 说明 |
 | --- | --- |
-| `toNumber(value)` | 转数字（失败返回 `NaN` / 第二参兜底） |
+| `toNumber(value, fallback?)` | 转数字（失败返回第二参兜底值，缺省 `0`） |
 | `toNumberString(value)` | 转数字字符串（科学计数法展开为十进制字面量） |
 | `toInteger(value)` | 转整数 |
 
@@ -81,7 +81,8 @@ toFixed(0.125, 2) // '0.13'
 import { toNumber, toNumberString, toInteger } from 'spark-utils'
 
 toNumber('1.5')          // 1.5
-toNumber('abc', 0)       // 0
+toNumber('abc')          // 0（解析失败走兜底）
+toNumber('abc', -1)      // -1
 toNumberString(1e-7)     // '0.0000001'
 toInteger('3.7')         // 3
 ```
